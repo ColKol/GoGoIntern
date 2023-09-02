@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pneumonia Trainer</title>
+    <link rel="stylesheet" href="all-style.css">
+    <link rel="stylesheet" href="level-style.css">
+    <link rel="icon" href="New-Logo-TB.png">
+</head>
+
+<body>
+    <div class="centered-screen">
+        <a href="index.html" class="back-button">Back</a>
+
+        <h1 id="question-text-container">
+            Identify the condition
+        </h1>
+
+        <div id="q-0">
+            <h1 id="q-0-text">
+                Activity Complete!
+            </h1>
+
+            <h2 id="stat-all">
+                Overall Accuracy:
+            </h2>
+
+            <h2 id="stat-normal">
+                Normal
+            </h2>
+
+            <h2 id="stat-virus">
+                Viral Pneumonia
+            </h2>
+
+            <h2 id="stat-bacteria">
+                Bacterial Pneumonia
+            </h2>
+
+            <h2 id="stat-tuberculosis">
+                Tuberculosis
+            </h2>
+
+            <h2 id="stat-covid">
+                Covid
+            </h2>
+        </div>
+
+        <div id="q-1">
+            <img id="q-1-img"></img>
+    
+            <div class="qa-grid">
+                <button class="answer-button" onclick="verifyAnswer('0')">
+                    <p>Yes</p>
+                </button>
+                <button class="answer-button" onclick="verifyAnswer('1')">
+                    <p>No</p>
+                </button>
+            </div>
+        </div>
+
+        <div id="q-2">
+            <div class="qa-grid">
+                <button class="answer-button" onclick="verifyAnswer(0)">
+                    <img src="placeholder.png" id="q-2-img-0"></img>
+                </button>
+                <button class="answer-button" onclick="verifyAnswer(1)">
+                    <img src="placeholder.png" id="q-2-img-1"></img>
+                </button>
+                <button class="answer-button" onclick="verifyAnswer(2)">
+                    <img src="placeholder.png" id="q-2-img-2"></img>
+                </button>
+                <button class="answer-button" onclick="verifyAnswer(3)">
+                    <img src="placeholder.png" id="q-2-img-3"></img>
+                </button>
+            </div>
+        </div>
+
+        <div id="q-3">    
+            <img id="q-3-img"></img>
+            <div class="qa-grid" id="qa-grid-3"></div>
+        </div>
+
+        <div id="q-4">
+            <div id="match-grid-4-text"></div>
+            <div id="match-grid-4-image"></div>
+        </div>
+
+        <h1>
+            <div id="answer-container">
+                Answer
+            </div>
+        </h1>
+
+        <button id="continue-button" onclick="progressQuestion()">
+            Continue
+        </button>
+    </div>
+
+    <script src="script-level.js"></script>
+</body>
+</html>
