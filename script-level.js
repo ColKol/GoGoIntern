@@ -9,7 +9,7 @@ var answer_container = document.getElementById('answer-container');
 var continue_button = document.getElementById('continue-button');
 var text_container = document.getElementById(`question-text-container`);
 
-const level_question_count = 20;
+const level_question_count = 15;
 
 // For keyboard shortcuts
 var keyboard_question_answered = false;
@@ -435,8 +435,20 @@ function verifyMatch(answer_id, match_button_type, disease_type){
     //button.disabled = true / false;
 }
 
-function setupQuestion4(answer_options){
+function setupQuestion4(answer_options_raw){
     changeQuestionText(`Match the conditions to their images`);
+
+    let answer_options = answer_options_raw.slice();
+
+    console.log(answer_options)
+
+    if (answer_options.includes("pneumonia")){
+        let pneumonia_type = getPneumoniaType();
+        console.log(`${pneumonia_type} chosen!`)
+        let pneumonia_index = answer_options.indexOf("pneumonia");
+
+        answer_options[pneumonia_index] = pneumonia_type;
+    }
 
     match_pointer = {
         "text": -1,
