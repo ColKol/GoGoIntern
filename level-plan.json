@@ -38,6 +38,16 @@
         "4":{
             "type": 4,
             "options": ["normal", "virus", "bacteria"]
+        },
+        "5":{
+            "type": 2,
+            "subject": "bacteria",
+            "other_images": ["normal", "virus"]
+        },
+        "6":{
+            "type": 2,
+            "subject": "virus",
+            "other_images": ["normal", "bacteria"]
         }
     },
     "2":{
@@ -48,18 +58,36 @@
         },
         "1":{
             "type": 2,
-            "subject": "pneumonia",
-            "other_images": ["normal"]
+            "subject": "tuberculosis",
+            "other_images": ["normal", "bacteria", "virus"]
         },
         "2":{
             "type": 3,
             "options": ["normal", "bacteria", "virus", "tuberculosis"]
+        },
+        "3":{
+            "type": 4,
+            "options": ["normal", "pneumonia", "tuberculosis"]
         }
     },
     "3":{
         "0":{
             "type": 4,
             "options": ["normal", "tuberculosis", "covid"]
+        },
+        "1":{
+            "type": 1,
+            "subject": "covid",
+            "other_images": ["normal", "tuberculosis", "covid"]
+        },
+        "2":{
+            "type": 2,
+            "subject": "covid",
+            "other_images": ["normal", "tuberculosis", "covid"]
+        },
+        "3":{
+            "type": 3,
+            "options": ["normal", "pneumonia", "tuberculosis", "covid"]
         }
     }
 }
