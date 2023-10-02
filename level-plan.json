@@ -114,5 +114,14 @@
             "type": 4,
             "options": ["fractured", "nonfractured"]
         }
+    },
+    "5":{
+        "0":{
+            "type": 5,
+            "subject": "covid",
+            "question": "this is the question",
+            "correct": "this is the correct answer",
+            "wrong": ["this is a wrong answer", "this is another wrong answer", "this is a third wrong answer"]
+        }
     }
 }
