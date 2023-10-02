@@ -1,6 +1,6 @@
 //var x_ray_type_global // May not be necessary
 //const image_type_array = ['normal', 'bacteria', 'virus', 'covid', 'tuberculosis']
-const question_type_count = 5;
+const question_type_count = 6;
 var question_answer; // For verifying all questions
 var level_progress = -1;
 
@@ -99,6 +99,9 @@ function progressQuestion(){
                 break;
             case 4:
                 setupQuestion4(current_question['options']);
+                break;
+            case 5:
+                setupQuestion5(current_question['question'], current_question['correct'], current_question['wrong'], current_question["subject"]);
                 break;
             default:
                 console.log('Error with question type');
@@ -530,6 +533,46 @@ function setupQuestion4(answer_options_raw){
     generateMatchButtons(true);
 
     displayQuestionType(4);
+}
+
+function setupQuestion5(question, correct, wrong, subject){
+    changeQuestionText(question);
+
+    let answers = wrong.slice();
+
+    function shuffleAnswers(){
+        let shuffled_array = [];
+        let original_array = answers.slice();
+
+        for (let i = 0; i < answers.length; i++) {
+            let random_index = Math.floor(Math.random() * original_array.length);
+            let chosen_type = original_array.splice(random_index, 1);
+
+            chosen_type = chosen_type[0];
+            shuffled_array.push(chosen_type);
+        }
+        return shuffled_array;
+    }
+
+    answers = shuffleAnswers()
+
+    correctAnswerIndex = Math.floor(Math.random() * (answers.length + 1));
+    answers.splice(correctAnswerIndex, 0, correct)
+    question_answer = correctAnswerIndex;
+
+    let answer_button_container = document.getElementById('qa-grid-5')
+    answer_button_container.innerHTML = ''
+
+    // Create buttons
+    for (let i = 0; i < answers.length; i++) {
+        let button_name = answers[i];
+        answer_button_container.innerHTML += `<button class="answer-button" onclick="verifyAnswer('${i}')"> <p>${button_name}</p> </button>`
+    }
+
+    // Input the current type of x ray for stats
+    current_type = subject;
+
+    displayQuestionType(5);
 }
 
 function displayQuestionType(question_id){
