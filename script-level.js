@@ -39,6 +39,14 @@ var stats = {
         'correct': 0,
         'total': 0,
     },
+    'fractured': {
+        'correct': 0,
+        'total': 0,
+    },
+    'nonfractured': {
+        'correct': 0,
+        'total': 0,
+    },
 }
 
 // For level design

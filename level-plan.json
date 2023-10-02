@@ -89,5 +89,30 @@
             "type": 3,
             "options": ["normal", "pneumonia", "tuberculosis", "covid"]
         }
+    },
+    "4":{
+        "0":{
+            "type": 1,
+            "subject": "fractured",
+            "other_images": ["nonfractured"]
+        },
+        "1":{
+            "type": 2,
+            "subject": "fractured",
+            "other_images": ["nonfractured"]
+        },
+        "2":{
+            "type": 2,
+            "subject": "nonfractured",
+            "other_images": ["fractured"]
+        },
+        "3":{
+            "type": 3,
+            "options": ["fractured", "nonfractured"]
+        },
+        "4":{
+            "type": 4,
+            "options": ["fractured", "nonfractured"]
+        }
     }
 }
