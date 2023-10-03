@@ -1,6 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose')
-mongoose.connect("mongodb+srv://col:EiMdF5oa5GHg2m2m@rayreader.2h3kpsv.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("process.env.DATABASE_ACCESS_URL")
 
 const userSetupSchema = new mongoose.Schema({
     username: {
