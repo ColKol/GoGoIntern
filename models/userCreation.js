@@ -1,6 +1,6 @@
-require ('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_ACCESS_URL)
+mongoose.connect("process.env.DATABASE_ACCESS_URL")
 
 const userSetupSchema = new mongoose.Schema({
     username: {
