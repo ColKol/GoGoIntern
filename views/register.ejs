@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register Rayreader</title>
+        <link rel = "stylesheet" href = "/css/register.css" type = "text/css">
+    </head>
+
+    <body>
+        <h1>Register Account</h1>
+        <form action = "/users/register" method="POST">
+        <div>
+
+            <label for = "name">Username</label>
+            <input type = "text" id = "name" name = "name" required>
+
+            <label for = "email">Email</label>
+            <input type = "text" id = "email" name = "email" required>
+
+            <label for = "password">Password</label>
+            <input type = "text" id = "password" name = "password" required>
+        </div>
+        <button type = "submit">Register Account</button>
+        </form>
+        <a href = "/users/login">Login</a>
+    </body>
+</html>

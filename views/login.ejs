@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+
+        <title>Login to Rayreader</title>
+        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
+    </head>
+
+    <body>
+        <h1>Sign in</h1>
+        <form action="/users/login" method="post">
+            <section>
+                <label for="name">Username</label>
+                <input 
+                    type = "name"
+                    id="name" 
+                    name="name"
+                    placeholder="Enter Username"
+                    value = "<%= typeof name != "undefined" ? name: '' %>"
+                    required
+                    >
+            </section>
+            <section>
+                <label for="current-password">Password</label>
+                <input 
+                    type = "password"
+                    id="current-password" 
+                    name="password"
+                    placeholder="Enter password"
+                    value = "<%= typeof password != "undefined" ? password: '' %>"
+                    required>
+            </section>
+            <button type="submit">Sign in</button>
+            <a href = "/users/register">Don't have an account?</a>
+        </form>
+    </body>
+</html>
