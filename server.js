@@ -1,3 +1,4 @@
+require ('dotenv').config();
 
 //Importing libraries and files needed
 const express = require('express');
@@ -38,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Database Conenction Stuff
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://col:EiMdF5oa5GHg2m2m@rayreader.2h3kpsv.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.DATABASE_ACCESS_URL;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {

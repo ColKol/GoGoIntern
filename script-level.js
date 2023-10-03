@@ -1,6 +1,6 @@
 //var x_ray_type_global // May not be necessary
 //const image_type_array = ['normal', 'bacteria', 'virus', 'covid', 'tuberculosis']
-const question_type_count = 5;
+const question_type_count = 6;
 var question_answer; // For verifying all questions
 var level_progress = -1;
 
@@ -9,7 +9,7 @@ var answer_container = document.getElementById('answer-container');
 var continue_button = document.getElementById('continue-button');
 var text_container = document.getElementById(`question-text-container`);
 
-const level_question_count = 20;
+const level_question_count = 15;
 
 // For keyboard shortcuts
 var keyboard_question_answered = false;
@@ -36,6 +36,14 @@ var stats = {
         'total': 0,
     },
     'tuberculosis': {
+        'correct': 0,
+        'total': 0,
+    },
+    'fractured': {
+        'correct': 0,
+        'total': 0,
+    },
+    'nonfractured': {
         'correct': 0,
         'total': 0,
     },
@@ -91,6 +99,9 @@ function progressQuestion(){
                 break;
             case 4:
                 setupQuestion4(current_question['options']);
+                break;
+            case 5:
+                setupQuestion5(current_question['question'], current_question['correct'], current_question['wrong'], current_question["subject"]);
                 break;
             default:
                 console.log('Error with question type');
@@ -435,8 +446,20 @@ function verifyMatch(answer_id, match_button_type, disease_type){
     //button.disabled = true / false;
 }
 
-function setupQuestion4(answer_options){
+function setupQuestion4(answer_options_raw){
     changeQuestionText(`Match the conditions to their images`);
+
+    let answer_options = answer_options_raw.slice();
+
+    console.log(answer_options)
+
+    if (answer_options.includes("pneumonia")){
+        let pneumonia_type = getPneumoniaType();
+        console.log(`${pneumonia_type} chosen!`)
+        let pneumonia_index = answer_options.indexOf("pneumonia");
+
+        answer_options[pneumonia_index] = pneumonia_type;
+    }
 
     match_pointer = {
         "text": -1,
@@ -510,6 +533,46 @@ function setupQuestion4(answer_options){
     generateMatchButtons(true);
 
     displayQuestionType(4);
+}
+
+function setupQuestion5(question, correct, wrong, subject){
+    changeQuestionText(question);
+
+    let answers = wrong.slice();
+
+    function shuffleAnswers(){
+        let shuffled_array = [];
+        let original_array = answers.slice();
+
+        for (let i = 0; i < answers.length; i++) {
+            let random_index = Math.floor(Math.random() * original_array.length);
+            let chosen_type = original_array.splice(random_index, 1);
+
+            chosen_type = chosen_type[0];
+            shuffled_array.push(chosen_type);
+        }
+        return shuffled_array;
+    }
+
+    answers = shuffleAnswers()
+
+    correctAnswerIndex = Math.floor(Math.random() * (answers.length + 1));
+    answers.splice(correctAnswerIndex, 0, correct)
+    question_answer = correctAnswerIndex;
+
+    let answer_button_container = document.getElementById('qa-grid-5')
+    answer_button_container.innerHTML = ''
+
+    // Create buttons
+    for (let i = 0; i < answers.length; i++) {
+        let button_name = answers[i];
+        answer_button_container.innerHTML += `<button class="answer-button" onclick="verifyAnswer('${i}')"> <p>${button_name}</p> </button>`
+    }
+
+    // Input the current type of x ray for stats
+    current_type = subject;
+
+    displayQuestionType(5);
 }
 
 function displayQuestionType(question_id){
