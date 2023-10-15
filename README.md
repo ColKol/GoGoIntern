@@ -13,7 +13,6 @@ The website currently contains quizzes in
 
 - Ian Chan
 - Colin Chan
-- Panav Kalra
 - Wan Hei Kong
 - Nathan Li
 
