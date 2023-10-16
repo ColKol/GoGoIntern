@@ -1,6 +1,7 @@
 require ('dotenv').config();
 
 //Importing libraries and files needed
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -8,14 +9,20 @@ const path = require('path');
 const bodyParser = require("body-parser");
 const indexRoute = require(".//routes/index")
 const userRoute = require("./routes/user")
+const authRoute = require('./routes/authRoutes')
 const mongoose = require('mongoose')
 const userInfo = require('./models/userCreation')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+const passportSetup = require('./config/GoogleAuthentication')
 const flash = require('express-flash')
 const session = require('express-session')
 
 require('./config/authentication')(passport);
+
+
+//Setting up cookies
+app.use(cookieParser());
 
 //Setup session
 app.use(session({
@@ -68,6 +75,7 @@ run().catch(console.dir);
 //Routes (Basically all the possible filepaths for the website, will add more as the website gets larger)
 app.use('', indexRoute);
 app.use('/users', userRoute);
+app.use('/auth', authRoute);
 
 //Setting up a local enviroment
-app.listen(3000) 
+app.listen(3000);

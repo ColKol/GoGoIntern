@@ -72,7 +72,8 @@ router.post('/login', (req, res, next)=>{
         successRedirect: '/userpage',
         failureRedirect: '/users/login',
         failureFlash: true
-    }) (req,res,next);
+    })
+     (req,res,next);
 })
 
 // Logout handle
