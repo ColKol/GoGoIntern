@@ -1,6 +1,6 @@
 //var x_ray_type_global // May not be necessary
 //const image_type_array = ['normal', 'bacteria', 'virus', 'covid', 'tuberculosis']
-const question_type_count = 6;
+const question_type_count = 7;
 var question_answer; // For verifying all questions
 var level_progress = -1;
 
@@ -78,6 +78,12 @@ function launchLevel(){
 
 function progressQuestion(){
     level_progress += 1;
+
+    if (level_progress == 6){
+        console.log("super idol!");
+        displayQuestionType(6);
+        return
+    }
 
     if (level_progress == level_question_count){
         setupQuestion0();

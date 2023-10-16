@@ -2,6 +2,8 @@
 
 RayReader is an online website to train aspiring medical students and staff in basic radiography. The website will follow a Duolingo-style learning format, with bite-sized questions that draw from a large pool of X-ray images. 
 
+![Logo](rayreader-logo)
+
 ### Content
 
 The website currently contains quizzes in
@@ -27,3 +29,5 @@ RayReader levels use the `level-plan.json` file to access from a specified range
 | 2 | select the image with `image_type` |
 | 3 | identify the condition based on the image |
 | 4 | match the condition to the image |
+| 5 | text question and answer |
+| 6 | intermediary tip |
