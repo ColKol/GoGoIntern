@@ -2,8 +2,6 @@
 
 RayReader is an online website to train aspiring medical students and staff in basic radiography. The website will follow a Duolingo-style learning format, with bite-sized questions that draw from a large pool of X-ray images. 
 
-![Logo](rayreader-logo.png)
-
 ### Content
 
 The website currently contains quizzes in
