@@ -1,6 +1,5 @@
 require('dotenv').config();
 const mongoose = require('mongoose')
-const findOrCreate = require('mongoose-findorcreate')
 
 mongoose.connect(process.env.DATABASE_ACCESS_URL)
 
@@ -12,6 +11,7 @@ const userSetupSchema = new mongoose.Schema({
 
     email: {
         type: String,
+        lowercase: true,
         required: true
     },
 
@@ -29,6 +29,5 @@ const userSetupSchema = new mongoose.Schema({
     }
 
 })
-userSetupSchema.plugin(findOrCreate);
 const userStuff = mongoose.model('userInfo', userSetupSchema)
 module.exports = userStuff
