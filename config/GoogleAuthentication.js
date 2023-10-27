@@ -14,10 +14,23 @@ Googlepassport.use(new GoogleStrategy({
   callbackURL: "http://localhost:3000/auth/google/redirect",
   passReqToCallback   : true
 },
-function(request, accessToken, refreshToken, profile, cb) {
+async function(request, accessToken, refreshToken, profile, done) {
   //Using findOrCreate to basically just check if the user exists, if they do, they will be logged in. If they don't, then the account will be created and they will be logged in.
-  userInfo.findOrCreate({email: profile.emails[0].value, username: profile.displayName, googleId: profile.id, verified: true}, function (err, user){
-    return cb (err, user);
+  await userInfo.findOne({email: profile.emails[0].value}).then((user, error) =>{
+    if (user){
+      return done (null, user);
+    } else if (!user) {
+      const newGoogleUser = new userInfo ({
+        username: profile.displayName,
+        email: profile.emails[0].value,
+        googleId: profile.id,
+        verified: true
+      })
+      newGoogleUser.save()
+      return done (null, newGoogleUser)
+    } else {
+      return (null, error);
+    }
   })
 }
 ));

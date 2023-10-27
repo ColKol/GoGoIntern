@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const userInfo = require('..//models/userCreation')
@@ -18,7 +20,7 @@ const verifyRegistration = (req, res, next) => {
   
     next();
   
-}
+};
 
 //Checking if the person already has a verification code in the database, and removing it so that there are no copies
 const checkIfVerificationCodeExists = async (req, res, next) => {
@@ -34,6 +36,8 @@ const checkIfVerificationCodeExists = async (req, res, next) => {
       next(error);
     }
 };
+
+
 //Login Renderer
 router.get('/login', (req, res)=>{
     if (!req.session.newUser){
@@ -113,13 +117,13 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'ian.kaneko.chan@gmail.com',
-          pass: 'cnck kdyu lfdg qvpe'
+          user: process.env.Verification_Bot_Email,
+          pass: process.env.Verification_Bot_pass
         }
       });
   
       var mailOptions = {
-        from: 'ian.kaneko.chan@gmail.com',
+        from: process.env.Verification_Bot_Email,
         to: newUser.email,
         subject: 'Verification Code For Rayreader',
         text: 'Your verification code is ' + key
