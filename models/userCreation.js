@@ -12,6 +12,7 @@ const userSetupSchema = new mongoose.Schema({
 
     email: {
         type: String,
+        required: true
     },
 
     password: {
@@ -20,6 +21,11 @@ const userSetupSchema = new mongoose.Schema({
 
     googleId: {
         type: String
+    },
+
+    verified: {
+        type: Boolean,
+        default: false
     }
 
 })
