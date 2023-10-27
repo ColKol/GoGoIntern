@@ -12,6 +12,7 @@ const userRoute = require("./routes/user")
 const authRoute = require('./routes/authRoutes')
 const mongoose = require('mongoose')
 const userInfo = require('./models/userCreation')
+const verificationCode = require ('./models/verificationCodes')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const passportSetup = require('./config/GoogleAuthentication')
@@ -42,6 +43,8 @@ app.set('views', './views')
 app.use(express.urlencoded({ extended: false }))
 
 //Linking CSS and JS scripts
+//Sidenote, if you ever need to add external files into your ejs file, follow this link for the MIME types area: 
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Database Conenction Stuff

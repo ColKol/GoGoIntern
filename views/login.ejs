@@ -16,7 +16,7 @@
                     id="name" 
                     name="name"
                     placeholder="Enter Username"
-                    value = "<%= typeof name != "undefined" ? name: '' %>"
+                    value = "<%= name%>"
                     required
                     >
             </section>
@@ -27,7 +27,7 @@
                     id="current-password" 
                     name="password"
                     placeholder="Enter password"
-                    value = "<%= typeof password != "undefined" ? password: '' %>"
+                    value = "<%= password%>"
                     required>
             </section>
             <button type="submit">Sign in</button>
