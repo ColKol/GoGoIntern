@@ -5,7 +5,6 @@ require('dotenv').config();
 const Googlepassport = require('passport')
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 const userInfo = require('..//models/userCreation');
-const findOrCreate = require('mongoose-findorcreate');
 
 //Defining a Google Strategy to use for whenever we want to log in or register with google
 Googlepassport.use(new GoogleStrategy({
