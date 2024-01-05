@@ -16,6 +16,7 @@ const verificationCode = require ('./models/verificationCodes')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const passportSetup = require('./config/GoogleAuthentication')
+const cookiePassport = require('./config/cookiePassportJS')
 const flash = require('express-flash')
 const session = require('express-session')
 
@@ -25,6 +26,9 @@ require('./config/authentication')(passport);
 //Setting up cookies
 app.use(cookieParser());
 
+// app.use(cookieSession({
+//   keys: "hfeoafjeioad"
+// }))
 //Setup session
 app.use(session({
   secret: "secret",

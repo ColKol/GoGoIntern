@@ -2,56 +2,16 @@
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+const cookieParser = require('cookie-parser')
 const userInfo = require('../models/userCreation')
 
 
+
 //This entire thing is basically for checking if the user even exists, and then giving them a pass on the website
-// module.exports = async function(passport){
-//   passport.use(
-//     new LocalStrategy({ usernameField: 'name' }, (name, password, done)=>{
-//       userInfo.findOne({username: name, verified: true})
-//       .then(user =>{
-//         if(!user){
-//           console.log("User does not exist")
-//           return done (null, false)
-//         }
-
-//         bcrypt.compare(password, user.password, (err, isMatch)=>{
-//           if (err) throw err;
-
-//           if(isMatch){
-//             return done(null, user)
-//           } else {
-//             return done (null, false)
-//           }
-//         });
-//       })
-//       .catch(err => console.log(err))
-//       console.log("Welcome to the website!")
-//     })
-//   );
-//   passport.serializeUser(function(user, cb){
-//     process.nextTick(function(){
-//       return cb (null, {
-//         id: user.id,
-//         username: user.username,
-//         email: user.email,
-//         password: user.password
-//       })
-//     })
-//   })
-
-//   passport.deserializeUser(function(user, cb){
-//     process.nextTick(function(){
-//       return cb (null, user)
-//     })
-//   })
-// }
 module.exports = async function(passport) {
-  passport.use(
-    new LocalStrategy({ usernameField: 'name' }, async (name, password, done) => {
+  passport.use("local", new LocalStrategy({ usernameField: 'name' }, async (name, password, done) => {
       try {
+        console.log("is it working??")
         const user = await userInfo.findOne({ username: name, verified: true });
 
         if (!user) {
@@ -83,7 +43,7 @@ module.exports = async function(passport) {
   passport.deserializeUser(function(id, cb) {
     userInfo.findById(id, function(err, user) {
       if (err) return cb(err);
-      cb(null, user);
+      cb(null, obj);
     });
   });
 };
