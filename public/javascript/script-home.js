@@ -1,7 +1,7 @@
 function goLevel(level_id){
     localStorage.clear();
     localStorage.setItem('testing', level_id);
-    window.location.href = "page-practise.html";
+    window.location.href = "/page/practice";
 }
 
 /*
