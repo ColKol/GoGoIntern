@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const express = require('express');
 const router = express.Router();
 const userInfo = require('..//models/userCreation')
@@ -8,6 +7,24 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const nodemailer = require('nodemailer');
+const cookieParser = require('cookie-parser');
+const { MongoTailableCursorError } = require('mongodb');
+const CookieStrategy = require('..//config/cookiePassportJS');
+
+router.use(cookieParser())
+
+
+passport.use(new CookieStrategy({}, (userId, done) => {
+    userInfo.findOne({ _id: userId }, (err, user) => {
+      if (err) {
+        return done(null, false);
+      }
+      if (!user) {
+        return done(null, false);
+      }
+      return done(null, user);
+    });
+}));
 
 
 //Verification middleware to make sure users can't just access it regularly
@@ -38,13 +55,31 @@ const checkIfVerificationCodeExists = async (req, res, next) => {
 };
 
 
-//Login Renderer
-router.get('/login', (req, res)=>{
+router.get("/login/transition", (req, res)=>{
+    if(!req.cookies.userInfo){
+        res.redirect("/users/login")
+    } else{
+        res.redirect('/users/login/cookieCheck')
+    }
+})
+
+//Login Renderer and cookie handler
+router.get('/login/cookieCheck',passport.authenticate('cookie', { session: true}), (req,res)=>{
+    if(req.user){
+        res.redirect("/userpage")
+    } else if(!req.user){
+        res.redirect("/users/login")
+    }
+})
+
+router.get('/login', (req, res, next)=>{
+    console.log(req.cookies.userInfo)
+
     if (!req.session.newUser){
         res.render('login',{
             name:"",
             password:""
-     })
+    })
     } else {
         res.render('login', {
             name: req.session.newUser.username,
@@ -60,7 +95,7 @@ router.get('/register', (req,res)=>{
 
 //Registration Handler
 router.post('/register', (req, res)=>{
-    const {name, email, password} = req.body;
+    const {name, email, password, cookie} = req.body;
     let errors = [];
 
     if(password.length < 6) {
@@ -72,7 +107,8 @@ router.post('/register', (req, res)=>{
             errors,
             name,
             email,
-            password
+            password,
+            cookie
         })
     } else {
         userInfo.findOne({email: email})
@@ -83,13 +119,13 @@ router.post('/register', (req, res)=>{
                     errors,
                     name,
                     email,
-                    password
+                    password,
                 })
             } else {
                 var newUser = new userInfo ({
                     username: name,
                     email: email,
-                    password: password
+                    password: password,
                 })
                 console.log(newUser)
                 req.session.newUser = newUser;
@@ -164,7 +200,7 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
             username: newUserObj.username,
             email: newUserObj.email,
             password: newUserObj.password,
-            verified: true
+            verified: true,
         })
         bcrypt.genSalt(10, (err, salt)=>{
             bcrypt.hash(newUserObj.password, salt, (err, hash)=>{
@@ -173,10 +209,11 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
                 console.log(implementUser.password)
                 implementUser.save()
             })
-                verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
-                    console.log("it worked?")
-                    res.redirect('/users/login')
-            })
+        })
+
+        verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
+            console.log("it worked?")
+            res.redirect('/users/login')
         })
 
     } else {
@@ -187,17 +224,41 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
 
 })
 
-
-
-
 //Login handle
 router.post('/login', (req, res, next)=>{
-    passport.authenticate('local', {
-        successRedirect: '/userpage',
-        failureRedirect: '/users/login',
-        failureFlash: true
+
+    passport.authenticate('local', (err, user) => {
+        if(err){
+            return next (err)
+        }
+
+        if(!user){
+            req.flash('error', 'Invalid username or password');
+            return res.redirect('/users/login');
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            
+            if(req.body.remember){
+                req.session.userCookie = req.body.name
+                return res.redirect('/users/login/redirect');
+            } else {
+                return res.redirect('/userpage')
+            }
+            
+
+        });
+
+    })(req,res,next);
+})
+
+router.get('/login/redirect', (req,res)=>{
+    userInfo.findOne({'username': req.session.userCookie}).then((user)=>{
+        res.cookie("userInfo", String(user._id), {expires: new Date(Date.now() + (30*24*60*60*1000))})
+        return res.redirect("/userpage")
     })
-     (req,res,next);
 })
 
 // Logout handle
@@ -205,6 +266,7 @@ router.get('/logout', function(req, res,next) {
     req.logout(function(err){
         if (err) {return next (err)}
         console.log("You Logged Out!")
+        res.clearCookie('userInfo')
         res.redirect('/')
     })
 });

@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../config/ensureUserIsLoggedIn')
+const cookieParser = require('cookie-parser')
+
+router.use(cookieParser())
 
 router.get('/', (req, res)=>{
     res.render('index')

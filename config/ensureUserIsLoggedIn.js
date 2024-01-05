@@ -5,7 +5,7 @@ module.exports = {
             return next();
         } else {
             console.log("Please Log In To view these resources")
-            res.redirect('/users/login')
+            res.redirect('/users/login/transition')
         }
     }
 }
