@@ -5,6 +5,7 @@ body{
     justify-content: center;
     margin: 0px;
     align-items: center;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 button{
@@ -31,7 +32,6 @@ button:hover {
     width: 100vmax;
     height: 60px;
     font-size: 30px;
-    font-family: 'Courier New', Courier, monospace;
     margin-top: -10px;
     z-index: 1;
     padding-bottom: 90px;
