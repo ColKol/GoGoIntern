@@ -7,36 +7,50 @@
     </head>
 
     <body>
-        <h1>Sign in</h1>
+        <div class = "banner">
+            <img src = "/images/icons/New-Logo-TB.png" width="100px">
+            <h1>nternalyse</h1>
+        </div>
+
+        <div class = "firmbutton">
+            Sign in for firms instead
+        </div>
+        <h1 class = "signin">Sign in</h1>
         <form action="/users/login" method="post">
             <section>
-                <label for="name">Username</label>
-                <input 
-                    type = "name"
-                    id="name" 
-                    name="name"
-                    placeholder="Enter Username"
-                    value = "<%= name%>"
-                    required
-                    >
+                <div class = "metrics">
+                    <label for="name">Username:</label>
+                    <input 
+                        class = "inputs"
+                        type = "name"
+                        id="name" 
+                        name="name"
+                        placeholder="Enter Username"
+                        value = "<%= name%>"
+                        required
+                        >
+                </div>
             </section>
             <section>
-                <label for="current-password">Password</label>
-                <input 
-                    type = "password"
-                    id="current-password" 
-                    name="password"
-                    placeholder="Enter password"
-                    value = "<%= password%>"
-                    required>
+                <div class = "metrics">
+                    <label for="current-password">Password:</label>
+                    <input 
+                        class = "inputs"
+                        type = "password"
+                        id="current-password" 
+                        name="password"
+                        placeholder="Enter password"
+                        value = "<%= password%>"
+                        required>
+                </div>
             </section>
             <section>
                 <label for = "cookie">Remember me</label>
                 <input type = "checkbox" id = "remember" name = "remember">
             </section>
             <button type="submit">Sign in</button>
-            <a href = "/auth/google">Log in with google</a>
-            <a href = "/users/register">Don't have an account?</a>
+            <a href = "/auth/google" class = "bottombuttons" style="margin-top: 100px;">Log in with google</a>
+            <a href = "/users/register" class="bottombuttons" style="margin-top: 100px;">Don't have an account?</a>
         </form>
     </body>
 </html>

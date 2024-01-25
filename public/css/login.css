@@ -1,9 +1,99 @@
-div{
+body{
     display: inline-flex;
     flex-direction: column;
+    text-align: center;
+    justify-content: center;
 }
 
 button{
     display: block;
     margin-top: 10px;
+}
+
+.banner {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    background-color: rgb(98, 184, 242);
+    width: 100vmax;
+    height: 60px;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: -10px;
+    z-index: 1;
+    padding-bottom: 90px;
+}
+
+.signin {
+    border: 2px solid rgb(96, 96, 233);
+    background-color: rgba(98,184,242,0.7);
+    border-radius: 10px;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+
+.inputs:hover {
+    width: 15em;
+    height: 2.5em;
+    transition: 1s;
+}
+
+.inputs:focus {
+    width: 15em;
+    height: 2.5em;
+    transition: 1s;
+}
+
+.inputs {
+    transition: 1s;
+    width: 11em;
+    height: 2em;
+}
+
+.metrics {
+    border: 2px solid rgba(96, 96, 233,0.5);
+    padding: 30px;
+    border-radius: 30px;
+    font-size: 30px;
+}
+
+.firmbutton {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    background-color: rgb(98, 184, 242);
+    width: 30vmax;
+    height: 20px;
+    font-size: 30px;
+    font-family: cursive;
+    margin-top: 10px;
+    z-index: 1;
+    padding: 10px;
+    padding-bottom: 30px;
+    margin-bottom: 10px;
+    transform: translate(110%, 0);
+    border: 1px solid rgb(98, 184, 242);
+    border-radius: 9px;
+    transition: 1s;
+}
+
+.firmbutton:hover {
+    font-size: 35px;
+}
+
+.bottombuttons {
+    border: 2px solid rgba(96, 96, 233,0.2);
+    background-color: rgba(96, 96, 233, 0.248);
+    padding: 30px;
+    border-radius: 30px;
+    font-size: 14px;
+    margin: 10px;
+    width: 200px;
+    height: 100px;
+    transition: 1s;
+}
+
+.bottombuttons:hover {
+    font-size: 18px;
 }

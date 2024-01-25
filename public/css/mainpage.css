@@ -1,0 +1,13 @@
+.head {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    background-color: rgb(98, 184, 242);
+    width: 110vmax;
+    height: 90px;
+    font-size: 70px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: -10px;
+    margin-top: -10px;
+    z-index: 1;
+}
