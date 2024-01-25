@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Register Rayreader</title>
-        <link rel = "stylesheet" href = "/css/register.css" type = "text/css">
+    <head> 
+
+        <title>Sign-up to GoGoIntern</title>
+        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
     </head>
 
     <body>
-        <h1>Register Account</h1>
-        <form action = "/users/register" method="POST">
-        <div>
-
-            <label for = "name">Username</label>
-            <input type = "text" id = "name" name = "name" placeholder = "Enter username" required>
-
-            <label for = "email">Email</label>
-            <input type = "email" id = "email" name = "email" placeholder = "Enter email" required>
-
-            <label for = "password">Password</label>
-            <input type = "password" id = "password" name = "password" placeholder = "Enter password" required>
+        <div class = "banner">
+            <img src = "/images/icons/New-Logo-TB.png" width="100px">
+            <h1>nternalyse</h1>
         </div>
-        <button type = "submit">Register Account</button>
+
+        <div class = "firmbutton">
+            Sign-up for firms instead
+        </div>
+        <h1 class = "signin">Student Sign-up</h1>
+        <form action="/users/login" method="post">
+            <section style="align-items: center;">
+                <div class = "metrics">
+                    <label for="name">Username:</label>
+                    <input type = "text"  class = "inputs" id = "name" name = "name" placeholder = "Enter username" required>
+            </section>
+            <section>
+                <div class = "metrics">
+                    <label for = "email">Email:</label>
+                    <input type = "email" id = "email" name = "email" placeholder = "Enter email" required class = "inputs">
+                </div>
+            </section>
+            <section>
+                <div class = "metrics">
+                    <label for="current-password">Password:</label>
+                    <input type = "password" id = "password" name = "password" placeholder = "Enter password" required class = "inputs">
+                </div>
+            </section>
+            <section style="padding: 5px;">
+                <label for = "cookie" style="font-size: 30px; margin-right: 4px;">Remember me</label>
+                <input type = "checkbox" id = "remember" name = "remember">
+            </section>
+            <button type="submit" style="font-size: 22px;">Sign up</button>
+
+            <h1 class = "signin">Other Methods</h1>
+
+            <div class = "metrics" style="width: 90vmax; padding-bottom: 10px; padding-top: 10px; margin-left: 40px;">
+                <a href = "/auth/google" class = "bottombuttons">Sign in with google</a>
+                <a href = "/users/login" class="bottombuttons">Already have an account?</a>
+            </div>
         </form>
-        <a href = "/users/login">Login</a>
-        <a href = "/auth/google">Register using google</a>
     </body>
 </html>
