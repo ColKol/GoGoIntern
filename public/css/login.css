@@ -28,7 +28,7 @@ button:hover {
     justify-content: center;
     display: flex;
     text-align: center;
-    background-color: rgb(98, 184, 242);
+    background-color: #1B72E8;
     width: 100vmax;
     height: 60px;
     font-size: 30px;
@@ -41,7 +41,8 @@ button:hover {
 
 .signin {
     border: 2px solid rgb(96, 96, 233);
-    background-color: rgba(98,184,242,0.7);
+    background-color: #1B72E8;
+    opacity: 0.7;
     border-radius: 10px;
     justify-content: center;
     display: flex;
@@ -89,7 +90,7 @@ button:hover {
 .firmbutton {
     justify-content: center;
     display: flex;
-    background-color: rgb(98, 184, 242);
+    background-color: #1B72E8;
     width: 30vmax;
     height: 20px;
     font-size: 30px;
@@ -99,7 +100,7 @@ button:hover {
     padding: 10px;
     padding-bottom: 30px;
     margin-bottom: 10px;
-    border: 1px solid rgb(98, 184, 242);
+    border: 1px solid #1B72E8;
     border-radius: 9px;
     transition: 1s;
 }
@@ -115,7 +116,7 @@ button:hover {
     background-color: rgba(96, 96, 233, 0.248);
     padding: 30px;
     border-radius: 30px;
-    font-size: 20px;
+    font-size: 18px;
     color: black;
     margin: 10px;
     margin-left: 0px;
@@ -126,7 +127,7 @@ button:hover {
 }
 
 .bottombuttons:hover {
-    font-size: 21px;
+    font-size: 20px;
     padding: 33px;
 }
 
