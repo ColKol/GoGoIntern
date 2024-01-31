@@ -3,28 +3,27 @@ const express = require('express');
 const router = express.Router();
 const userInfo = require('..//models/userCreation')
 const verificationCodes = require('..//models/verificationCodes')
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const bcrypt = require('bcrypt')
-const passport = require('passport')
+// const passport = require('passport')
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
-const { MongoTailableCursorError } = require('mongodb');
-const CookieStrategy = require('..//config/cookiePassportJS');
+const multer = require('multer')
+const stream = require('stream')
+
+const { getDB, findChunks } = require('../databased/database')
+
+const mongodb = require('mongodb')
+const fs = require('fs');
+const assert = require('assert')
+
+const { studentInfo } = require('../config/studentInfo');
+
+const passport = require('..//config/cookie+registration')
 
 router.use(cookieParser())
 
-
-passport.use(new CookieStrategy({}, (userId, done) => {
-    userInfo.findOne({ _id: userId }, (err, user) => {
-      if (err) {
-        return done(null, false);
-      }
-      if (!user) {
-        return done(null, false);
-      }
-      return done(null, user);
-    });
-}));
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 
 //Verification middleware to make sure users can't just access it regularly
@@ -90,53 +89,72 @@ router.get('/login', (req, res, next)=>{
 
 //Register Renderer
 router.get('/register', (req,res)=>{
-    res.render('register')
+    res.render('chooseRegistrationType')
 })
 
 //Registration Handler
-router.post('/register', (req, res)=>{
-    const {name, email, password, cookie} = req.body;
-    let errors = [];
-
-    if(password.length < 6) {
-        console.log("Password is too short!")
-    }
-
-    if(errors.length > 0){
+router.get('/register/newUser', (req,res)=>{
+    const user = req.query.user;
+    if(user === "student"){
+        res.cookie("userType", "student")
+        userType = "student"
+        userType = req.session.userType
         res.render('register',{
-            errors,
-            name,
-            email,
-            password,
-            cookie
+            username: "Username",
+            errors: []
         })
     } else {
-        userInfo.findOne({email: email})
-        .then(user =>{
-            if (user){
-                console.log("Email is already in use!")
-                res.render('register',{
-                    errors,
-                    name,
-                    email,
-                    password,
-                })
-            } else {
-                var newUser = new userInfo ({
-                    username: name,
-                    email: email,
-                    password: password,
-                })
-                console.log(newUser)
-                req.session.newUser = newUser;
-                res.redirect('/users/verification')
-            }
+        res.cookie("userType", "business")
+        res.render('register',{
+            username:"Business/Firm name",
+            errors: []
         })
     }
+})
+
+router.post('/register/newUser', async (req, res, next)=>{
+    const {name, email, password, cookie} = req.body;
+    let errors = [];
+    let usernameReq
+
+    if(password.length < 6) {
+        errors.push("Password is too short! Password must be at least 6 characters!")
+    }
+
+    if(req.cookies.userType === "student"){
+        usernameReq = "Username"
+    } else {
+        usernameReq = "Business/Firm name"
+    }
+    
+    await userInfo.findOne({email: email}).then(user =>{
+        if (user){
+            errors.push("Email is already in use!")
+            return
+        } else {
+            var newUser = new userInfo ({
+                userType: req.cookies.userType,
+                username: name,
+                email: email,
+                password: password,
+            })
+            console.log(newUser)
+            req.session.newUser = newUser;
+            res.redirect('/users/verification?failed=false')
+        }
+    })
+
+    if(errors.length > 0){
+      res.render('register',{
+        username: usernameReq,
+        errors
+      })
+    } 
 });
 
 router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, async (req, res) => {
     const newUser = req.session.newUser;
+    let error = req.query.failed;
     const key = Math.floor(Math.random() * (9999 - 1000) + 1000);
     const TheVerificationCode = new verificationCodes({
       email: newUser.email,
@@ -177,12 +195,15 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
         TheVerificationCode.deleteOne({ email: newUser.email });
       }, 120000);
   
-      res.render('verificationCheck');
+      res.render('verificationCheck', {
+        failure: error
+      });
     } catch (error) {
       console.error(error);
+      error = true;
       res.redirect('/users/register');
     }
-  });
+});
 
 //Finsihing up verification and adding user to database
 router.post('/verification', verifyRegistration, async (req, res)=>{
@@ -190,39 +211,138 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
     const newUserObj = req.session.newUser;
     const TheVerificationCode1 = req.session.TheVerificationCode;
 
-    console.log(newUserObj);
-    console.log(newUserObj.email)
-    console.log(req.body.num);
-    console.log(TheVerificationCode1);
     if (req.body.num === String(TheVerificationCode1.verificationCode)){
-        console.log("you made it")
-        const implementUser = new userInfo ({
+        var implementUser = new userInfo ({
+            userType: newUserObj.userType,
             username: newUserObj.username,
             email: newUserObj.email,
             password: newUserObj.password,
             verified: true,
+            firstTime: true
         })
         bcrypt.genSalt(10, (err, salt)=>{
             bcrypt.hash(newUserObj.password, salt, (err, hash)=>{
                 if (err) throw err;
                 implementUser.password = hash;
                 console.log(implementUser.password)
-                implementUser.save()
+                req.session.implementUser = implementUser
+                implementUser.save();
             })
         })
 
         verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
             console.log("it worked?")
-            res.redirect('/users/login')
+            if(implementUser.userType === "student"){
+                res.redirect('/users/registration/studentQuestionnare')
+            } else if(implementUser.userType === "business"){
+                res.redirect('/users/registration/businessQuestionnare')
+            }
         })
 
     } else {
-        console.log("You failed")
         await verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email})
-        res.redirect('/users/verification')
+        res.redirect('/users/verification?failed=true')
     }
-
 })
+
+
+//The part where we ask the user questions and determine what they are
+router.get('/registration/studentQuestionnare', studentInfo, (req,res)=>{
+    res.clearCookie("userType")
+    res.render('studentQuestionnare')
+})
+
+router.post('/registration/studentQuestionnare' ,studentInfo, upload.single('cv'), async (req, res, next) => {
+    const checkedValues = [];
+    const hi = req.session.newUser
+    const db = getDB()
+    var bucket = new mongodb.GridFSBucket(db, {bucketName: 'cvStorage'})
+
+    const cv = req.file
+    const readstream = stream.Readable.from(cv.buffer)
+
+    const uploadstream = bucket.openUploadStream(cv.originalname)
+
+    readstream.pipe(uploadstream);
+
+    uploadstream.on('finish', ()=>{
+        console.log("File uploaded")
+    })
+
+    //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
+    // const downloadStream = bucket.openDownloadStream(new mongodb.ObjectId(uploadstream.id));
+    // const chunks = []
+
+    // downloadStream.on('data', (chunk) => {
+    //   chunks.push(chunk);
+    // });
+
+    // downloadStream.on('end', () => {
+    //   const pdfBuffer = Buffer.concat(chunks);
+    //   try {
+    //       var transporter = nodemailer.createTransport({
+    //         service: 'gmail',
+    //         auth: {
+    //           user: process.env.Verification_Bot_Email,
+    //           pass: process.env.Verification_Bot_pass
+    //         }
+    //       });
+    
+    //       var mailOptions = {
+    //         from: process.env.Verification_Bot_Email,
+    //         to: 'chani5@rchk.edu.hk',
+    //         subject: 'PDF Text',
+    //         text: 'Here is the CV',
+    //         attachments: [{
+    //           filename: cv.originalname,
+    //           content: pdfBuffer,
+    //           encoding: 'base64'
+    //         }]
+    //       };
+      
+    //       transporter.sendMail(mailOptions, function (error, info) {
+    //           if (error) {
+    //             console.log(error);
+    //           } else {
+    //             console.log('Email sent: ' + info.response);
+    //           }
+    //       })     
+    //   } catch (error) {
+    //       console.error(error);
+    //       res.redirect('/users/register');
+    //   }
+    // });
+  
+    Object.keys(req.body).forEach(key => {
+      if (req.body[key] === 'on') {
+        checkedValues.push(key);
+      }
+    });
+
+
+    const user = await userInfo.updateOne({username: hi.username}, {interests: checkedValues, firstTime: false, cv: uploadstream.id})
+
+    passport.authenticate('Register', (err,user,info)=>{
+        if (err) {
+            console.error('Passport authentication error:', err);
+            return res.sendStatus(500);
+          }
+      
+          if (!user) {
+            console.error('User authentication failed:', info.message);
+            return res.redirect('/users/register')
+          }
+      
+          req.login(user, (err) => {
+            if (err) {
+              console.error('Error logging in the user:', err);
+              return res.redirect('/userpage');
+            }
+
+            return res.redirect('/userpage')
+          })
+    }) (req,res,next);
+});
 
 //Login handle
 router.post('/login', (req, res, next)=>{

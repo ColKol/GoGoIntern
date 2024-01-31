@@ -6,13 +6,47 @@
     </head>
     <body>
         <h2>Verify your account</h2>
-        <form action = "/users/verification" method="POST">
+        <% if (failure === "true") { %>
+            <h2>Invalid verification code. A new one is being sent now</h2>
+        <% } else {%>
+            <h2>An email containing your verification code has been sent</h2>
+        <%} %>
+        <form action = "/users/verification" method="POST" onsubmit="handleformSubmit(event)">
             <input type = "number" id = "VCode" name = "num" placeholder="Verification Code" class = "noscroll" required>
-            <button type="submit">Submit verification code</button>
+            <button type="submit" value="submit">Submit verification code</button>
         </form>
 
         <a href = "/users/verification">Resend Verification Code</a>
 
         <script src = "/javascript/verificationCheckJS.js" type = "text/javascript"></script>
     </body>
+    <script>
+        function handleFormSubmission(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Collect form data and perform necessary actions
+        const form = event.target;
+        const formData = new FormData(form);
+
+        // Make an AJAX request or perform any necessary actions with the form data
+        // Example: Send the form data to the server using fetch or XMLHttpRequest
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+        })
+            .then((response) => {
+            // Handle the response as needed
+            if (response.ok) {
+                // Redirect to a success page or perform other actions
+                window.location.href = '/users/verification/success';
+            } else {
+                // Handle the error case and display appropriate messages
+                console.error('Form submission failed');
+            }
+            })
+            .catch((error) => {
+            console.error('An error occurred during form submission', error);
+            });
+        }
+    </script>
 </html>

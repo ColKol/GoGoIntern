@@ -4,6 +4,11 @@ const mongoose = require('mongoose')
 mongoose.connect(process.env.DATABASE_ACCESS_URL)
 
 const userSetupSchema = new mongoose.Schema({
+    userType:{
+        type: String,
+        required: true,
+    },
+    
     username: {
         type: String,
         required: true
@@ -16,7 +21,7 @@ const userSetupSchema = new mongoose.Schema({
     },
 
     password: {
-        type: String,
+        type: String
     },
 
     googleId: {
@@ -26,6 +31,19 @@ const userSetupSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+
+    firstTime: {
+        type: Boolean,
+        default: false,
+    },
+
+    interests:{
+        type: Array
+    },
+
+    cv:{
+        type: String,
     }
 
 })

@@ -16,11 +16,16 @@
             Sign-up for firms instead
         </div>
         <h1 class = "signin">Student Sign-up</h1>
-        <form action="/users/login" method="post">
+        <% if (errors.length > 0){%>
+            <% errors.forEach(function(error){ %>
+                <h3 style="border: 0.5rem solid rgb(234, 155, 168); background-color: rgb(244, 127, 127); color: whitesmoke; width: 40vw"><%= error %></h3>
+            <%}); %>
+        <%} %>
+        <form action = "/users/register/newUser" method="POST">
             <section style="align-items: center;">
                 <div class = "metrics">
-                    <label for="name">Username:</label>
-                    <input type = "text"  class = "inputs" id = "name" name = "name" placeholder = "Enter username" required>
+                    <label for = "name"><%= username %></label>
+                    <input type = "text" id = "name" class = "inputs"name = "name" placeholder = "Enter <%= username %>" required>
             </section>
             <section>
                 <div class = "metrics">

@@ -37,13 +37,23 @@
 
 .side-box {
     background-color: #2b2729;
-    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items: start;
     text-align: center;
-    width: 20px;
+    width: 80px;
     height: 100%;
     position: fixed;
     top: 0;
     left: 0;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.side-box:hover{
+    width: 120px;
+    transition: 0.2s;
 }
 
 .news-box-1 {
@@ -91,32 +101,59 @@
 
 .lesson-button {
     display: inline-block;
-    position: fixed;
-    width: 65px;
-    height: 65px;
-    top: 95px;
-    left: 14px;
+    /* position: fixed; */
+    /* width: 65px;
+    height: 65px; */
+    /* top: 95px;
+    left: 14px; */
+    z-index: 10;
+    transition: 0.2s;
 }
 
 .lesson-button img{
     width: 80%;
     height: 80%;
-    object-fit: cover;
+    z-index: 10;
+    transition: 0.2s;
 }
 
 .logo-button {
-    display: inline-block;
-    position: fixed;
+    /* display: inline-block; */
+    /* position: fixed;
     width: 65px;
+
     height: 65px;
     top: 30;
-    right: 30;
+    right: 30; */
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 12;
+    text-align: center;
+    transition: 0.2s;
 }
 
 .logo-button img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 12;
+    transition: 0.2s;
+}
+
+.button-descriptions{
+    display: none;
+    color: white;
+}
+.logo-button:hover + .button-descriptions{
+    display: flex;
+}
+
+.lesson-button:hover + .button-descriptions{
+    display:flex;
 }
 
 #lesson-box{
