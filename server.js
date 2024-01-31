@@ -20,15 +20,14 @@ const cookiePassport = require('./config/cookiePassportJS')
 const flash = require('express-flash')
 const session = require('express-session')
 
+const { connectToDatabase } = require('./databased/database')
+
 require('./config/authentication')(passport);
 
 
 //Setting up cookies
 app.use(cookieParser());
 
-// app.use(cookieSession({
-//   keys: "hfeoafjeioad"
-// }))
 //Setup session
 app.use(session({
   secret: "secret",
@@ -41,10 +40,12 @@ app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 //Setup stuff (basically defining some stuff regarding what files we are rendering)
 app.set('view engine', 'ejs');
 app.set('views', './views')
 app.use(express.urlencoded({ extended: false }))
+app.use(bodyParser.json());
 
 //Linking CSS and JS scripts
 //Sidenote, if you ever need to add external files into your ejs file, follow this link for the MIME types area: 
@@ -52,32 +53,12 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Comm
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Database Conenction Stuff
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.DATABASE_ACCESS_URL;
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-
+connectToDatabase().then((db)=>{
+  console.log("it worked!")
+}).catch((error)=>{
+  console.error("Failed to establish database connection:", error);
+  process.exit(1);
+})
 
 //Routes (Basically all the possible filepaths for the website, will add more as the website gets larger)
 app.use('', indexRoute);

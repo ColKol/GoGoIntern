@@ -7,11 +7,16 @@
 
     <body>
         <h1>Register Account</h1>
-        <form action = "/users/register" method="POST">
+        <% if (errors.length > 0){%>
+            <% errors.forEach(function(error){ %>
+                <h3 style="border: 0.5rem solid rgb(234, 155, 168); background-color: rgb(244, 127, 127); color: whitesmoke; width: 40vw"><%= error %></h3>
+            <%}); %>
+        <%} %>
+        <form action = "/users/register/newUser" method="POST">
         <div>
 
-            <label for = "name">Username</label>
-            <input type = "text" id = "name" name = "name" placeholder = "Enter username" required>
+            <label for = "name"><%= username %></label>
+            <input type = "text" id = "name" name = "name" placeholder = "Enter <%= username %>" required>
 
             <label for = "email">Email</label>
             <input type = "email" id = "email" name = "email" placeholder = "Enter email" required>

@@ -11,7 +11,6 @@ const userInfo = require('../models/userCreation')
 module.exports = async function(passport) {
   passport.use("local", new LocalStrategy({ usernameField: 'name' }, async (name, password, done) => {
       try {
-        console.log("is it working??")
         const user = await userInfo.findOne({ username: name, verified: true });
 
         if (!user) {

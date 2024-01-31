@@ -5,6 +5,7 @@ require('dotenv').config();
 const Googlepassport = require('passport')
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 const userInfo = require('..//models/userCreation');
+const cookieParser = require('cookie-parser');
 
 //Defining a Google Strategy to use for whenever we want to log in or register with google
 Googlepassport.use(new GoogleStrategy({
@@ -20,10 +21,12 @@ async function(request, accessToken, refreshToken, profile, done) {
       return done (null, user);
     } else if (!user) {
       const newGoogleUser = new userInfo ({
+        userType: request.cookies.userType,
         username: profile.displayName,
         email: profile.emails[0].value,
         googleId: profile.id,
-        verified: true
+        verified: true,
+        firstTime: true,
       })
       newGoogleUser.save()
       return done (null, newGoogleUser)
