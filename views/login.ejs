@@ -1,42 +1,66 @@
 <!DOCTYPE html>
 <html>
     <head> 
-
-        <title>Login to Rayreader</title>
+        <title>Login to GoGoIntern</title>
         <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
     </head>
 
     <body>
-        <h1>Sign in</h1>
+        <div class = "banner">
+            <img src = "/images/icons/New-Logo-TB.png" width="100px">
+            <h1>nternalyse</h1>
+        </div>
+
+        <div class = "firmbutton">
+            Sign-in for firms instead
+        </div>
+        <h1 class = "signin">Student Sign-in</h1>
         <form action="/users/login" method="post">
-            <section>
-                <label for="name">Username</label>
-                <input 
-                    type = "name"
-                    id="name" 
-                    name="name"
-                    placeholder="Enter Username"
-                    value = "<%= name%>"
-                    required
-                    >
+            <section style="align-items: center;">
+                <div class = "metrics">
+                    <label for="name">Username:</label>
+                    <input 
+                        class = "inputs"
+                        type = "name"
+                        id="name" 
+                        name="name"
+                        placeholder="Enter Username"
+                        value = "<%= name%>"
+                        required
+                        >
+                </div>
             </section>
             <section>
-                <label for="current-password">Password</label>
-                <input 
-                    type = "password"
-                    id="current-password" 
-                    name="password"
-                    placeholder="Enter password"
-                    value = "<%= password%>"
-                    required>
+                <div class = "metrics">
+                    <label for="current-password">Password:</label>
+                    <input 
+                        class = "inputs"
+                        type = "password"
+                        id="current-password" 
+                        name="password"
+                        placeholder="Enter password"
+                        value = "<%= password%>"
+                        required>
+                </div>
             </section>
-            <section>
-                <label for = "cookie">Remember me</label>
+            <section style="padding: 5px;">
+                <label for = "cookie" style="font-size: 30px; margin-right: 4px;">Remember me</label>
                 <input type = "checkbox" id = "remember" name = "remember">
             </section>
-            <button type="submit">Sign in</button>
-            <a href = "/auth/google">Log in with google</a>
-            <a href = "/users/register">Don't have an account?</a>
+            <button type="submit" style="font-size: 22px;">Sign in</button>
+
+            <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
+                <span style="font-size: 40px; background-color: white; padding: 0 1rem;">
+                    Or
+                </span>
+            </div>
+              
+            <h1 class = "signin">Other Methods</h1>
+
+            <div class = "metrics" style="width: 90vmax; padding-bottom: 10px; padding-top: 10px; margin-left: 40px;">
+                <a href = "/auth/google" class = "bottombuttons">Log in with google</a>
+                <a href = "/users/register" class="bottombuttons">Don't have an account?</a>
+            </div>
         </form>
     </body>
 </html>

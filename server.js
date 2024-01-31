@@ -49,7 +49,7 @@ app.use(bodyParser.json());
 
 //Linking CSS and JS scripts
 //Sidenote, if you ever need to add external files into your ejs file, follow this link for the MIME types area: 
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Database Conenction Stuff
