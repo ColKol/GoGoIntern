@@ -4,8 +4,11 @@ module.exports = {
         if (!req.user.firstTime) {
             return next();
         } else {
-            console.log("Please Log In To view these resources")
-            res.redirect('/users/registration/studentQuestionnare')
+            if(req.user.userType === "student"){
+                res.redirect('/users/registration/studentQuestionnare')
+            } else {
+                res.redirect('/users/registration/businessQuestionnare')
+            }
         }
     }
 }

@@ -15,17 +15,19 @@
             Sign-in for firms instead
         </div>
         <h1 class = "signin">Student Sign-in</h1>
+        <% if(errors === 'true'){%>
+            <h3 style="border: 0.5rem solid rgb(234, 155, 168); background-color: rgb(244, 127, 127); color: whitesmoke; width: 40vw">Incorrect Login Credentials</h3>
+        <%}%>
         <form action="/users/login" method="post">
             <section style="align-items: center;">
                 <div class = "metrics">
-                    <label for="name">Username:</label>
+                    <label for="name">Email:</label>
                     <input 
                         class = "inputs"
                         type = "name"
                         id="name" 
                         name="name"
-                        placeholder="Enter Username"
-                        value = "<%= name%>"
+                        placeholder="Enter Email"
                         required
                         >
                 </div>
@@ -39,7 +41,6 @@
                         id="current-password" 
                         name="password"
                         placeholder="Enter password"
-                        value = "<%= password%>"
                         required>
                 </div>
             </section>
