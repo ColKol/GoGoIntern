@@ -44,7 +44,7 @@ app.use(passport.session());
 //Setup stuff (basically defining some stuff regarding what files we are rendering)
 app.set('view engine', 'ejs');
 app.set('views', './views')
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 //Linking CSS and JS scripts

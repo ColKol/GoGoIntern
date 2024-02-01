@@ -9,6 +9,8 @@ router.get('/google/redirect', Googlepassport.authenticate("google"), (req,res)=
     if(req.user){
         if(req.user.userType === "student" && req.user.firstTime == true){
             res.redirect('/users/registration/studentQuestionnare')
+        } else if(req.user.userType === "business" && req.user.firstTime == true){
+            res.redirect('/users/registration/businessQuestionnare')
         } else {
             const expirydate = new Date().getMonth() +1
             const oneMonth = 30 * 24 * 60 * 60 * 1000;

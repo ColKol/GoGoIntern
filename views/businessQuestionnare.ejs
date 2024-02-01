@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Business Questionnare</title>
+    </head>
+
+    <body>
+        <h2>Some questions regarding your firm:</h2>
+        <form action = "/users/registration/businessQuestionnare" method="POST">
+            <label>What areas does your business/firm target?</label><br>
+            <section>
+                <label for="Finance">Finance</label>
+                <input type="checkbox" name="Finance">
+    
+                <label for="Tech">Technology</label>
+                <input type="checkbox" name="Tech">
+    
+                <label for="Healthcare">Healthcare</label>
+                <input type="checkbox" name="Healthcare">
+    
+                <label for="Media">Media</label>
+                <input type="checkbox" name="Media">
+            </section><br>
+            
+            <label>What is your business's/firm's address?</label><br>
+            <input type = "text" id = "address" name = "address" required="true" placeholder="Insert address here"><br><br>
+
+            <label>Could you provide a brief description about your company/firm?</label><br>
+            <textarea style="height: 200px; width: 50vw" name = "about" id="about" placeholder="Description of your company" required="true"></textarea><br><br>
+
+            <label>Link to company website (if you have one)</label>
+            <input type = "text" id = "link" name = "link" required="true" placeholder="Insert link here"><br><br>
+
+            <button type="submit">Confirm account details?</button>
+        </form>
+        
+    </body>
+</html>

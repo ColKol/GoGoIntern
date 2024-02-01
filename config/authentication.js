@@ -11,7 +11,7 @@ const userInfo = require('../models/userCreation')
 module.exports = async function(passport) {
   passport.use("local", new LocalStrategy({ usernameField: 'name' }, async (name, password, done) => {
       try {
-        const user = await userInfo.findOne({ username: name, verified: true });
+        const user = await userInfo.findOne({ email: name, verified: true });
 
         if (!user) {
           console.log("User does not exist");

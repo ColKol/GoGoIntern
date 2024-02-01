@@ -36,12 +36,7 @@ function getDB(){
     return db
 }
 
-async function findChunks(chunkID){
-    db.collection("cvStorage.files").findOne({_id: chunkID})
-}
-
 module.exports = {
     connectToDatabase,
     getDB,
-    findChunks,
 }

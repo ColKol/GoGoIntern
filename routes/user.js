@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer')
 const stream = require('stream')
 
-const { getDB, findChunks } = require('../databased/database')
+const { getDB } = require('../databased/database')
 
 const mongodb = require('mongodb')
 const fs = require('fs');
@@ -73,18 +73,9 @@ router.get('/login/cookieCheck',passport.authenticate('cookie', { session: true}
 
 router.get('/login', (req, res, next)=>{
     console.log(req.cookies.userInfo)
-
-    if (!req.session.newUser){
-        res.render('login',{
-            name:"",
-            password:""
+    res.render('login',{
+      errors: req.query.errors
     })
-    } else {
-        res.render('login', {
-            name: req.session.newUser.username,
-            password: req.session.newUser.password
-        })
-    }
 })
 
 //Register Renderer
@@ -97,8 +88,6 @@ router.get('/register/newUser', (req,res)=>{
     const user = req.query.user;
     if(user === "student"){
         res.cookie("userType", "student")
-        userType = "student"
-        userType = req.session.userType
         res.render('register',{
             username: "Username",
             errors: []
@@ -113,7 +102,7 @@ router.get('/register/newUser', (req,res)=>{
 })
 
 router.post('/register/newUser', async (req, res, next)=>{
-    const {name, email, password, cookie} = req.body;
+    const {name, email, password} = req.body;
     let errors = [];
     let usernameReq
 
@@ -265,53 +254,9 @@ router.post('/registration/studentQuestionnare' ,studentInfo, upload.single('cv'
 
     readstream.pipe(uploadstream);
 
-    uploadstream.on('finish', ()=>{
+     uploadstream.on('finish', ()=>{
         console.log("File uploaded")
     })
-
-    //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
-    // const downloadStream = bucket.openDownloadStream(new mongodb.ObjectId(uploadstream.id));
-    // const chunks = []
-
-    // downloadStream.on('data', (chunk) => {
-    //   chunks.push(chunk);
-    // });
-
-    // downloadStream.on('end', () => {
-    //   const pdfBuffer = Buffer.concat(chunks);
-    //   try {
-    //       var transporter = nodemailer.createTransport({
-    //         service: 'gmail',
-    //         auth: {
-    //           user: process.env.Verification_Bot_Email,
-    //           pass: process.env.Verification_Bot_pass
-    //         }
-    //       });
-    
-    //       var mailOptions = {
-    //         from: process.env.Verification_Bot_Email,
-    //         to: 'chani5@rchk.edu.hk',
-    //         subject: 'PDF Text',
-    //         text: 'Here is the CV',
-    //         attachments: [{
-    //           filename: cv.originalname,
-    //           content: pdfBuffer,
-    //           encoding: 'base64'
-    //         }]
-    //       };
-      
-    //       transporter.sendMail(mailOptions, function (error, info) {
-    //           if (error) {
-    //             console.log(error);
-    //           } else {
-    //             console.log('Email sent: ' + info.response);
-    //           }
-    //       })     
-    //   } catch (error) {
-    //       console.error(error);
-    //       res.redirect('/users/register');
-    //   }
-    // });
   
     Object.keys(req.body).forEach(key => {
       if (req.body[key] === 'on') {
@@ -344,6 +289,44 @@ router.post('/registration/studentQuestionnare' ,studentInfo, upload.single('cv'
     }) (req,res,next);
 });
 
+router.get("/registration/businessQuestionnare", studentInfo, (req,res)=>{
+    res.clearCookie("userType")
+    res.render('businessQuestionnare')
+})
+
+router.post("/registration/businessQuestionnare", studentInfo, async (req,res, next)=>{
+  const checkedValues = [];
+  const hi = req.session.newUser
+  Object.keys(req.body).forEach(key => {
+    if (req.body[key] === 'on') {
+      checkedValues.push(key);
+    }
+  });
+
+  const user = await userInfo.updateOne({username: hi.username}, {interests: checkedValues, firstTime: false, address: req.body.address, description: req.body.about})
+
+  passport.authenticate('Register', (err,user,info)=>{
+        if (err) {
+            console.error('Passport authentication error:', err);
+            return res.sendStatus(500);
+          }
+      
+          if (!user) {
+            console.error('User authentication failed:', info.message);
+            return res.redirect('/users/register')
+          }
+      
+          req.login(user, (err) => {
+            if (err) {
+              console.error('Error logging in the user:', err);
+              return res.redirect('/userpage');
+            }
+
+            return res.redirect('/userpage')
+          })
+  }) (req,res,next);
+})
+
 //Login handle
 router.post('/login', (req, res, next)=>{
 
@@ -354,7 +337,7 @@ router.post('/login', (req, res, next)=>{
 
         if(!user){
             req.flash('error', 'Invalid username or password');
-            return res.redirect('/users/login');
+            return res.redirect('/users/login?errors=true');
         }
         req.logIn(user, (err) => {
             if (err) {

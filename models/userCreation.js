@@ -44,7 +44,21 @@ const userSetupSchema = new mongoose.Schema({
 
     cv:{
         type: String,
-    }
+    },
+
+    address:{
+        type: String,
+    },
+
+    description:{
+        type: String
+    },
+
+    companyLink:{
+        type: String,
+    },
+
+
 
 })
 const userStuff = mongoose.model('userInfo', userSetupSchema)
