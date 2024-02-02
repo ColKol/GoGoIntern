@@ -135,3 +135,9 @@ section {
     display: flex;
     justify-content: center;
 }
+
+.words {
+    margin: 10px; 
+    font-size: 2vmax;
+    transition: 1s;
+}

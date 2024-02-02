@@ -1,0 +1,11 @@
+.menudropbutton {
+    background-color: white;
+}
+
+.dropdown-content {
+    background-color: wheat;
+}
+
+.dropdown:hover .dropdown-content {
+    background-color: aqua;
+}
