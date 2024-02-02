@@ -103,6 +103,7 @@ button:hover {
     border: 1px solid #1B72E8;
     border-radius: 9px;
     transition: 1s;
+    user-select: none;
 }
 
 .firmbutton:hover {
