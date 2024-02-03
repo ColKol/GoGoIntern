@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const indexRoute = require(".//routes/index")
 const userRoute = require("./routes/user")
 const authRoute = require('./routes/authRoutes')
+// const pageRoute = require('./views/userdetails')
 const mongoose = require('mongoose')
 const userInfo = require('./models/userCreation')
 const verificationCode = require ('./models/verificationCodes')
@@ -64,6 +65,11 @@ connectToDatabase().then((db)=>{
 app.use('', indexRoute);
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
+// app.use('/userdetails', pageRoute)
 
 //Setting up a local enviroment
 app.listen(3000);
+
+app.get('/userdetails', (req, res) => {
+  res.render('userdetails');
+ });

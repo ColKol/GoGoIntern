@@ -1,0 +1,52 @@
+.passwordbutton {
+    /* border: 2px solid rgba(96, 96, 233,0.2); */
+    background-color: rgba(217, 217, 217, 0.248);
+    padding: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 30px;
+    border-radius: 10px;
+    border: 2px black solid;
+    font-size: 1vmax;
+    color: black;
+    margin: 10px;
+    margin-left: 0px;
+    width: 10vmax;
+    height: 0.5vmax;
+    transition: 0.3s;
+    align-items: center;
+    user-select: none;
+
+}
+
+.passwordbutton:hover {
+    background-color: rgba(180, 180, 180, 0.3);
+}
+
+.dropdown {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+}
+
+.dropdown-content {
+    padding: 10px;
+    background-color:rgb(234, 234, 234);
+    border: 3px solid black;
+    border-radius: 10px;
+    user-select: none;
+}
+
+.dropdown-content:hover {
+    background-color: rgb(196, 196, 196);
+}
+
+.dropdown-content-content {
+    display: none;
+    align-items: center;
+}
+.dropdown-content-content-content {
+    background-color: rgb(218, 218, 218);
+    border: 3px black solid;
+    border-radius: 10%;
+}
