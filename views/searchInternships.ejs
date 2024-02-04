@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <form>
+            <input type="search" name="searchBar">
+            <button type="button" onclick="showFilterOptions()">Filter</button>
+            <button type="submit">Search</button>
+
+            <section id="filterOptions" style="display: none;">
+                <label>Internship Job:</label><br>
+                <label for="Finance">Finance</label>
+                <input type="checkbox" name = "internshipChoices" value="Finance"> 
+    
+                <label for="Tech">Technology</label>
+                <input type="checkbox" name = "internshipChoices" value="Tech">
+    
+                <label for="Healthcare">Healthcare</label>
+                <input type="checkbox" name = "internshipChoices" value="Healthcare">
+    
+                <label for="Media">Media</label>
+                <input type="checkbox" name = "internshipChoices" value="Media"><br><br>
+
+                <label>Internship type:</label><br>
+                <input type="radio" name="placementType" value="online"><label>Online</label><br>
+                <input type="radio" name="placementType" value="onsite"><label>On-site</label><br><br>
+
+                <label>Internship Shift/Schedule:</label>
+                <ul>
+                    <li><label>From: </label><input type="time" name="shiftStart"><br></li>
+                    <li><label>To: </label><input type="time" name="shiftEnd"><br><br></li>
+                    <li><label>Start date: </label><input type="date" name="startDate"><br></li>
+                    <li><label>End date: </label><input type="date" name="endDate"><br><br></li>
+                </ul>
+
+            </section><br>
+        </form>
+
+
+        <section style="display: block;">
+            <% if(searchResults != undefined){%>
+                <% searchResults.forEach((result, index)=>{%>
+                    <div style="display: flex; flex-direction: row; width:100vw; column-gap: 10vw; margin-bottom: 5vh;">
+                        <div id="mainInfo" onclick="showExtraInfo('<%= index %>')" style="background-color: rgb(182, 183, 221); width: 35vw; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                            <h3 style="margin-bottom: 0px;"><%= result.nameOfInternship %></h3>
+                            <h4 style="margin: 0px"><%= result.typeOfInternship %></h4>
+                            <p><%= result.creatorName %></p>
+                            <% if(result.workplaceType === "onsite"){%>
+                                <p><%= result.addressForWork%> (On-site)</p>
+                            <%} else {%>
+                                <p>Online</p>
+                            <%}%>
+    
+                            <% if(result.wageType === "Paid"){%>
+                                <p><%= result.wage %> per hour</p>
+                            <%} else {%>
+                                <p>Unpaid internship</p>
+                            <%}%>
+                        </div>
+                        <div style="width: 55vw; display: none;" id="extraInfo<%= index %>">
+                            <h2><%= result.nameOfInternship %></h2>
+                            <h3 style="margin: 0px"><%= result.creatorName %></h3>
+                            <% if(result.workplaceType === "onsite"){%>
+                                <h4><%= result.addressForWork%> (On-site)</h4>
+                            <%} else {%>
+                                <h4>Online</h4>
+                            <%}%>
+                            <h2>About this internship:</h2>
+                            <p><%= result.description %></p><br>
+    
+                            <h3 style="margin: 0px;">Skills required:</h3>
+                            <ul style="margin: 0px;">
+                                <% result.skillsRequired.forEach((skill)=>{%>
+                                    <li><%= skill %></li>
+                                <%})%>
+                            </ul>
+    
+                            <h3>Schedule for the internship:</h3>
+                            <p>Starting date: <%= result.startDate%></p>
+                            <p>Starting date: <%= result.endDate%></p>
+    
+                            <h3 style="margin: 0px;">Shift:</h3>
+                            <p style="margin: 0px;">From: <%= result.shiftStart %></p>
+                            <p style="margin: 0px;">To: <%= result.shiftEnd %></p><br>
+    
+                            <h3 style="margin: 0px;">Screening questions:</h3>
+                            <ul style="margin: 0px;">
+                                <% result.screeningQuestions.forEach((question)=>{%>
+                                    <li><%= question %></li>
+                                <%})%>
+                            </ul>
+                        </div>
+                    </div>
+                <%})%>
+            <%}%>
+        </section>
+    </body>
+    <script>
+        const filter = document.getElementById("filterOptions")
+        function showFilterOptions(){
+            if(filter.style.display === "none"){
+                filter.style.display = "block"
+            } else {
+                filter.style.display = "none"
+            }
+        }
+
+        function showExtraInfo(index){
+            const extraInfo = document.getElementById("extraInfo" + index)
+            if(extraInfo.style.display === "none"){
+                extraInfo.style.display = "block"
+            } else {
+                extraInfo.style.display = "none"
+            }
+        }
+    </script>
+</html>
