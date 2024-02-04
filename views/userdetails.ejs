@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title>User details</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
+        <link rel="stylesheet" href="/css/all-style.css" type = "text/css">
+        <link rel="stylesheet" href="/css/about-style.css" type = "text/css">
+        <link rel="stylesheet" href="/css/menu-style.css" type = "text/css">
+        <link rel="icon" href="/images/icons/rayreader-logo.png" type = "image/png">
+        <link rel = "stylesheet" href="/css/login.css" type = "text/css">
+        <link rel = "stylesheet" href = "/css/userdetails.css" type = "text/css">
+
+    </head>
+
+    <body>
+        <div class = "banner">
+            <img src = "/images/icons/New-Logo-TB.png" width="100px">
+            <h1>nternalyse</h1>
+        </div>
+
+        <div class = "metrics" style=" width: 70vmax; flex-direction: column;">
+            <div style="display: flex; flex-direction: row;">
+                <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">User details</h2>            
+            </div>
+            <div style="display: flex; flex-direction: row;">
+                <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "name" value= "<%= name %>" required>
+            </div>
+            <div style="display: flex; flex-direction: row;">
+                <a class = "words">Email:</a><input class = "words" style="font-size: 0.6em; width: 30vmax;" value= <%= email %>>
+            </div>
+            <div style="display: flex; flex-direction: row;">
+                <a class = "words">Password: ********</a>
+                <a class = "passwordbutton">Change password</a>
+            </div>
+            <button id = "Updateinformation" onclick="updateinformation()">Update
+        </div>
+
+        <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
+            <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Interested fields</h2>
+            <div class = "dropdown">
+                <div style="display: flex; flex-direction: row;">
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Languages</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Chinese
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    English
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Spanish
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    French
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Japanese
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Korean
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Other
+                                    <input type="checkbox">
+                                    <input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(1)">Natural science</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Biology
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Physics
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Chemistry
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(2)">Human science</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Economics
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Business
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Psychology
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(3)">Mathematics</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                     Math AI/ M1
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Math AA/ M2
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(4)">Humanities</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    General history
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Chinese history
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Global politics
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(5)">Design technologies</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Design
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; flex-direction: column;">
+
+                        <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(6)">Computer Science</a>
+                        <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Cryptography
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class = "dropdown-content-content-content">
+                                    Engineering
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
+            <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Other</h2>
+            <a class = "words">Change colour scheme</a>
+            <a class = "words">Change theme</a>
+        </div>
+
+        <script src="/javascript/dropdown.js"></script>
+        <script src = "/javascript/userupdates.js"></script>
+
+    </body>
+</html>

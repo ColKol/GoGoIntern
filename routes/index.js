@@ -30,8 +30,19 @@ router.get('/page/practice', (req,res)=>{
 
 router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
     res.render('userpage', {
-        name: req.user.username
+        name: req.user.username,
+        email: req.user.email
+
     })
+})
+
+router.get('/userdetails', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
+  res.render('userdetails', {
+      name: req.user.username,
+      email: req.user.email,
+      ps: req.user.password,
+
+  })
 })
 
 
