@@ -7,7 +7,7 @@ function updateinformation() {
         let name = document.getElementById('name');
         let new_name = document.getElementById('new_name');
         if (name == new_name) {
-            console.log("The new username is the same as your old one!");
+            console.log("The new information is the same as your old information!");
         }
         else (name = new_name);
     })
