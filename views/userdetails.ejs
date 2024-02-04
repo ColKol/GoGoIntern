@@ -27,7 +27,7 @@
                 <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">User details</h2>            
             </div>
             <div style="display: flex; flex-direction: row;">
-                <a class = "words">Username:</a><input class = "words" style="font-size: 0.6em; width: 30vmax;" value= <%= name %>>
+                <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "name" value= "<%= name %>" required>
             </div>
             <div style="display: flex; flex-direction: row;">
                 <a class = "words">Email:</a><input class = "words" style="font-size: 0.6em; width: 30vmax;" value= <%= email %>>
@@ -36,7 +36,7 @@
                 <a class = "words">Password: ********</a>
                 <a class = "passwordbutton">Change password</a>
             </div>
-            <button>Update
+            <button id = "Updateinformation" onclick="updateinformation()">Update
         </div>
 
         <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
@@ -235,6 +235,7 @@
         </div>
 
         <script src="/javascript/dropdown.js"></script>
+        <script src = "/javascript/userupdates.js"></script>
 
     </body>
 </html>
