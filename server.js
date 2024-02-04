@@ -7,10 +7,16 @@ const app = express();
 const router = express.Router();
 const path = require('path');
 const bodyParser = require("body-parser");
+
 const indexRoute = require(".//routes/index")
 const userRoute = require("./routes/user")
 const authRoute = require('./routes/authRoutes')
-// const pageRoute = require('./views/userdetails')
+
+const userpageRoute = require('./routes/userpageRoutes')
+
+
+//const pageRoute = require('./views/userdetails')
+
 const mongoose = require('mongoose')
 const userInfo = require('./models/userCreation')
 const verificationCode = require ('./models/verificationCodes')
@@ -22,6 +28,8 @@ const flash = require('express-flash')
 const session = require('express-session')
 
 const { connectToDatabase } = require('./databased/database')
+
+const { ensureAuthenticated } =require('./config/ensureUserIsLoggedIn')
 
 require('./config/authentication')(passport);
 
@@ -66,6 +74,9 @@ app.use('', indexRoute);
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
 // app.use('/userdetails', pageRoute)
+
+app.use(ensureAuthenticated)
+app.use('/userpage', userpageRoute)
 
 //Setting up a local enviroment
 app.listen(3000);

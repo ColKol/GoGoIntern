@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create opportunity</title>
+    </head>
+
+    <body>
+        <form action = "/userpage/createOpportunity" method="POST">
+
+            <label>Job title</label><br>
+            <input type = "text" id = "address" name = "title" required="true" placeholder="Insert title here"><br><br>
+
+            <label>Internship category</label><br>
+            <section>
+                <label for="Finance">Finance</label>
+                <input type="checkbox" name="Finance">
+    
+                <label for="Tech">Technology</label>
+                <input type="checkbox" name="Tech">
+    
+                <label for="Healthcare">Healthcare</label>
+                <input type="checkbox" name="Healthcare">
+    
+                <label for="Media">Media</label>
+                <input type="checkbox" name="Media">
+            </section><br>
+
+            <label>Type of internship</label><br>
+            <input type="radio" name="internshipType" value="Full-Time"><label>Full Time</label><br>
+            <input type="radio" name="internshipType" value="Part-Time"><label>Part Time</label><br><br>
+
+            <label>Wage for internship</label><br>
+            <input type="radio" name="wageType" value="Paid" onclick="showAddress(event)" id="paid"><label>Paid</label><br>
+            <section style = "display: none;" id="wageSection">
+                <label>Wage (per hour)</label><input type="text" name="wage">
+            </section>
+            <input type="radio" name="wageType" value="Unpaid" onclick="showAddress(event)" id="unpaid"><label>Unpaid</label><br><br>
+
+
+            <label>Job description</label><br>
+            <textarea style="height: 200px; width: 50vw" name = "about" id="about" placeholder="Description of your internship" required="true"></textarea><br><br>
+
+            <section id = "skillHolder">
+                <label>Skills required from internee</label><br>
+                <label>Skill 1: </label><input type="text" name="skill"><br><br>
+            </section>
+            <button id="addAnotherSkill" type="button" onclick="addOneExtra(event)">Add another skill</button><br><br>
+
+            <label>Workplace type</label><br>
+            <input type="radio" name = "internshipPlace" value="online" onclick="showAddress(event)" id="online"><label for = "online">Online</label>
+            <input type="radio" name = "internshipPlace" value="onsite" onclick="showAddress(event)" id="on-site"><label for = "onsite">On-site</label><br><br>
+
+            <section id="addressSection" style="display: none;">
+                <label>Address of workplace</label><br>
+                <input type="text" name="addressOfWorkplace" placeholder="Insert Address here"><br><br>
+            </section>
+
+            <label>Shift schedule</label><br>
+            <label>From: </label><input type="time" name="timeStart" id="timeStart" required = 'true'><br>
+            <label>To: </label><input type="time" name="timeEnd" id="timeEnd" required = 'true'><br><br>
+
+            <label>Internship schedule</label><br>
+            <label>Start date: </label><input type="date" name="dateStart" id="dateStart" required="true"><br>
+            <label>End date: </label><input type="date" name="dateEnd" id="dateEnd" required="true"><br><br>
+
+            <section id = "questionHolder">
+                <label>Screening questions (leave blank if none)</label><br>
+                <label>Question 1: </label><input type="text" name="question"><br><br>
+            </section>
+            <button id="addAnother" type="button" onclick="addOneExtra(event)">Add another question (max 10 questions)</button><br><br>
+
+            <button type="submit">Confirm internship details?</button>
+        </form>
+    </body>
+    <script>
+        function addOneExtra(event){
+            let element;
+            let filler;
+            let max;
+            let name;
+            if(event.target.id === "addAnother"){
+                element = document.getElementById("questionHolder")
+                filler = "Question "
+                max = true
+                name = "question"
+            } else {
+                element = document.getElementById("skillHolder")
+                filler = "Skill "
+                max = false
+                name = "skill"
+            }
+
+            const numberOfQuestions = element.querySelectorAll("label").length;
+
+            if(numberOfQuestions > 10 && max == true){
+                alert("Maximum Questions Reached!")
+                return;
+            }
+
+            const label = document.createElement("label")
+            const deleteButton = document.createElement("button")
+            const question = document.createElement("input")
+            const linebreak1 = document.createElement("br")
+            const linebreak2 = document.createElement("br")
+            
+            const node = document.createTextNode(filler + numberOfQuestions + ": ")
+            const node2 = document.createTextNode("X")
+            label.appendChild(node)
+            label.className = "genLabel"
+            deleteButton.appendChild(node2)
+            question.type = "text";
+            question.name = name
+            deleteButton.type = "button";
+            deleteButton.id = "deleteButton"
+            deleteButton.addEventListener("click", function (){
+                element.removeChild(label)
+                element.removeChild(question)
+                element.removeChild(deleteButton)
+                element.removeChild(linebreak1)
+                element.removeChild(linebreak2)
+
+                const remainingQuestions = Array.from(element.getElementsByClassName("genLabel"))
+                remainingQuestions.forEach((remainingLabel, index) => {
+                    remainingLabel.textContent = filler + (index + 2) + ": ";
+                });
+            })
+
+            element.appendChild(label)
+            element.appendChild(question)
+            element.appendChild(deleteButton);
+            element.appendChild(linebreak1)
+            element.appendChild(linebreak2)
+        }
+
+        function showAddress(event){
+            let showContent;
+            if(event.target.name === "wageType"){
+                showContent = "wageSection"
+            } else {
+                showContent = "addressSection"
+            }
+
+            const addressPart = document.getElementById(showContent)
+
+            if(addressPart.style.display === "none" && (event.target.id === "on-site" || event.target.id === "paid") ){
+                addressPart.style.display = 'block'
+            } else if(event.target.id === "online" || event.target.id === "unpaid"){
+                addressPart.style.display = 'none'
+            }
+        }
+    </script>
+</html>

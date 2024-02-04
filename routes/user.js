@@ -358,8 +358,8 @@ router.post('/login', (req, res, next)=>{
 })
 
 router.get('/login/redirect', (req,res)=>{
-    userInfo.findOne({'username': req.session.userCookie}).then((user)=>{
-        res.cookie("userInfo", String(user._id), {expires: new Date(Date.now() + (30*24*60*60*1000))})
+    userInfo.findOne({'email': req.session.userCookie}).then((user)=>{
+        res.cookie("userInfo", String(user.id), {expires: new Date(Date.now() + (30*24*60*60*1000))})
         return res.redirect("/userpage")
     })
 })
