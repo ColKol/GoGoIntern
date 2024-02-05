@@ -47,9 +47,9 @@ router.get('/userdetails', ensureAuthenticated, checkIfStudentInfoThere, (req,re
 
 router.get('/userupdates', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
   res.render('userupdates', {
-      name: req.user.username,
-      email: req.user.email,
-      ps: req.user.password,
+    name: req.user.username,
+    email: req.user.email,
+    ps: req.user.password,
 
   })
 })
