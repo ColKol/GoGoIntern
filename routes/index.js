@@ -45,6 +45,15 @@ router.get('/userdetails', ensureAuthenticated, checkIfStudentInfoThere, (req,re
   })
 })
 
+router.get('/userupdates', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
+  res.render('userupdates', {
+      name: req.user.username,
+      email: req.user.email,
+      ps: req.user.password,
+
+  })
+})
+
 
 //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
 router.get('/testing', ensureAuthenticated, (req,res)=>{
