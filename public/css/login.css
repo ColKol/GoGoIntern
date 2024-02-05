@@ -93,7 +93,7 @@ button:hover {
     background-color: #1B72E8;
     width: 30vmax;
     height: 20px;
-    font-size: 30px;
+    font-size: 2vmax;
     /* font-family: cursive; */
     margin-top: 20px;
     z-index: 1;
@@ -107,7 +107,7 @@ button:hover {
 }
 
 .firmbutton:hover {
-    font-size: 35px;
+    font-size: 2.3vmax;
     padding-bottom: 40px;
     background-color: rgb(82, 156, 206);
 }
