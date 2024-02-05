@@ -1,12 +1,16 @@
 :root{
-    --accent-color: rgb(159, 63, 145);
-    --outline-color: rgb(50, 50, 50);
+    --basic-color: black;
+    --accent-color: white;
+    --outline-color: #1B72E8;
 }
 
 body{
     background-color: white;
-    color: var(--outline-color);
+    color: var(--basic-color);
     font-family: Verdana, Arial, sans-serif;
+    margin: 0%;
+    
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .centered{
