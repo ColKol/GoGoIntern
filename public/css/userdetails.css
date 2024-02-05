@@ -35,6 +35,10 @@
     border: 3px solid black;
     border-radius: 10px;
     user-select: none;
+    width: 15vmax;
+    font-size: 1.8vmax;
+    align-items: center;
+    transition: 1s;
 }
 
 .dropdown-content:hover {
@@ -44,9 +48,18 @@
 .dropdown-content-content {
     display: none;
     align-items: center;
+    width: 13vmax;
+    font-size: 1.6vmax;
+    transition: 1s;
 }
+
 .dropdown-content-content-content {
     background-color: rgb(218, 218, 218);
     border: 3px black solid;
     border-radius: 10%;
+    width: 13vmax;
+    justify-content: center;
+    transition: 1s;
+    font-size: 1.5vmax;
 }
+
