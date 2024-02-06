@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <form>
+            <label>Name of internship:</label><br>
+            <input type="text" name = "nameOfInternship" value="<%= internshipInfo.nameOfInternship%>"><br><br>
+
+            <label>Type of internship:</label><br>
+            <% internshipInfo.typeOfInternship.forEach((type)=>{%>
+                <input type="checkbox" name = "internshipType" value="<%= type %>"><label><%= type %></label>
+            <%})%>
+
+            <br><br><label>Payment type:</label><br>
+            <% if(internshipInfo.wageType === "Unpaid"){%>
+                <input type="radio" value="Unpaid" checked="checked"><label>Unpaid</label>
+                <input type="radio" value="Paid"><label>Paid</label>
+            <%} else {%>
+                <input type="radio" value="Unpaid"><label>Unpaid</label>
+                <input type="radio" value="Paid" checked="checked"><label>Paid</label>
+            <%}%>
+
+            <br><br><label></label>
+        </form>
+    </body>
+</html>

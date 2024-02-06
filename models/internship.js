@@ -77,6 +77,10 @@ const internshipSchema = new mongoose.Schema({
     screeningQuestions:{
         type: Array,
         required: true
+    },
+
+    personWhoSignedUp:{
+        type:String
     }
 })
 const internshipCreator = mongoose.model('internshipCreator', internshipSchema)
