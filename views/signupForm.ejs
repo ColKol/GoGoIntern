@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+
+    </head>
+
+
+    <body>
+        <form action = "/userpage/signUp"method="post">
+            <input type="hidden" name="idForsignUp" value="<%= id %>">
+            <h1>Screening questions</h1>
+            <% questions.forEach((question)=>{%>
+                <label><%= question %></label><br>
+                <input name="questionAnswer" type="text"><br><br>
+            <%})%>
+    
+            <h1>Introduction to yourself:</h1>
+            <textarea name = "bodyOfEmail" placeholder="Type in your introduction to yourself for the email here" style="width: 30vw; height: 20vh; resize: none;"></textarea><br><br>
+
+            <button type="submit">Submit application (your CV will be sent with this as well)</button>
+        </form>
+    </body>
+</html>

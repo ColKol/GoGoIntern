@@ -42,6 +42,20 @@
 
             </div>
 
+            <% if(userType === "student"){%>
+                <div>
+                    <a href="/userpage/searchInternships?page=1" style="color: white;">Search</a>
+                </div>
+            <%} else {%>
+                <div>
+                    <a href="/userpage/createOpportunity" style="color: white;">Create</a>
+                </div>
+                
+                <div>
+                    <a href='/userpage/editInformation' style="color: white">Check internships</a>
+                </div>
+            <%}%>
+
             <div>
                 <a href = "/users/logout" style = "color: white; text-align: center;">
                     Log out
