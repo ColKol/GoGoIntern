@@ -25,6 +25,9 @@ router.use(cookieParser())
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
+//get rid of this later?
+const request = require('request');
+
 
 //Verification middleware to make sure users can't just access it regularly
 const verifyRegistration = (req, res, next) => {
@@ -102,6 +105,22 @@ router.get('/register/newUser', (req,res)=>{
 })
 
 router.post('/register/newUser', async (req, res, next)=>{
+  if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
+  {
+    return res.json({"responseError" : "uh oh!"});
+  }
+  const secretKey = process.env.Recaptcha_Secret_Key;
+
+  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  request(verificationURL,function(error,response,body) {
+    body = JSON.parse(body);
+    console.log(body);
+    if(body.success !== undefined && !body.success) {
+      return res.json({"responseError" : "Failed captcha verification"});
+    }
+    res.json({"responseSuccess" : "Sucess"});
+  });
+
     const {name, email, password} = req.body;
     let errors = [];
     let usernameReq
@@ -373,5 +392,7 @@ router.get('/logout', function(req, res,next) {
         res.redirect('/')
     })
 });
+
+//captcha key = process.env.Recaptcha_Secret_Key
 
 module.exports = router;
