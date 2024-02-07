@@ -22,22 +22,24 @@
             <h1>nternalyse</h1>
         </div>
 
-        <div class = "metrics" style=" width: 70vmax; flex-direction: column;">
-            <div style="display: flex; flex-direction: row;">
-                <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">User details</h2>            
+        <form action = "/userpage/userdetails" method = "post">
+            <div class = "metrics" style=" width: 70vmax; flex-direction: column;">
+                <div style="display: flex; flex-direction: row;">
+                    <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">User details</h2>            
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "new_name" value= "<%= name %>" required>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <a class = "words">Email:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" name = "new_email" id = "new_email" type = "text" value= "<%= email %>" required>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <a class = "words">Password: ********</a>
+                    <a class = "passwordbutton">Change password</a>
+                </div>
+                <button id = "Updateinformation" type="submit">Update
             </div>
-            <div style="display: flex; flex-direction: row;">
-                <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "name" value= "<%= name %>" required>
-            </div>
-            <div style="display: flex; flex-direction: row;">
-                <a class = "words">Email:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" id = "new_email" type = "text" value= "<%= email %>" required>
-            </div>
-            <div style="display: flex; flex-direction: row;">
-                <a class = "words">Password: ********</a>
-                <a class = "passwordbutton">Change password</a>
-            </div>
-            <button id = "Updateinformation" onclick="updateinformation()">Update
-        </div>
+        </form>
 
         <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
             <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Interested fields</h2>
@@ -226,6 +228,15 @@
             </div>
         </div>
 
+        <script>
+            let button = document.getElementById('Updatedinformation')
+
+            button.addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("post", '/userupdates', true)
+            })
+        </script>
+
         
 
         <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
@@ -235,7 +246,8 @@
         </div>
 
         <script src="/javascript/dropdown.js"></script>
-        <script src = "/javascript/userupdates.js"></script>
+        <script src="/javascript/userupdates.js" type = "/module"></script>
+
 
     </body>
 </html>

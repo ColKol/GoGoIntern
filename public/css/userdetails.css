@@ -51,6 +51,7 @@
     width: 13vmax;
     font-size: 1.6vmax;
     transition: 1s;
+    user-select: none;
 }
 
 .dropdown-content-content-content {
@@ -61,5 +62,6 @@
     justify-content: center;
     transition: 1s;
     font-size: 1.5vmax;
+    user-select: none;
 }
 
