@@ -25,6 +25,9 @@ const { studentInfo } = require('../config/studentInfo');
 
 const passport = require('..//config/cookie+registration');
 
+const { emitWarning } = require('process');
+
+
 router.use(cookieParser())
 
 const storage = multer.memoryStorage()
@@ -43,6 +46,29 @@ const checkUserType = (requiredUserType) => {
     };
 };
 
+router.get('/userdetails', (req,res)=>{
+    res.render('userdetails', {
+      name: req.user.username,
+      email: req.user.email,
+      ps: req.user.password,
+  
+      new_name: req.body.new_name,
+      new_email: req.body.new_email,
+    })
+})
+  
+
+router.get('/userdetails', (req,res)=>{
+    res.render('userdetails')
+})
+
+router.post('/userdetails', async (req,res)=>{
+    await userInfo.updateOne({_id: req.user._id}, {username: req.body.new_name, email: req.body.new_email})
+
+    res.redirect('/logout')
+})
+
+=======
 const checkIfCompleted = (req,res,next)=>{
     if(!req.session.completedForm ||  req.session.completedForm == undefined){
         res.redirect('/userpage')
@@ -60,6 +86,7 @@ const checkIfSignUppable = async (req,res,next)=>{
         }
     })
 }
+
 
 
 router.get('/createOpportunity', checkUserType('business'), (req,res)=>{
