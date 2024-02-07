@@ -36,24 +36,6 @@ router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=
     })
 })
 
-router.get('/userdetails', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
-  res.render('userdetails', {
-      name: req.user.username,
-      email: req.user.email,
-      ps: req.user.password,
-
-  })
-})
-
-router.get('/userupdates', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
-  res.render('userupdates', {
-    name: req.user.username,
-    email: req.user.email,
-    ps: req.user.password,
-
-  })
-})
-
 
 //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
 router.get('/testing', ensureAuthenticated, (req,res)=>{
