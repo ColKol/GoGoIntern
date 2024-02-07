@@ -12,10 +12,56 @@
     z-index: 1;
 }
 
-body{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.mainpage-navbar{
+    background-color: var(--outline-color);
+    color: var(--accent-color);
+
+    padding: 1rem;
 }
 
-.page-header{
-    background-color: yellow;
+.mainpage-navbar h1{
+    margin: 0%;
+    font-size: 3rem;
+}
+
+.mainpage-navbar button{
+    height: 100%;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    background-color: var(--accent-color);
+
+    border: solid gray;
+}
+
+.mainpage-navbar-centered{
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mainpage-banner{
+    height: 400px;
+    width: 100%;
+
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/images/placeholder-intern.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    align-items: center;
+
+    
+}
+
+.mainpage-banner h1{
+    color: var(--accent-color);
+    font-size: 2rem;
+
+    margin: 0%;
+    margin-left: 25vw;
+
+    width: 25%;
 }

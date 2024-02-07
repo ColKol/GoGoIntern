@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head> 
+        <title>Signup | GoGoIntern</title>
 
-        <title>Sign-up to GoGoIntern</title>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+
+        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
         <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
     </head>
 
@@ -21,6 +24,7 @@
                 <h3 style="border: 0.5rem solid rgb(234, 155, 168); background-color: rgb(244, 127, 127); color: whitesmoke; width: 40vw"><%= error %></h3>
             <%}); %>
         <%} %>
+
         <form action = "/users/register/newUser" method="POST">
             <section style="align-items: center;">
                 <div class = "metrics">
@@ -43,7 +47,14 @@
                 <label for = "cookie" style="font-size: 30px; margin-right: 4px;">Remember me</label>
                 <input type = "checkbox" id = "remember" name = "remember">
             </section>
-            <button type="submit" style="font-size: 22px;">Sign up</button>
+
+            <div
+            class="g-recaptcha"
+            data-sitekey="6Ldw7mgpAAAAACRvx8hHLT3-8DelgF0BnoulkNyk"
+            data-callback="canSubmit">
+            </div>
+
+            <button type="submit" style="font-size: 22px;" disabled id="signin-button">Sign up</button>
 
             <h1 class = "signin">Other Methods</h1>
 
@@ -52,5 +63,13 @@
                 <a href = "/users/login" class="bottombuttons">Already have an account?</a>
             </div>
         </form>
+
+        <script type="text/javascript">
+            function canSubmit(token) {
+                const submitButton = document.getElementById("signin-button");
+                submitButton.removeAttribute("disabled");
+                console.log(token);
+            }
+        </script>
     </body>
 </html>

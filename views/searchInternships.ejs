@@ -5,8 +5,9 @@
     </head>
 
     <body>
-        <form>
+        <form action = "/userpage/searchInternships" method="get">
             <input type="search" name="searchBar">
+            <input type="hidden" name="page" value="<%= currentPage %>">
             <button type="button" onclick="showFilterOptions()">Filter</button>
             <button type="submit">Search</button>
 
@@ -28,6 +29,11 @@
                 <input type="radio" name="placementType" value="online"><label>Online</label><br>
                 <input type="radio" name="placementType" value="onsite"><label>On-site</label><br><br>
 
+                <label>Wage type:</label><br>
+                <input type="radio" name="wageType" value="Paid"><label>Paid</label><br>
+                <input type="radio" name="wageType" value="Unpaid"><label>Unpaid</label><br><br>
+
+
                 <label>Internship Shift/Schedule:</label>
                 <ul>
                     <li><label>From: </label><input type="time" name="shiftStart"><br></li>
@@ -47,7 +53,7 @@
                         <div id="mainInfo" onclick="showExtraInfo('<%= index %>')" style="background-color: rgb(182, 183, 221); width: 35vw; text-align: center; display: flex; flex-direction: column; justify-content: center;">
                             <h3 style="margin-bottom: 0px;"><%= result.nameOfInternship %></h3>
                             <h4 style="margin: 0px"><%= result.typeOfInternship %></h4>
-                            <p><%= result.creatorName %></p>
+                            <a href="/userpage/businessProfile?business=<%= result.creator %>"><%= result.creatorName %></a>
                             <% if(result.workplaceType === "onsite"){%>
                                 <p><%= result.addressForWork%> (On-site)</p>
                             <%} else {%>
@@ -62,7 +68,7 @@
                         </div>
                         <div style="width: 55vw; display: none;" id="extraInfo<%= index %>">
                             <h2><%= result.nameOfInternship %></h2>
-                            <h3 style="margin: 0px"><%= result.creatorName %></h3>
+                            <a href="/userpage/businessProfile?business=<%= result.creator %>" style="margin: 0px"><%= result.creatorName %></a>
                             <% if(result.workplaceType === "onsite"){%>
                                 <h4><%= result.addressForWork%> (On-site)</h4>
                             <%} else {%>
@@ -91,9 +97,19 @@
                                 <% result.screeningQuestions.forEach((question)=>{%>
                                     <li><%= question %></li>
                                 <%})%>
-                            </ul>
+                            </ul><br><br>
+
+                            <a href="/userpage/signUp?signupForm=<%= result._id%>">Sign up for this internship</a>
                         </div>
                     </div>
+                <%})%>
+            <%}%>
+        </section>
+
+        <section>
+            <% if(numberOfPages != undefined){%>
+                <% numberOfPages.forEach((number)=>{%>
+                    <a href="/userpage/searchInternships?page=<%= number %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= number %></a>
                 <%})%>
             <%}%>
         </section>
