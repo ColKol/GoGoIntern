@@ -49,6 +49,7 @@ router.get('/userdetails', (req,res)=>{
       name: req.user.username,
       email: req.user.email,
       ps: req.user.password,
+      userType: req.user.userType,
   
       new_name: req.body.new_name,
       new_email: req.body.new_email,
@@ -61,12 +62,28 @@ router.get('/userdetails', (req,res)=>{
 })
 
 router.post('/userdetails', async (req,res)=>{
-    await userInfo.updateOne({_id: req.user._id}, {username: req.body.new_name, email: req.body.new_email})
+    const DoesEmailExist = userInfo.find({email: req.body.new_email});
+    if (Boolean(DoesEmailExist) == true && req.body.new_email != req.user.email) {
 
-    res.redirect('/logout')
+        res.redirect('/userpage/userdetails');
+        console.log("this email already exists!");
+    }
+
+    else if (req.body.new_email == req.user.email && req.body.new_name == req.user.username) {
+        res.redirect('/userpage/userdetails');
+        console.log("The information is the same as your old one!");
+    }
+
+    else {
+
+        await userInfo.updateOne({_id: req.user._id}, {username: req.body.new_name, email: req.body.new_email})
+
+        res.redirect('/users/logout')
+    }
+
+
 })
 
-=======
 const checkIfCompleted = (req,res,next)=>{
     if(!req.session.completedForm ||  req.session.completedForm == undefined){
         res.redirect('/userpage')
