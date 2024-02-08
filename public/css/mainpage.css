@@ -17,6 +17,8 @@
     color: var(--accent-color);
 
     padding: 1rem;
+
+    display: sticky;
 }
 
 .mainpage-navbar h1{
