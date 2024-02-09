@@ -55,13 +55,13 @@
                             <h4 style="margin: 0px"><%= result.typeOfInternship %></h4>
                             <a href="/userpage/businessProfile?business=<%= result.creator %>"><%= result.creatorName %></a>
                             <% if(result.workplaceType === "onsite"){%>
-                                <p><%= result.addressForWork%> (On-site)</p>
+                                <p>On-site</p>
                             <%} else {%>
                                 <p>Online</p>
                             <%}%>
     
                             <% if(result.wageType === "Paid"){%>
-                                <p><%= result.wage %> per hour</p>
+                                <p>Paid internship</p>
                             <%} else {%>
                                 <p>Unpaid internship</p>
                             <%}%>
@@ -70,7 +70,7 @@
                             <h2><%= result.nameOfInternship %></h2>
                             <a href="/userpage/businessProfile?business=<%= result.creator %>" style="margin: 0px"><%= result.creatorName %></a>
                             <% if(result.workplaceType === "onsite"){%>
-                                <h4><%= result.addressForWork%> (On-site)</h4>
+                                <h4>On-site</h4>
                             <%} else {%>
                                 <h4>Online</h4>
                             <%}%>
@@ -103,15 +103,49 @@
                         </div>
                     </div>
                 <%})%>
+            <%} else if (justAccesed){%>
+                <h2>Search for your dream internship</h2>
+            <%} else {%>
+                <h2>No results found</h2>
             <%}%>
         </section>
 
         <section>
-            <% if(numberOfPages != undefined){%>
-                <% numberOfPages.forEach((number)=>{%>
-                    <a href="/userpage/searchInternships?page=<%= number %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= number %></a>
-                <%})%>
-            <%}%>
+            <% if (numberOfPages != undefined) { %>
+                <% if(currentPage < 4){%>
+                    <% for (let i = 0; i < numberOfPages.length; i++) { %>
+                        <% if (i < 5 || i === numberOfPages.length - 1) { %>
+                            <a href="/userpage/searchInternships?page=<%= i + 1 %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= i + 1 %> </a>
+                        <% } else if (i === 5) { %>
+                            <a>...</a>
+                        <% } %>
+                    <% } %>
+                <%} else if (currentPage < numberOfPages.length){%>
+                    <a href="/userpage/searchInternships?page=1&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>">1 </a>
+                    <a>...</a>
+                    <a href="/userpage/searchInternships?page=<%= currentPage - 2%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage - 2 %> </a>
+                    <a href="/userpage/searchInternships?page=<%= currentPage - 1%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage - 1 %> </a>
+                    <a href="/userpage/searchInternships?page=<%= currentPage%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage%> </a>
+                    
+                    <% if(currentPage + 2 == numberOfPages.length) {%>
+                        <a href="/userpage/searchInternships?page=<%= currentPage +1 %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage + 1 %> </a>
+                        <a href="/userpage/searchInternships?page=<%= numberOfPages.length%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= numberOfPages.length %> </a>
+                    <%} else if (currentPage + 1 == numberOfPages.length){%>
+                        <a href="/userpage/searchInternships?page=<%= currentPage +1 %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage + 1 %> </a>
+                    <%} else {%>
+                        <a href="/userpage/searchInternships?page=<%= currentPage +1 %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage + 1 %> </a>
+                        <a href="/userpage/searchInternships?page=<%= currentPage + 2%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= currentPage + 2 %> </a>
+                        <a>...</a>
+                        <a href="/userpage/searchInternships?page=<%= numberOfPages.length%>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= numberOfPages.length %> </a>
+                    <%}%>
+                <%} else {%>
+                    <a href="/userpage/searchInternships?page=1&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>">1 </a>
+                    <a>...</a>
+                    <% for(let i = currentPage - 4; i < numberOfPages.length; i++) {%>
+                        <a href="/userpage/searchInternships?page=<%= i + 1 %>&searchBar=<%= searchBar %>&internshipChoices=<%= internshipChoices %>&placementType=<%= placementType %>&wageType=<%= wageType %>&shiftStart=<%= shiftStart %>&shiftEnd=<%= shiftEnd %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= i + 1 %> </a>
+                    <%}%>
+                <%}%>
+            <% } %>
         </section>
     </body>
     <script>
