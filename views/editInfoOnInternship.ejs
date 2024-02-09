@@ -5,7 +5,7 @@
     </head>
 
     <body>
-        <form>
+        <form action = "/userpage/editInformation/editInfo" method="post">
             <label>Name of internship:</label><br>
             <input type="text" name = "nameOfInternship" value="<%= internshipInfo.nameOfInternship%>"><br><br>
 
@@ -16,14 +16,40 @@
 
             <br><br><label>Payment type:</label><br>
             <% if(internshipInfo.wageType === "Unpaid"){%>
-                <input type="radio" value="Unpaid" checked="checked"><label>Unpaid</label>
-                <input type="radio" value="Paid"><label>Paid</label>
+                <input type="radio" value="Unpaid" checked="checked" name = "wageType"><label>Unpaid</label>
+                <input type="radio" value="Paid" name = "wageType"><label>Paid</label>
             <%} else {%>
-                <input type="radio" value="Unpaid"><label>Unpaid</label>
-                <input type="radio" value="Paid" checked="checked"><label>Paid</label>
+                <input type="radio" value="Unpaid" name = "wageType"><label>Unpaid</label>
+                <input type="radio" value="Paid" checked="checked" name = "wageType"><label>Paid</label>
             <%}%>
 
-            <br><br><label></label>
+            <br><br><label>Work hours:</label><br>
+            <% if(internshipInfo.internshipTypeForWorking === "Full-Time"){%>
+                <input type="radio" value="Full-Time" checked="checked" name = "internshipTypeForWorking"><label>Full-Time</label>
+                <input type="radio" value="Part-Time" name = "internshipTypeForWorking"><label>Part-Time</label>
+            <%} else {%>
+                <input type="radio" value="Full-Time" name="internshipTypeForWorking"><label>Full-Time</label>
+                <input type="radio" value="Part-Time" checked="checked" name="internshipTypeForWorking"><label>Part-Time</label>
+            <%}%>
+
+            <br><label>Shift start: </label><br><input type="time" value="<%= internshipInfo.shiftStart%>" name="shiftStart"><br>
+            <br><label>Shift end: </label><br><input type="time" value="<%= internshipInfo.shiftEnd%>" name="shiftEnd"><br>
+
+            <br><label>Start date: </label><br><input type="date" value="<%= internshipInfo.startDate%>" name="startDate"><br>
+            <br><label>End date: </label><br><input type="date" value="<%= internshipInfo.endDate%>" name="endDate">
+
+            <br><br><label>Work placement type:</label><br>
+            <% if(internshipInfo.workplaceType === "online"){%>
+                <input type="radio" value="online" checked="checked" name="workplaceType"><label>Online</label>
+                <input type="radio" value="onsite" name="workplaceType"><label>On-site</label>
+            <%} else {%>
+                <input type="radio" value="onsite" name="workplaceType"><label>On-site</label>
+                <input type="radio" value="online" checked="checked" name = "workplaceType"><label>Online</label>
+            <%}%>
+
+            <input type="hidden" name="id" value = "<%= id %>">
+
+            <br><br><button type="submit">Submit changes</button>
         </form>
     </body>
 </html>

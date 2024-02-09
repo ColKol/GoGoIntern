@@ -14,9 +14,6 @@ const stemmer= natural.PorterStemmer;
 
 const { getDB } = require('../databased/database')
 
-
-// const { userRestriction } = require('..//config/userRestriction')
-
 const mongodb = require('mongodb')
 const fs = require('fs');
 const assert = require('assert')
@@ -24,6 +21,7 @@ const assert = require('assert')
 const { studentInfo } = require('../config/studentInfo');
 
 const passport = require('..//config/cookie+registration');
+const { isNullOrUndefined } = require('util');
 
 router.use(cookieParser())
 
@@ -187,6 +185,17 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
         filter.shiftEnd = {$lte: shiftEnd}
     }
 
+    console.log(Object.keys(req.query).length)
+
+    if(Object.keys(req.query).length == 1 && req.query.hasOwnProperty("page")){
+        return res.render('searchInternships',{
+            searchResults: undefined,
+            currentPage: 1,
+            numberOfPages: undefined,
+            justAccesed: true
+        })
+    }
+
 
     if(req.query.searchBar != undefined){
         const query = stemmer.stem(req.query.searchBar)
@@ -195,9 +204,16 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
         filter.personWhoSignedUp = undefined;
         console.log(filter)
         searchQuery = await internshipCreator.find(filter).skip(skipItems).limit(itemsPerPage);
+
+        if(searchQuery.length == 0){
+            return res.render('searchInternships',{
+                searchResults: undefined,
+                currentPage:1,
+                numberOfPages: undefined,
+                justAccesed: false
+            })
+        }
         numberOfInternships = await internshipCreator.countDocuments(filter)
-
-
 
         searchQuery.forEach(async (sQuery)=>{
             queryNames.push(sQuery)
@@ -211,9 +227,10 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
 
         pageCount.shift();
 
+
         res.render('searchInternships',{
             searchResults: queryNames,
-            currentPage: req.query.page,
+            currentPage: parseInt(req.query.page),
             searchBar: req.query.searchBar,
             placementType: placementType,
             internshipChoices: internshipChoices,
@@ -228,7 +245,8 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
         res.render('searchInternships',{
             searchResults: searchQuery,
             currentPage: 1,
-            numberOfPages: undefined
+            numberOfPages: undefined,
+            justAccesed: false
         })
     }
 })
@@ -293,7 +311,6 @@ router.post('/signup', checkUserType('student'), async(req,res)=>{
             from: process.env.Verification_Bot_Email,
             to: emailForFirms.email,
             subject: 'Application for '+signupFormat.nameOfInternship,
-            // text: req.body.bodyOfEmail,
             html: htmlString,
             attachments: [{
               filename: req.user.username+"'s Cirriculum Vitae.pdf",
@@ -335,15 +352,36 @@ router.get('/editInformation', checkUserType('business'), async (req,res)=>{
     let foundInternships = await internshipCreator.find({creator: req.user._id})
     res.render('internshipEdit', {
         foundInternships: foundInternships,
-        internshipDelete: req.session.internshipDelete
+        internshipDelete: req.session.internshipDelete,
+        internshipEdit: req.session.internshipEdit,
     })
 })
 
 router.get('/editInformation/editInfo', checkUserType('business'), async (req,res)=>{
     let internshipInfo = await internshipCreator.findOne({_id: req.query.info})
     res.render('editInfoOnInternship',{
-        internshipInfo: internshipInfo
+        internshipInfo: internshipInfo,
+        id: req.query.info
     })
+})
+
+router.post('/editInformation/editInfo', checkUserType('business'), async (req,res)=>{
+    let {id, nameOfInternship, internshipType, wageType, internshipTypeForWorking, shiftStart, shiftEnd, startDate, endDate, workplaceType} = req.body
+
+    await internshipCreator.updateOne({_id: id}, {
+        nameOfInternship: nameOfInternship, 
+        internshipType: internshipType, 
+        wageType: wageType,
+        internshipTypeForWorking: internshipTypeForWorking,
+        shiftStart: shiftStart,
+        shiftEnd: shiftEnd,
+        startDate: startDate, 
+        endDate: endDate,
+        workplaceType: workplaceType
+    })
+
+    req.session.internshipEdit = true;
+    res.redirect('/userpage/editInformation')
 })
 
 router.get('/editInformation/deleteInfo', checkUserType('business'), async(req,res)=>{

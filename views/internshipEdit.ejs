@@ -9,6 +9,12 @@
         <% if(internshipDelete){%>
             <h2>Successfully deleted the internship opportunity!</h2>
         <%}%>
+
+        <% if(internshipEdit){%>
+            <h2>Successfully edited the internship opportunity!</h2>
+        <%}%>
+
+
         <% if(foundInternships != undefined){%>
             <%foundInternships.forEach((internship)=>{%>
                 <div style="background-color: rgb(151, 151, 224);">
@@ -16,16 +22,18 @@
                     <% if(internship.personWhoSignedUp === undefined){%>
                         <h3>Status: No signups</h3>
                     <%} else {%>
-                        <h3>Status: Someone has signed up!</h3>
+                        <h3>Status: Someone has signed up! Please check your email!</h3>
                     <%}%>
 
                     <h3><%= internship.internshipTypeForWorking%></h3>
                     <%internship.typeOfInternship.forEach((type)=>{%>
                         <p><%= type %></p>
                     <%})%>
-
-                    <a href = "/userpage/editInformation/editInfo?info=<%= internship._id%>">Edit information</a><br>
-                    <a href="/userpage/editInformation/deleteInfo?info=<%= internship._id%>">Delete internship</a>
+                    
+                    <% if(internship.personWhoSignedUp === undefined){%>
+                        <a href = "/userpage/editInformation/editInfo?info=<%= internship._id%>">Edit information</a><br>
+                        <a href="/userpage/editInformation/deleteInfo?info=<%= internship._id%>">Delete internship</a>
+                    <%}%>
                 </div><br><br>
             <%})%>
         <%} else {%>
