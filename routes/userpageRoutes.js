@@ -51,8 +51,7 @@ router.get('/userdetails', (req,res)=>{
       ps: req.user.password,
       userType: req.user.userType,
   
-      new_name: req.body.new_name,
-      new_email: req.body.new_email,
+      fields: req.user.interests,
     })
 })
   

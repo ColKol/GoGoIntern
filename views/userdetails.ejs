@@ -41,8 +41,12 @@
             </div>
         </form>
 
-            <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
+        <% if (userType == "Student") { %>
+        <form>
+            <div class = "metrics" style="flex-direction: column; width: 70vmax;">
+
                 <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Interested fields</h2>
+
                 <div class = "dropdown">
                     <div style="display: flex; flex-direction: row;">
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -103,19 +107,31 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Biology
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Biology")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Physics
-                                        <input type="checkbox">
-                                    </div>
+                                        <% if (fields.includes("Physics")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%> 
+                                    </div>                                 
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Chemistry
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Chemistry")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                             </div>
@@ -128,13 +144,21 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Healthcare
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Healthcare")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Hospitality
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Hospitality")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                             </div>
@@ -147,19 +171,28 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                          Data Analysis
-                                        <input type="checkbox">
+                                         <% if (fields.includes("Data")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                   
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Cryptography
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Cryptography")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
     
                             </div>
                         </div>
                     </div>
+
                     <div style="display: flex; flex-direction: row; margin-top: 10px;">
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
@@ -168,13 +201,21 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Design
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Design")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Technology
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Tech")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                             </div>
@@ -187,13 +228,21 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Artifical Intellegence
-                                        <input type="checkbox">
+                                        <% if (fields.includes("AI")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Engineering
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Engineering")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
     
@@ -207,26 +256,41 @@
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Finance
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Finance")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Marketing
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Marketing")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         FinTech
-                                        <input type="checkbox">
+                                        <% if (fields.includes("Fintech")) { %>
+                                            <input type="checkbox" checked>
+                                        <%} else { %>
+                                            <input type = "checkbox">
+                                        <%}%>                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <button>Update</button>
             </div>
+        </form>
+        <% } %>
 
 
 
