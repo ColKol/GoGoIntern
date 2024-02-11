@@ -54,10 +54,15 @@ router.get('/userdetails', (req,res)=>{
       fields: req.user.interests,
     })
 })
-  
+
+
 
 router.get('/userdetails', (req,res)=>{
     res.render('userdetails')
+})
+
+router.get('/index', (req, res) => {
+    res.render('index')
 })
 
 router.post('/userdetails', async (req,res)=>{
@@ -82,6 +87,35 @@ router.post('/userdetails', async (req,res)=>{
 
 
 })
+
+router.get('/userpage', (res,req) => {
+
+    var userinterests = req.user.interests
+    var recommended = 0
+    for (let i = 0; i < user.interests.length; i++) {
+        if (recommended == 6 || Boolean(DoesInternshipContainInterest) == false) {
+            break;
+        }
+
+        else {
+            const DoesInternshipContainInterest = req.internshipCreator.findOne({"typeofInternship": `${userinterests[i]}`});
+            recommended += 1
+        }
+    }
+
+    res.render('userpage', {
+        InternshipName: req.internshipCreator.name,
+        creator: req.internshipCreator.creator,
+        moneymoneymoney: req.internshipCreator.wage,
+        type: req.internshipCreator.type,
+        description: req.internshipCreator.description
+        
+    })
+})
+
+
+
+
 
 const checkIfCompleted = (req,res,next)=>{
     if(!req.session.completedForm ||  req.session.completedForm == undefined){
