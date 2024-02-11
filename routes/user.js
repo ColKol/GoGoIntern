@@ -105,22 +105,7 @@ router.get('/register/newUser', (req,res)=>{
 })
 
 router.post('/register/newUser', async (req, res, next)=>{
-  if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
-  {
-    return res.json({"responseError" : "uh oh!"});
-  }
-  const secretKey = process.env.Recaptcha_Secret_Key;
-
-  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
-  request(verificationURL,function(error,response,body) {
-    body = JSON.parse(body);
-    console.log(body);
-    if(body.success !== undefined && !body.success) {
-      return res.json({"responseError" : "Failed captcha verification"});
-    }
-    res.json({"responseSuccess" : "Sucess"});
-  });
-
+  async function verifyEmail(){
     const {name, email, password} = req.body;
     let errors = [];
     let usernameReq
@@ -157,7 +142,37 @@ router.post('/register/newUser', async (req, res, next)=>{
         username: usernameReq,
         errors
       })
-    } 
+    }
+  }
+
+
+  // the captcha
+
+  // if captcha did not have anything, error
+  if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
+  {
+    return res.json({"responseError" : "uh oh!"});
+  }
+
+  // getting the recaptca secret key from the .env file
+  const secretKey = process.env.Recaptcha_Secret_Key;
+
+  console.log(req.body['g-recaptcha-response'])
+
+  // verifying captcha using secrete key
+  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  request(verificationURL, function(error,response,body) {
+    body = JSON.parse(body);
+    console.log(body);
+
+    // if not successful
+    if(body.success !== undefined && !body.success) {
+      return res.json({"success": false, "msg":"failed captcha verification"});
+    }
+    //return res.json({"success": true, "msg":"you're in!"});
+
+    verifyEmail();
+  });
 });
 
 router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, async (req, res) => {
