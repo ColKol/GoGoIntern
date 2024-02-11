@@ -7,7 +7,7 @@
     <body>
         <form action = "/userpage/searchInternships" method="get">
             <input type="search" name="searchBar">
-            <input type="hidden" name="page" value="<%= currentPage %>">
+            <input type="hidden" name="page" value="<%= startPage %>">
             <button type="button" onclick="showFilterOptions()">Filter</button>
             <button type="submit">Search</button>
 
@@ -38,9 +38,11 @@
                 <ul>
                     <li><label>From: </label><input type="time" name="shiftStart"><br></li>
                     <li><label>To: </label><input type="time" name="shiftEnd"><br><br></li>
-                    <li><label>Start date: </label><input type="date" name="startDate"><br></li>
-                    <li><label>End date: </label><input type="date" name="endDate"><br><br></li>
+                    <li><label>Start date: </label><input type="date" name="startDate" id="startDate"><br></li>
+                    <li><label>End date: </label><input type="date" name="endDate" id="endDate"><br><br></li>
                 </ul>
+
+                <button type="reset">Reset filters</button>
 
             </section><br>
         </form>
@@ -85,8 +87,8 @@
                             </ul>
     
                             <h3>Schedule for the internship:</h3>
-                            <p>Starting date: <%= result.startDate%></p>
-                            <p>Starting date: <%= result.endDate%></p>
+                            <p>Starting date: <%= result.startDate.toLocaleDateString()%></p>
+                            <p>Starting date: <%= result.endDate.toLocaleDateString()%></p>
     
                             <h3 style="margin: 0px;">Shift:</h3>
                             <p style="margin: 0px;">From: <%= result.shiftStart %></p>
@@ -94,9 +96,13 @@
     
                             <h3 style="margin: 0px;">Screening questions:</h3>
                             <ul style="margin: 0px;">
-                                <% result.screeningQuestions.forEach((question)=>{%>
-                                    <li><%= question %></li>
-                                <%})%>
+                                <% if (result.screeningQuestions.length === 1 && result.screeningQuestions[0] === ""){%>
+                                    <li>None</li>
+                                <%} else {%>
+                                    <% result.screeningQuestions.forEach((question)=>{%>
+                                        <li><%= question %></li>
+                                    <%})%>
+                                <%}%>
                             </ul><br><br>
 
                             <a href="/userpage/signUp?signupForm=<%= result._id%>">Sign up for this internship</a>
@@ -166,5 +172,8 @@
                 extraInfo.style.display = "none"
             }
         }
+
+        startDate.min = new Date().toLocaleDateString('fr-ca')
+        endDate.min = new Date(Date.now() +60*1000*60*24).toLocaleDateString('fr-ca')
     </script>
 </html>

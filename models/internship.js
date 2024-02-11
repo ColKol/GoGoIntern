@@ -1,87 +1,92 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const internshipSchema = new mongoose.Schema({
-    creator:{
+    creator: {
         type: String,
         required: true
     },
 
-    creatorName:{
-        type:String,
-        required: true
-    },
-
-    nameOfInternship:{
+    creatorName: {
         type: String,
         required: true
     },
 
-    typeOfInternship:{
-        type:Array,
-        required: true,
-    },
-
-    internshipTypeForWorking:{
+    nameOfInternship: {
         type: String,
         required: true
     },
 
-    wageType:{
-        type: String,
-        required: true
-    },
-
-    wage:{
-        type: String
-    },
-    
-    description:{
-        type:String,
-        required: true,
-    },
-
-    skillsRequired:{
+    typeOfInternship: {
         type: Array,
         required: true,
     },
 
-    workplaceType:{
+    internshipTypeForWorking: {
         type: String,
         required: true
     },
 
-    addressForWork:{
+    wageType: {
+        type: String,
+        required: true
+    },
+
+    wage: {
         type: String
     },
 
-    shiftStart:{
-        type:String,
-        required: true
-    },
-    
-    shiftEnd:{
-        type: String,
-        required: true
-    },
-
-    startDate:{
+    description: {
         type: String,
         required: true,
     },
 
-    endDate:{
-        type: String,
+    skillsRequired: {
+        type: Array,
         required: true,
     },
 
-    screeningQuestions:{
+    workplaceType: {
+        type: String,
+        required: true
+    },
+
+    addressForWork: {
+        type: String
+    },
+
+    shiftStart: {
+        type: String,
+        required: true
+    },
+
+    shiftEnd: {
+        type: String,
+        required: true
+    },
+
+    startDate: {
+        type: Date,
+        required: true,
+    },
+
+    endDate: {
+        type: Date,
+        required: true,
+    },
+
+    screeningQuestions: {
         type: Array,
         required: true
     },
 
-    personWhoSignedUp:{
-        type:String
+    personWhoSignedUp: {
+        type: String
     }
-})
-const internshipCreator = mongoose.model('internshipCreator', internshipSchema)
-module.exports = internshipCreator
+});
+
+internshipSchema.virtual('isOver').get(function () {
+  return Date.now() > this.startDate;
+});
+
+const internshipCreator = mongoose.model('internshipCreator', internshipSchema);
+module.exports = internshipCreator;
