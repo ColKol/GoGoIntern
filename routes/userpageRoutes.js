@@ -133,7 +133,7 @@ router.post('/createOpportunity', checkUserType('business'), (req,res)=>{
         shiftEnd: req.body.timeEnd,
         startDate: req.body.dateStart,
         endDate: req.body.dateEnd,
-        screeningQuestions: req.body.question
+        screeningQuestions: req.body.question,
     })
 
     newInternship.save();
@@ -167,6 +167,8 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
 
     if(startDate){
         filter.startDate = {$gte: startDate}
+    } else {
+        filter.startDate = {$gte: new Date}
     }
 
     if(endDate){
@@ -190,6 +192,7 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
     if(Object.keys(req.query).length == 1 && req.query.hasOwnProperty("page")){
         return res.render('searchInternships',{
             searchResults: undefined,
+            startPage: 1,
             currentPage: 1,
             numberOfPages: undefined,
             justAccesed: true
@@ -202,12 +205,14 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
         const searchedItem = new RegExp(query, 'i')
         filter.nameOfInternship = searchedItem;
         filter.personWhoSignedUp = undefined;
+        filter.isOver = undefined;
         console.log(filter)
         searchQuery = await internshipCreator.find(filter).skip(skipItems).limit(itemsPerPage);
 
         if(searchQuery.length == 0){
             return res.render('searchInternships',{
                 searchResults: undefined,
+                startPage: 1,
                 currentPage:1,
                 numberOfPages: undefined,
                 justAccesed: false
@@ -230,6 +235,7 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
 
         res.render('searchInternships',{
             searchResults: queryNames,
+            startPage: 1,
             currentPage: parseInt(req.query.page),
             searchBar: req.query.searchBar,
             placementType: placementType,
@@ -244,6 +250,7 @@ router.get('/searchInternships', checkUserType('student'),async (req,res)=>{
     } else {
         res.render('searchInternships',{
             searchResults: searchQuery,
+            startPage: 1,
             currentPage: 1,
             numberOfPages: undefined,
             justAccesed: false
