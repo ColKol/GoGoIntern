@@ -47,12 +47,14 @@
                 <label for = "cookie" style="font-size: 30px; margin-right: 4px;">Remember me</label>
                 <input type = "checkbox" id = "remember" name = "remember">
             </section>
-
-            <div
-            class="g-recaptcha"
-            data-sitekey="6Ldw7mgpAAAAACRvx8hHLT3-8DelgF0BnoulkNyk"
-            data-callback="canSubmit">
-            </div>
+            
+            <section style="align-items: center;">
+                <div
+                class="g-recaptcha"
+                data-sitekey="6Ldw7mgpAAAAACRvx8hHLT3-8DelgF0BnoulkNyk"
+                data-callback="canSubmit">
+                </div>
+            </section>
 
             <button type="submit" style="font-size: 22px;" disabled id="signin-button">Sign up</button>
 
@@ -68,7 +70,6 @@
             function canSubmit(token) {
                 const submitButton = document.getElementById("signin-button");
                 submitButton.removeAttribute("disabled");
-                console.log(token);
             }
         </script>
     </body>
