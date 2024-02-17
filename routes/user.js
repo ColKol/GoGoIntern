@@ -145,13 +145,11 @@ router.post('/register/newUser', async (req, res, next)=>{
     }
   }
 
-
   // the captcha
-
-  // if captcha did not have anything, error
+  // if captcha didn't have anything, send the user back to registration page
   if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
   {
-    return res.json({"responseError" : "uh oh!"});
+    return res.redirect('/users/register');
   }
 
   // getting the recaptca secret key from the .env file
@@ -159,8 +157,8 @@ router.post('/register/newUser', async (req, res, next)=>{
 
   //console.log(req.body['g-recaptcha-response'])
 
-  // verifying captcha using secrete key
-  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  // verifying captcha using secret key
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=req.socket.remoteAddress`;
   request(verificationURL, function(error,response,body) {
     body = JSON.parse(body);
     console.log("recaptcha test results:");
@@ -168,7 +166,7 @@ router.post('/register/newUser', async (req, res, next)=>{
 
     // if not successful
     if(body.success !== undefined && !body.success) {
-      return res.json({"success": false, "msg":"failed captcha verification"});
+      return res.redirect('/users/register'); //res.json({"success": false, "msg":"failed captcha verification"});
     }
     //return res.json({"success": true, "msg":"you're in!"});
 
