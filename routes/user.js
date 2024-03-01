@@ -397,6 +397,12 @@ router.get('/login/redirect', (req,res)=>{
     })
 })
 
+// forgot password
+router.get('/forgotPassword', (req,res)=>{
+  console.log("forgor amogus")
+  return res.redirect("./forgotPassword1")
+})
+
 // Logout handle
 router.get('/logout', function(req, res,next) {
     req.logout(function(err){
