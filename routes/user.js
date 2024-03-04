@@ -32,7 +32,7 @@ const request = require('request');
 //Verification middleware to make sure users can't just access it regularly
 const verifyRegistration = (req, res, next) => {
 
-    if(!req.session.newUser) {
+    if(!req.session.newEmail && !req.session.newUser) {
         console.log("Restricted access")
         return res.redirect('/users/register');
     }
@@ -43,11 +43,17 @@ const verifyRegistration = (req, res, next) => {
 
 //Checking if the person already has a verification code in the database, and removing it so that there are no copies
 const checkIfVerificationCodeExists = async (req, res, next) => {
+  let userEmail;
     try {
-      const user = await verificationCodes.findOne({ email: req.session.newUser.email });
+      if(!req.session.newUser){
+        userEmail = req.user
+      } else {
+        userEmail = req.session.newUser
+      }
+      const user = await verificationCodes.findOne({ email: userEmail.email });
       if (user) {
         console.log("its real");
-        await verificationCodes.deleteOne({ email: req.session.newUser.email });
+        await verificationCodes.deleteOne({ email: userEmail.email });
       }
       next();
     } catch (error) {
@@ -177,9 +183,14 @@ router.post('/register/newUser', async (req, res, next)=>{
 });
 
 router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, async (req, res) => {
-    const newUser = req.session.newUser;
+    let newUser
     let error = req.query.failed;
     const key = Math.floor(Math.random() * (9999 - 1000) + 1000);
+    if(req.session.newUser){
+      newUser = req.session.newUser
+    } else {
+      newUser = req.session.newUserInfo
+    }
     const TheVerificationCode = new verificationCodes({
       email: newUser.email,
       verificationCode: key
@@ -236,6 +247,9 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
     const TheVerificationCode1 = req.session.TheVerificationCode;
 
     if (req.body.num === String(TheVerificationCode1.verificationCode)){
+      if(req.session.newEmail){
+        await userInfo.updateOne({_id: req.user._id}, {email: req.session.newUserInfo.email, username: req.session.newUserInfo.username})
+      } else {
         var implementUser = new userInfo ({
             userType: newUserObj.userType,
             username: newUserObj.username,
@@ -253,14 +267,21 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
                 implementUser.save();
             })
         })
+      }
 
         verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
             console.log("it worked?")
-            if(implementUser.userType === "student"){
-                res.redirect('/users/registration/studentQuestionnare')
-            } else if(implementUser.userType === "business"){
-                res.redirect('/users/registration/businessQuestionnare')
-            }
+
+          if(req.session.newEmail){
+            req.session.newEmail = false;
+            return res.redirect('/userpage')
+          }
+
+          if(implementUser.userType === "student"){
+              return res.redirect('/users/registration/studentQuestionnare')
+          } else if(implementUser.userType === "business"){
+              return res.redirect('/users/registration/businessQuestionnare')
+          }
         })
 
     } else {

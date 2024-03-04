@@ -4,6 +4,7 @@ const { ensureAuthenticated } = require('../config/ensureUserIsLoggedIn')
 const { checkIfStudentInfoThere } = require('../config/checkIfStudentInfoThere')
 const cookieParser = require('cookie-parser')
 const nodemailer = require('nodemailer');
+const internshipCreator = require('..//models/internship')
 
 router.use(cookieParser())
 const { getDB } = require('../databased/database')
@@ -34,8 +35,33 @@ router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=
         email: req.user.email,
         userType: req.user.userType
     })
-    req.session.completedForm = false;
 })
+
+// router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async (req,res)=>{
+//     let recommendedCourses = []
+//     console.log(req.user.interests)
+
+//     const recommended = await internshipCreator.find({typeOfInternship: {
+//         $in: req.user.interests
+//       }}).limit(6)
+
+//     recommended.forEach(async (reccomend)=>{
+//         recommendedCourses.push(reccomend)
+//     })
+
+//     recommendedCourses.forEach((course)=>{
+//         console.log(course.creatorName)
+//     })
+
+//     res.render('userpage', {
+//         name: req.user.username,
+//         email: req.user.email,
+//         userType: req.user.userType,
+//         internships: recommendedCourses
+//     })
+
+//     req.session.completedForm = false;
+// })
 
 
 //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
