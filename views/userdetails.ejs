@@ -22,6 +22,10 @@
             <h1>nternalyse</h1>
         </div>
 
+        <% if (passwordCheck){%>
+            <h2>Email has been sent to change your password</h2>
+        <%}%>
+
         <form action = "/userpage/userdetails" method = "post">
             <div class = "metrics" style=" width: 70vmax; flex-direction: column;">
                 <div style="display: flex; flex-direction: row;">
@@ -31,27 +35,29 @@
                     <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "new_name" value= "<%= name %>" required>
                 </div>
                 <div style="display: flex; flex-direction: row;">
-                    <a class = "words">Email:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" name = "new_email" id = "new_email" type = "text" value= "<%= email %>" required>
+                    <a class = "words">Email:</a><input type="email" class = "words inputs" style="font-size: 0.6em; width: 30vmax;" name = "new_email" id = "new_email" type = "text" value= "<%= email %>" required>
                 </div>
                 <div style="display: flex; flex-direction: row;">
                     <a class = "words">Password: ********</a>
-                    <a class = "passwordbutton">Change password</a>
+                    <a class = "passwordbutton" href="/userpage/userdetails?changepassword=true">Change password</a>
                 </div>
-                <button id = "Updateinformation" type="submit">Update
             </div>
-        </form>
 
-        <% if (userType == "Student") { %>
-        <form>
             <div class = "metrics" style="flex-direction: column; width: 70vmax;">
 
-                <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Interested fields</h2>
+                <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">
+                    <% if(userType == "student"){%>
+                        Interested fields
+                    <%} else {%>
+                        Business fields
+                    <%}%>
+                </h2>
 
                 <div class = "dropdown">
                     <div style="display: flex; flex-direction: row;">
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Languages spoken</a>
+                            <!-- <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Languages spoken</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
@@ -96,21 +102,21 @@
                                         <input style="width: 5vmax;">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
     
     
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(1)">Research</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Research</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Biology
                                         <% if (fields.includes("Biology")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Biology"type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Biology" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -118,9 +124,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Physics
                                         <% if (fields.includes("Physics")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Physics" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Physics" type = "checkbox">
                                         <%}%> 
                                     </div>                                 
                                 </div>
@@ -128,9 +134,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Chemistry
                                         <% if (fields.includes("Chemistry")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Chemistry" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Chemistry" name = "InterestedFields" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -139,15 +145,15 @@
     
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(2)">Service</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(1)">Service</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Healthcare
                                         <% if (fields.includes("Healthcare")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Healthcare"type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Healthcare" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -155,9 +161,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Hospitality
                                         <% if (fields.includes("Hospitality")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Hospitality" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Hospitality" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -166,15 +172,15 @@
                         
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(3)">Mathematics</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(2)">Mathematics</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                          Data Analysis
                                          <% if (fields.includes("Data")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Data" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Data" type = "checkbox">
                                         <%}%>                                   
                                     </div>
                                 </div>
@@ -182,9 +188,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Cryptography
                                         <% if (fields.includes("Cryptography")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Cryptography" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Cryptography" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -196,15 +202,15 @@
                     <div style="display: flex; flex-direction: row; margin-top: 10px;">
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(4)">Design technologies</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(3)">Design technologies</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Design
                                         <% if (fields.includes("Design")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Design" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Design" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -212,9 +218,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Technology
                                         <% if (fields.includes("Tech")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Tech" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Tech" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -223,15 +229,15 @@
                         
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(5)">Computer Science</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(4)">Computer Science</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Artifical Intellegence
                                         <% if (fields.includes("AI")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "AI" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "AI" type = "checkbox">
                                         <%}%>
                                     </div>
                                 </div>
@@ -239,9 +245,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Engineering
                                         <% if (fields.includes("Engineering")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Engineering" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Engineering" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -251,15 +257,15 @@
     
                         <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
     
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(6)">Finances</a>
+                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(5)">Finances</a>
                             <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
                                 <div style="display:flex; flex-direction: row;">
                                     <div class = "dropdown-content-content-content">
                                         Finance
                                         <% if (fields.includes("Finance")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Finance" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Finance" type = "checkbox">
                                         <%}%>
                                     </div>
                                 </div>
@@ -267,9 +273,9 @@
                                     <div class = "dropdown-content-content-content">
                                         Marketing
                                         <% if (fields.includes("Marketing")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Marketing" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Marketing" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -277,9 +283,9 @@
                                     <div class = "dropdown-content-content-content">
                                         FinTech
                                         <% if (fields.includes("Fintech")) { %>
-                                            <input type="checkbox" checked>
+                                            <input name = "InterestedFields" value = "Fintech" type="checkbox" checked>
                                         <%} else { %>
-                                            <input type = "checkbox">
+                                            <input name = "InterestedFields" value = "Fintech" type = "checkbox">
                                         <%}%>                                    
                                     </div>
                                 </div>
@@ -287,14 +293,10 @@
                         </div>
                     </div>
                 </div>
-                <button>Update</button>
+                <button id = "Updateinformation" type="submit">Update</button>
             </div>
         </form>
-        <% } %>
 
-
-
-        
 
         <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
             <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Other</h2>

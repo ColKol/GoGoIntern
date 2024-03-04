@@ -41,16 +41,103 @@ const checkUserType = (requiredUserType) => {
     };
 };
 
+const changedPasswordChecker = (req,res,next) =>{
+    if(!req.session.changedPassword){
+        return res.redirect("/userpage/userdetails")
+    } else {
+        next();
+    }
+}
+
 
 router.get('/userdetails', (req,res)=>{
+    if(req.query.changepassword){
+        req.session.changedPassword = true;
+        res.clearCookie("userInfo")
+        try {
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: process.env.Verification_Bot_Email,
+                pass: process.env.Verification_Bot_pass
+              }
+            });
+      
+            var mailOptions = {
+              from: process.env.Verification_Bot_Email,
+              to: req.user.email,
+              subject: 'Renewal of password',
+              html: '<p>Click <a href ="http://localhost:3000/userpage/reset/password">here</a> to change your password'
+                
+            };
+        
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+            })     
+        } catch (error) {
+            console.error(error);
+            res.redirect('/users/register');
+        }
+    }
+
     res.render('userdetails', {
       name: req.user.username,
       email: req.user.email,
       ps: req.user.password,
       userType: req.user.userType,
-  
       fields: req.user.interests,
+      passwordCheck: req.query.changepassword
     })
+})
+
+router.post('/userdetails', async (req,res)=>{
+
+    if(req.body.new_email != req.user.email){
+        await userInfo.findOne({email: req.body.new_email}).then((user)=>{
+            if(!user){
+                req.session.newEmail = true;
+                req.session.newUserInfo = {
+                    username: req.body.new_name,
+                    email: req.body.new_email
+                }
+                res.redirect("/users/verification")
+            } else {
+                res.redirect('/userpage/userdetails')
+            }
+        })
+    } else {
+        await userInfo.updateOne({_id: req.user._id}, {interests: req.body.InterestedFields}).then(()=>{
+            res.redirect('/userpage/userdetails')
+        })
+    }
+})
+
+router.get("/reset/password", changedPasswordChecker, (req,res)=>{
+    res.render("resetPassword",{
+        failed: req.query.failed
+    })
+})
+
+router.post("/reset/password", changedPasswordChecker, async (req,res)=>{
+    if(req.body.password1 != req.body.password2){
+        res.redirect("/userpage/reset/password?failed=true")
+    } else {
+        bcrypt.genSalt(10, (err, salt)=>{
+            bcrypt.hash(req.body.password2, salt, async(err, hash)=>{
+                if (err) throw err;
+                else{
+                    req.session.changedPassword = false;
+                    await userInfo.findByIdAndUpdate({_id: req.user._id},{password: hash}).then(()=>{
+                        res.redirect("/users/logout")
+                    })
+                }
+            })
+        })
+    }
 })
 
 
@@ -63,28 +150,28 @@ router.get('/index', (req, res) => {
     res.render('index')
 })
 
-router.post('/userdetails', async (req,res)=>{
-    const DoesEmailExist = userInfo.find({email: req.body.new_email});
-    if (Boolean(DoesEmailExist) == true && req.body.new_email != req.user.email) {
+// router.post('/userdetails', async (req,res)=>{
+//     const DoesEmailExist = userInfo.find({email: req.body.new_email});
+//     if (Boolean(DoesEmailExist) == true && req.body.new_email != req.user.email) {
 
-        res.redirect('/userpage/userdetails');
-        console.log("this email already exists!");
-    }
+//         res.redirect('/userpage/userdetails');
+//         console.log("this email already exists!");
+//     }
 
-    else if (req.body.new_email == req.user.email && req.body.new_name == req.user.username) {
-        res.redirect('/userpage/userdetails');
-        console.log("The information is the same as your old one!");
-    }
+//     else if (req.body.new_email == req.user.email && req.body.new_name == req.user.username) {
+//         res.redirect('/userpage/userdetails');
+//         console.log("The information is the same as your old one!");
+//     }
 
-    else {
+//     else {
 
-        await userInfo.updateOne({_id: req.user._id}, {username: req.body.new_name, email: req.body.new_email})
+//         await userInfo.updateOne({_id: req.user._id}, {username: req.body.new_name, email: req.body.new_email})
 
-        res.redirect('/users/logout')
-    }
+//         res.redirect('/users/logout')
+//     }
 
 
-})
+// })
 
 router.get('/userpage', (res,req) => {
 
@@ -140,6 +227,7 @@ router.get('/createOpportunity', checkUserType('business'), (req,res)=>{
 })
 
 router.post('/createOpportunity', checkUserType('business'), (req,res)=>{
+    //Note to self (and team), make a option for flexible work periods!!!
     const checkedValues = [];
     const shiftArray = [];
     Object.keys(req.body).forEach(key => {
