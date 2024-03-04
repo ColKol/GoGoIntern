@@ -397,14 +397,23 @@ router.get('/login/redirect', (req,res)=>{
     })
 })
 
+/*
 // forgot password
 router.get('/forgotPassword', (req,res)=>{
-  console.log("forgor amogus")
-  return res.redirect("./forgotPassword1")
+  console.log("sending user to forgot password page!")
+  return res.redirect('/users/forgotPassword1')
+})*/
+
+router.get("/forgotPassword1", (req,res)=>{
+  return res.render('forgotPassword1');
 })
 
+router.get('/backtoHome', function(req, res,next) {
+  res.redirect('/')
+});
+
 // Logout handle
-router.get('/logout', function(req, res,next) {
+router.post('/logout', function(req, res,next) {
     req.logout(function(err){
         if (err) {return next (err)}
         console.log("You Logged Out!")
@@ -412,6 +421,8 @@ router.get('/logout', function(req, res,next) {
         res.redirect('/')
     })
 });
+
+
 
 //captcha key = process.env.Recaptcha_Secret_Key
 
