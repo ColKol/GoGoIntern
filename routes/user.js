@@ -32,7 +32,7 @@ const request = require('request');
 //Verification middleware to make sure users can't just access it regularly
 const verifyRegistration = (req, res, next) => {
 
-    if(!req.session.newUser) {
+    if(!req.session.newEmail && !req.session.newUser) {
         console.log("Restricted access")
         return res.redirect('/users/register');
     }
@@ -43,11 +43,17 @@ const verifyRegistration = (req, res, next) => {
 
 //Checking if the person already has a verification code in the database, and removing it so that there are no copies
 const checkIfVerificationCodeExists = async (req, res, next) => {
+  let userEmail;
     try {
-      const user = await verificationCodes.findOne({ email: req.session.newUser.email });
+      if(!req.session.newUser){
+        userEmail = req.user
+      } else {
+        userEmail = req.session.newUser
+      }
+      const user = await verificationCodes.findOne({ email: userEmail.email });
       if (user) {
         console.log("its real");
-        await verificationCodes.deleteOne({ email: req.session.newUser.email });
+        await verificationCodes.deleteOne({ email: userEmail.email });
       }
       next();
     } catch (error) {
@@ -145,13 +151,11 @@ router.post('/register/newUser', async (req, res, next)=>{
     }
   }
 
-
   // the captcha
-
-  // if captcha did not have anything, error
+  // if captcha didn't have anything, send the user back to registration page
   if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
   {
-    return res.json({"responseError" : "uh oh!"});
+    return res.redirect('/users/register');
   }
 
   // getting the recaptca secret key from the .env file
@@ -159,16 +163,16 @@ router.post('/register/newUser', async (req, res, next)=>{
 
   //console.log(req.body['g-recaptcha-response'])
 
-  // verifying captcha using secrete key
-  const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  // verifying captcha using secret key
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=req.socket.remoteAddress`;
   request(verificationURL, function(error,response,body) {
     body = JSON.parse(body);
     console.log("recaptcha test results:");
     console.log(body);
 
-    // if not successful
+    // if not successful, redirect back to registration
     if(body.success !== undefined && !body.success) {
-      return res.json({"success": false, "msg":"failed captcha verification"});
+      return res.redirect('/users/register'); //res.json({"success": false, "msg":"failed captcha verification"});
     }
     //return res.json({"success": true, "msg":"you're in!"});
 
@@ -177,9 +181,14 @@ router.post('/register/newUser', async (req, res, next)=>{
 });
 
 router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, async (req, res) => {
-    const newUser = req.session.newUser;
+    let newUser
     let error = req.query.failed;
     const key = Math.floor(Math.random() * (9999 - 1000) + 1000);
+    if(req.session.newUser){
+      newUser = req.session.newUser
+    } else {
+      newUser = req.session.newUserInfo
+    }
     const TheVerificationCode = new verificationCodes({
       email: newUser.email,
       verificationCode: key
@@ -203,7 +212,7 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
       var mailOptions = {
         from: process.env.Verification_Bot_Email,
         to: newUser.email,
-        subject: 'Verification Code For Rayreader',
+        subject: 'Verification Code For GoGoIntern',
         text: 'Your verification code is ' + key
       };
   
@@ -236,6 +245,9 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
     const TheVerificationCode1 = req.session.TheVerificationCode;
 
     if (req.body.num === String(TheVerificationCode1.verificationCode)){
+      if(req.session.newEmail){
+        await userInfo.updateOne({_id: req.user._id}, {email: req.session.newUserInfo.email, username: req.session.newUserInfo.username})
+      } else {
         var implementUser = new userInfo ({
             userType: newUserObj.userType,
             username: newUserObj.username,
@@ -253,14 +265,21 @@ router.post('/verification', verifyRegistration, async (req, res)=>{
                 implementUser.save();
             })
         })
+      }
 
         verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
             console.log("it worked?")
-            if(implementUser.userType === "student"){
-                res.redirect('/users/registration/studentQuestionnare')
-            } else if(implementUser.userType === "business"){
-                res.redirect('/users/registration/businessQuestionnare')
-            }
+
+          if(req.session.newEmail){
+            req.session.newEmail = false;
+            return res.redirect('/userpage')
+          }
+
+          if(implementUser.userType === "student"){
+              return res.redirect('/users/registration/studentQuestionnare')
+          } else if(implementUser.userType === "business"){
+              return res.redirect('/users/registration/businessQuestionnare')
+          }
         })
 
     } else {
@@ -399,8 +418,64 @@ router.get('/login/redirect', (req,res)=>{
     })
 })
 
+// Send user to password email page
+router.get("/forgotPassword1", (req,res)=>{
+  return res.render('forgotPassword1');
+})
+
+router.post("/sendPasswordReset", async function(req,res){
+  const {email} = req.body;
+  console.log(email);
+
+  await userInfo.findOne({email: email}).then(user =>{
+    // email is in database --> continue to code
+    if (user){
+      try {    
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.Verification_Bot_Email,
+            pass: process.env.Verification_Bot_pass
+          }
+        });
+    
+        var mailOptions = {
+          from: process.env.Verification_Bot_Email,
+          to: email,
+          subject: 'Password Verification Code For GoGoIntern',
+          text: 'Your verification code is [insert password verification code]'
+        };
+    
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        error = true;
+        res.redirect('/users/register');
+      }
+
+      return res.render('forgotPassword2')
+    
+    // email is not in database, popup error
+    } else {
+      // someone pls eventually add a popup error for this
+      console.log("Email is not registered with an account!")
+      return res.redirect('forgotPassword1')
+    }
+  })
+})
+
+router.get('/backtoHome', function(req, res,next) {
+  res.redirect('/')
+});
+
 // Logout handle
-router.get('/logout', function(req, res,next) {
+router.post('/logout', function(req, res,next) {
     req.logout(function(err){
         if (err) {return next (err)}
         console.log("You Logged Out!")
@@ -408,6 +483,8 @@ router.get('/logout', function(req, res,next) {
         res.redirect('/')
     })
 });
+
+
 
 //captcha key = process.env.Recaptcha_Secret_Key
 
