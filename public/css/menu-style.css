@@ -158,9 +158,16 @@
 
 #lesson-box{
     position: fixed;
-    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
     height: 200px;
-    background-color: red;
+    background-color: rgb(159, 0, 0);
     top: 100px;
     left: 125px;
+}
+
+a {
+    color: white;
 }
