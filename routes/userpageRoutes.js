@@ -174,20 +174,6 @@ router.get('/index', (req, res) => {
 // })
 
 router.get('/userpage', (res,req) => {
-
-    var userinterests = req.user.interests
-    var recommended = 0
-    for (let i = 0; i < user.interests.length; i++) {
-        if (recommended == 6 || Boolean(DoesInternshipContainInterest) == false) {
-            break;
-        }
-
-        else {
-            const DoesInternshipContainInterest = req.internshipCreator.findOne({"typeofInternship": `${userinterests[i]}`});
-            recommended += 1
-        }
-    }
-
     res.render('userpage', {
         InternshipName: req.internshipCreator.name,
         creator: req.internshipCreator.creator,
