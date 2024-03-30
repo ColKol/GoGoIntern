@@ -17,6 +17,10 @@ router.get('/', (req, res,next)=>{
     res.render('index')
 })
 
+router.get('/account', (req, res)=>{
+    res.render('account')
+})
+
 router.get('/about', (req,res)=>{
     res.render('about')
 })
@@ -31,6 +35,14 @@ router.get('/page/practice', (req,res)=>{
 
 router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
     res.render('userpage', {
+        name: req.user.username,
+        email: req.user.email,
+        userType: req.user.userType
+    })
+})
+
+router.get('/account', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
+    res.render('account', {
         name: req.user.username,
         email: req.user.email,
         userType: req.user.userType

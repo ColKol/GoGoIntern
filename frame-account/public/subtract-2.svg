@@ -1,0 +1,17 @@
+<svg width="314" height="314" viewBox="0 0 314 314" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_120_159)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M261.869 226.411C276.445 205.628 285 180.313 285 153C285 82.3076 227.692 25 157 25C86.3076 25 29 82.3076 29 153C29 223.692 86.3076 281 157 281C172.544 281 187.441 278.229 201.224 273.155C199.149 268.355 198 263.062 198 257.5C198 235.685 215.685 218 237.5 218C246.695 218 255.157 221.142 261.869 226.411Z" fill="#FF8080"/>
+</g>
+<defs>
+<filter id="filter0_d_120_159" x="0" y="0" width="314" height="314" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="14.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.33 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_120_159"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_120_159" result="shape"/>
+</filter>
+</defs>
+</svg>
