@@ -1,12 +1,5 @@
-@font-face {
-    font-family: ABeeZee;
-    src: url(ABeeZee-Regular.ttf);
-}
-
-@font-face {
-    font-family: Lalezar;
-    src: url(Lalezar-Regular.ttf);
-}
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Lalezar&display=swap');
 
 :root{
     --basic-color: black;

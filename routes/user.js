@@ -161,7 +161,7 @@ router.post('/register/newUser', async (req, res, next)=>{
   // getting the recaptca secret key from the .env file
   const secretKey = process.env.Recaptcha_Secret_Key;
 
-  //console.log(req.body['g-recaptcha-response'])
+  console.log(req.body['g-recaptcha-response'])
 
   // verifying captcha using secret key
   const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=req.socket.remoteAddress`;
