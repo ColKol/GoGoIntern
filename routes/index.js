@@ -41,13 +41,13 @@ router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=
     })
 })
 
-router.get('/account', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
-    res.render('account', {
-        name: req.user.username,
-        email: req.user.email,
-        userType: req.user.userType
-    })
-})
+// router.get('/account', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
+//     res.render('account', {
+//         name: req.user.username,
+//         email: req.user.email,
+//         userType: req.user.userType
+//     })
+// })
 
 // router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async (req,res)=>{
 //     let recommendedCourses = []
