@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../target.env' });
 const express = require('express');
 const router = express.Router();
 const userInfo = require('..//models/userCreation')
@@ -9,6 +9,8 @@ const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const multer = require('multer')
 const stream = require('stream')
+const crypto = require('crypto')
+const { MongoClient, ObjectId } = require('mongodb');
 
 const { getDB } = require('../databased/database')
 
@@ -18,23 +20,19 @@ const assert = require('assert')
 
 const { studentInfo } = require('../config/studentInfo');
 
-const passport = require('..//config/cookie+registration')
+const passport = require('passport')
+const registerPassport = require('../config/registrationAuth')
 
 router.use(cookieParser())
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
-//get rid of this later?
-const request = require('request');
-
-
 //Verification middleware to make sure users can't just access it regularly
 const verifyRegistration = (req, res, next) => {
 
-    if(!req.session.newEmail && !req.session.newUser) {
-        console.log("Restricted access")
-        return res.redirect('/users/register');
+    if(!req.session.newUser) {
+        return res.redirect('/');
     }
   
     next();
@@ -52,7 +50,6 @@ const checkIfVerificationCodeExists = async (req, res, next) => {
       }
       const user = await verificationCodes.findOne({ email: userEmail.email });
       if (user) {
-        console.log("its real");
         await verificationCodes.deleteOne({ email: userEmail.email });
       }
       next();
@@ -62,30 +59,51 @@ const checkIfVerificationCodeExists = async (req, res, next) => {
     }
 };
 
+//Deleting the profile picture if there is more than one of them being entered
+const deleteProfilePicture = async (req, res, next) => {
+  const db = getDB();
+  const bucket = new mongodb.GridFSBucket(db, { bucketName: 'profilePicStorage' });
 
-router.get("/login/transition", (req, res)=>{
-    if(!req.cookies.userInfo){
-        res.redirect("/users/login")
-    } else{
-        res.redirect('/users/login/cookieCheck')
+  if (req.cookies.profilePicID) {
+    try {
+      const file = await bucket.find(new ObjectId(req.cookies.profilePicID)).toArray();
+
+      if (file.length > 0) {
+        await bucket.delete(new ObjectId(file[0]._id));
+      }
+    } catch (error) {
+      console.error('Error deleting profile picture:', error);
     }
-})
+  }
+
+  next();
+};
+
+
+
+// router.get("/login/transition", (req, res)=>{
+//     if(!req.cookies.userInfo){
+//         res.redirect("/users/login")
+//     } else{
+//         res.redirect('/users/login/cookieCheck')
+//     }
+// })
 
 //Login Renderer and cookie handler
-router.get('/login/cookieCheck',passport.authenticate('cookie', { session: true}), (req,res)=>{
-    if(req.user){
-        res.redirect("/userpage")
-    } else if(!req.user){
-        res.redirect("/users/login")
-    }
-})
+// router.get('/login/cookieCheck',passport.authenticate('cookie', { session: true}), (req,res)=>{
+//     if(req.user){
+//         res.redirect("/userpage")
+//     } else if(!req.user){
+//         res.redirect("/users/login")
+//     }
+// })
 
-router.get('/login', (req, res, next)=>{
-    console.log(req.cookies.userInfo)
-    res.render('login',{
-      errors: req.query.errors
-    })
-})
+// router.get('/login', (req, res, next)=>{
+//     console.log(req.cookies.userInfo)
+//     res.render('login',{
+//       errors: req.query.errors
+//     })
+// })
 
 //Register Renderer
 router.get('/register', (req,res)=>{
@@ -93,94 +111,151 @@ router.get('/register', (req,res)=>{
 })
 
 //Registration Handler
-router.get('/register/newUser', (req,res)=>{
+router.get('/register/newUser', deleteProfilePicture, (req,res)=>{
+    res.cookie('userType', req.query.user)
     const user = req.query.user;
-    if(user === "student"){
-        res.cookie("userType", "student")
-        res.render('register',{
-            username: "Username",
-            errors: []
-        })
+    var changingQuestion = (user === "student")? "Username":"Firm name";
+
+    const googeStoredUser = req.cookies.googleInfo;
+
+    const errorValues = req.session.errorsInRegistration || null
+
+    if(googeStoredUser){
+      let key = Buffer.from(process.env.Encryption_Secret_key, 'hex')
+      let iv = Buffer.from(process.env.Encryption_IV, 'hex')
+      let tag = Buffer.from(req.cookies.tag, 'hex')
+      const decipher = crypto.createDecipheriv('aes-128-gcm', key, iv)
+      decipher.setAuthTag(tag)
+      let decryptedText = decipher.update(googeStoredUser, 'hex', 'utf-8')
+
+      decryptedText += decipher.final('utf-8')
+
+      const fulldecipher = JSON.parse(decryptedText)
+      res.render('register',{
+        username: changingQuestion,
+        emailValue: fulldecipher.email.trimStart(),
+        usernameValue: fulldecipher.username.trimStart(),
+        profilePictureValue: fulldecipher.profilePicture.trimStart(),
+        errors: errorValues
+      })
     } else {
-        res.cookie("userType", "business")
-        res.render('register',{
-            username:"Business/Firm name",
-            errors: []
-        })
+      res.render('register',{
+        username: changingQuestion,
+        emailValue: undefined,
+        usernameValue: undefined,
+        profilePictureValue: undefined,
+        errors: errorValues
+      })
     }
 })
 
-router.post('/register/newUser', async (req, res, next)=>{
-  async function verifyEmail(){
-    const {name, email, password} = req.body;
-    let errors = [];
-    let usernameReq
+router.post('/register/newUser', upload.single('profilePic'),async (req, res, next)=>{
+  async function verifyEmail() {
+    try {
+      const { name, email, password, about, checked } = req.body;
 
-    if(password.length < 6) {
-        errors.push("Password is too short! Password must be at least 6 characters!")
-    }
 
-    if(req.cookies.userType === "student"){
-        usernameReq = "Username"
-    } else {
-        usernameReq = "Business/Firm name"
-    }
-    
-    await userInfo.findOne({email: email}).then(user =>{
-        if (user){
-            errors.push("Email is already in use!")
-            return
-        } else {
-            var newUser = new userInfo ({
-                userType: req.cookies.userType,
-                username: name,
-                email: email,
-                password: password,
-            })
-            console.log(newUser)
-            req.session.newUser = newUser;
-            res.redirect('/users/verification?failed=false')
-        }
-    })
+      let errors = [];
+      let usernameReq;
+      let aboutUs;
+      const filteredInterests = req.body.checked.split(',').filter((interest) => interest !== "");
 
-    if(errors.length > 0){
-      res.render('register',{
-        username: usernameReq,
-        errors
-      })
+      const user = await userInfo.findOne({ email: email });
+      if (user) {
+        errors.push("email");
+      }
+
+      if (password.length < 6) {
+        errors.push("length");
+      }
+
+      if (req.cookies.userType === "student") {
+        usernameReq = "Username";
+      } else {
+        usernameReq = "Business/Firm name";
+      }
+
+      if (about != (null || '')) {
+        aboutUs = about;
+      } else {
+        aboutUs = null;
+      }
+
+      if (errors.length > 0) {
+        req.session.errorsInRegistration = errors
+        return res.redirect('/users/register/newUser?user='+usernameReq)
+      }
+
+      const db = getDB();
+
+      var bucket = new mongodb.GridFSBucket(db, { bucketName: 'profilePicStorage' });
+
+      const profilePic = req.file;
+
+      const readstream = stream.Readable.from(profilePic.buffer);
+
+      const uploadstream = bucket.openUploadStream(profilePic.originalname);
+
+      readstream.pipe(uploadstream);
+
+      uploadstream.on('finish', () => {
+        var newUser = {
+          userType: req.cookies.userType,
+          username: name,
+          email: email,
+          password: password,
+          description: aboutUs,
+          interests: filteredInterests,
+          profilePicture: uploadstream.id
+        };
+        res.cookie('profilePicID', uploadstream.id)
+        req.session.newUser = newUser;
+  
+        res.redirect('/users/verification?failed=false');
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.redirect('/users/register');
     }
   }
 
-  // the captcha
-  // if captcha didn't have anything, send the user back to registration page
-  if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
-  {
-    return res.redirect('/users/register');
-  }
+  await verifyEmail();
 
-  // getting the recaptca secret key from the .env file
-  const secretKey = process.env.Recaptcha_Secret_Key;
+  // // the captcha
+  // // if captcha didn't have anything, send the user back to registration page
+  // if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
+  // {
+  //   return res.redirect('/users/register');
+  // }
 
-  console.log(req.body['g-recaptcha-response'])
+  // // getting the recaptca secret key from the .env file
+  // const secretKey = process.env.Recaptcha_Secret_Key;
 
-  // verifying captcha using secret key
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=req.socket.remoteAddress`;
-  request(verificationURL, function(error,response,body) {
-    body = JSON.parse(body);
-    console.log("recaptcha test results:");
-    console.log(body);
+  // //console.log(req.body['g-recaptcha-response'])
 
-    // if not successful, redirect back to registration
-    if(body.success !== undefined && !body.success) {
-      return res.redirect('/users/register'); //res.json({"success": false, "msg":"failed captcha verification"});
-    }
-    //return res.json({"success": true, "msg":"you're in!"});
+  // // verifying captcha using secret key
+  // const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=req.socket.remoteAddress`;
+  // request(verificationURL, function(error,response,body) {
+  //   body = JSON.parse(body);
+  //   console.log("recaptcha test results:");
+  //   console.log(body);
 
-    verifyEmail();
-  });
+  //   // if not successful
+  //   if(body.success !== undefined && !body.success) {
+  //     return res.redirect('/users/register'); //res.json({"success": false, "msg":"failed captcha verification"});
+  //   }
+  //   //return res.json({"success": true, "msg":"you're in!"});
+
+  //   verifyEmail();
+  // });
 });
 
 router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, async (req, res) => {
+    delete req.session.errorsInRegistration
+    res.clearCookie('googleInfo')
+    res.clearCookie('tag')
+    res.clearCookie('userType')
     let newUser
     let error = req.query.failed;
     const key = Math.floor(Math.random() * (9999 - 1000) + 1000);
@@ -199,7 +274,6 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
   
     try {
       await TheVerificationCode.save();
-      console.log(TheVerificationCode);
   
       var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -229,7 +303,7 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
       }, 120000);
   
       res.render('verificationCheck', {
-        failure: error
+        failed: error
       });
     } catch (error) {
       console.error(error);
@@ -239,114 +313,128 @@ router.get('/verification', verifyRegistration, checkIfVerificationCodeExists, a
 });
 
 //Finsihing up verification and adding user to database
-router.post('/verification', verifyRegistration, async (req, res)=>{
+router.post('/verification', verifyRegistration, async (req, res, next)=>{
 
     const newUserObj = req.session.newUser;
     const TheVerificationCode1 = req.session.TheVerificationCode;
 
-    if (req.body.num === String(TheVerificationCode1.verificationCode)){
+    if (req.body.num.join('') === String(TheVerificationCode1.verificationCode)){
       if(req.session.newEmail){
         await userInfo.updateOne({_id: req.user._id}, {email: req.session.newUserInfo.email, username: req.session.newUserInfo.username})
       } else {
+        res.clearCookie('profilePicID')
         var implementUser = new userInfo ({
             userType: newUserObj.userType,
             username: newUserObj.username,
             email: newUserObj.email,
             password: newUserObj.password,
+            description: newUserObj.description,
+            interests: newUserObj.interests,
+            profilePicture: newUserObj.profilePicture,
             verified: true,
-            firstTime: true
+            firstTime: false
         })
         bcrypt.genSalt(10, (err, salt)=>{
-            bcrypt.hash(newUserObj.password, salt, (err, hash)=>{
+            if(err) throw err;
+            bcrypt.hash(newUserObj.password, salt, async(err, hash)=>{
                 if (err) throw err;
                 implementUser.password = hash;
-                console.log(implementUser.password)
                 req.session.implementUser = implementUser
-                implementUser.save();
+                return await implementUser.save();
             })
         })
       }
 
-        verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then((user)=>{
-            console.log("it worked?")
+      await verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email}).then(async(user)=>{
 
-          if(req.session.newEmail){
-            req.session.newEmail = false;
-            return res.redirect('/userpage')
-          }
+        if(req.session.newEmail){
+          req.session.newEmail = false;
+        }
 
-          if(implementUser.userType === "student"){
-              return res.redirect('/users/registration/studentQuestionnare')
-          } else if(implementUser.userType === "business"){
-              return res.redirect('/users/registration/businessQuestionnare')
-          }
-        })
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          passport.authenticate('Register', (err, userLogin, info) => {
+            if (err) {
+              console.error('Passport authentication error:', err);
+              return res.sendStatus(500);
+            }
+        
+            if (!userLogin) {
+              console.error('User authentication failed:', info.message);
+              return res.redirect('/users/register');
+            }
+        
+            req.login(userLogin, (err) => {
+              if (err) {
+                console.error('Error logging in the user:', err);
+                return res.redirect('/userpage');
+              }
+        
+              return res.redirect('/userpage');
+            });
+          })(req, res, next);
+        } catch (err) {
+          console.error('Error during authentication:', err);
+          res.redirect('/users/verification?failed=true')
+        }
+      })
 
     } else {
-        await verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email})
-        res.redirect('/users/verification?failed=true')
+      await verificationCodes.findOneAndDelete({'email': TheVerificationCode1.email})
+      res.redirect('/users/verification?failed=true')
     }
 })
 
+//For personal refernece
+// router.post('/registration/studentQuestionnare' ,studentInfo, upload.single('cv'), async (req, res, next) => {
+//     const checkedValues = [];
+//     const hi = req.session.newUser
+//     const db = getDB()
+//     var bucket = new mongodb.GridFSBucket(db, {bucketName: 'cvStorage'})
 
-//The part where we ask the user questions and determine what they are
-router.get('/registration/studentQuestionnare', studentInfo, (req,res)=>{
-    res.clearCookie("userType")
-    res.render('studentQuestionnare')
-})
+//     const cv = req.file
+//     const readstream = stream.Readable.from(cv.buffer)
 
-router.post('/registration/studentQuestionnare' ,studentInfo, upload.single('cv'), async (req, res, next) => {
-    const checkedValues = [];
-    const hi = req.session.newUser
-    const db = getDB()
-    var bucket = new mongodb.GridFSBucket(db, {bucketName: 'cvStorage'})
+//     const uploadstream = bucket.openUploadStream(cv.originalname)
 
-    const cv = req.file
-    const readstream = stream.Readable.from(cv.buffer)
+//     readstream.pipe(uploadstream);
 
-    const uploadstream = bucket.openUploadStream(cv.originalname)
-
-    readstream.pipe(uploadstream);
-
-     uploadstream.on('finish', ()=>{
-        console.log("File uploaded")
-    })
+//      uploadstream.on('finish', ()=>{
+//         console.log("File uploaded")
+//     })
   
-    Object.keys(req.body).forEach(key => {
-      if (req.body[key] === 'on') {
-        checkedValues.push(key);
-      }
-    });
+//     Object.keys(req.body).forEach(key => {
+//       if (req.body[key] === 'on') {
+//         checkedValues.push(key);
+//       }
+//     });
 
 
-    const user = await userInfo.updateOne({username: hi.username}, {interests: checkedValues, firstTime: false, cv: uploadstream.id})
+//     const user = await userInfo.updateOne({username: hi.username}, {interests: checkedValues, firstTime: false, cv: uploadstream.id})
 
-    passport.authenticate('Register', (err,user,info)=>{
-        if (err) {
-            console.error('Passport authentication error:', err);
-            return res.sendStatus(500);
-          }
+//     passport.authenticate('Register', (err,user,info)=>{
+//         if (err) {
+//             console.error('Passport authentication error:', err);
+//             return res.sendStatus(500);
+//           }
       
-          if (!user) {
-            console.error('User authentication failed:', info.message);
-            return res.redirect('/users/register')
-          }
+//           if (!user) {
+//             console.error('User authentication failed:', info.message);
+//             return res.redirect('/users/register')
+//           }
       
-          req.login(user, (err) => {
-            if (err) {
-              console.error('Error logging in the user:', err);
-              return res.redirect('/userpage');
-            }
+//           req.login(user, (err) => {
+//             if (err) {
+//               console.error('Error logging in the user:', err);
+//               return res.redirect('/userpage');
+//             }
 
-            return res.redirect('/userpage')
-          })
-    }) (req,res,next);
-});
+//             return res.redirect('/userpage')
+//           })
+//     }) (req,res,next);
+// });
 
-router.get("/registration/businessQuestionnare", studentInfo, (req,res)=>{
-    res.clearCookie("userType")
-    res.render('businessQuestionnare')
-})
+
 
 router.post("/registration/businessQuestionnare", studentInfo, async (req,res, next)=>{
   const checkedValues = [];
@@ -377,7 +465,7 @@ router.post("/registration/businessQuestionnare", studentInfo, async (req,res, n
             }
 
             return res.redirect('/userpage')
-          })
+    })
   }) (req,res,next);
 })
 
@@ -418,56 +506,15 @@ router.get('/login/redirect', (req,res)=>{
     })
 })
 
-// Send user to password email page
+/*
+// forgot password
+router.get('/forgotPassword', (req,res)=>{
+  console.log("sending user to forgot password page!")
+  return res.redirect('/users/forgotPassword1')
+})*/
+
 router.get("/forgotPassword1", (req,res)=>{
   return res.render('forgotPassword1');
-})
-
-router.post("/sendPasswordReset", async function(req,res){
-  const {email} = req.body;
-  console.log(email);
-
-  await userInfo.findOne({email: email}).then(user =>{
-    // email is in database --> continue to code
-    if (user){
-      try {    
-        var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: process.env.Verification_Bot_Email,
-            pass: process.env.Verification_Bot_pass
-          }
-        });
-    
-        var mailOptions = {
-          from: process.env.Verification_Bot_Email,
-          to: email,
-          subject: 'Password Verification Code For GoGoIntern',
-          text: 'Your verification code is [insert password verification code]'
-        };
-    
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
-      } catch (error) {
-        console.error(error);
-        error = true;
-        res.redirect('/users/register');
-      }
-
-      return res.render('forgotPassword2')
-    
-    // email is not in database, popup error
-    } else {
-      // someone pls eventually add a popup error for this
-      console.log("Email is not registered with an account!")
-      return res.redirect('forgotPassword1')
-    }
-  })
 })
 
 router.get('/backtoHome', function(req, res,next) {
@@ -475,10 +522,9 @@ router.get('/backtoHome', function(req, res,next) {
 });
 
 // Logout handle
-router.post('/logout', function(req, res,next) {
+router.get('/logout', function(req, res,next) {
     req.logout(function(err){
         if (err) {return next (err)}
-        console.log("You Logged Out!")
         res.clearCookie('userInfo')
         res.redirect('/')
     })

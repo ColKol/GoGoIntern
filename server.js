@@ -1,4 +1,4 @@
-require ('dotenv').config();
+require('dotenv').config({ path: './target.env' });
 
 //Importing libraries and files needed
 const cookieParser = require('cookie-parser');
@@ -8,7 +8,7 @@ const router = express.Router();
 const path = require('path');
 const bodyParser = require("body-parser");
 
-const indexRoute = require(".//routes/index")
+const indexRoute = require("./routes/index")
 const userRoute = require("./routes/user")
 const authRoute = require('./routes/authRoutes')
 
@@ -24,8 +24,11 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 const passportSetup = require('./config/GoogleAuthentication')
 const cookiePassport = require('./config/cookiePassportJS')
+const registerPassport = require('./config/registrationAuth')
+const changedetailsPassport = require('./config/changedetailsAuth')
 const flash = require('express-flash')
 const session = require('express-session')
+const http = require('http')
 
 const { connectToDatabase } = require('./databased/database')
 
@@ -39,7 +42,7 @@ app.use(cookieParser());
 
 //Setup session
 app.use(session({
-  secret: "secret",
+  secret: 'jfiodal',
   resave: true,
   saveUninitialized: true
 }));
@@ -54,6 +57,7 @@ app.use(passport.session());
 app.set('view engine', 'ejs');
 app.set('views', './views')
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Linking CSS and JS scripts
@@ -78,9 +82,12 @@ app.use('/auth', authRoute);
 app.use(ensureAuthenticated)
 app.use('/userpage', userpageRoute)
 
+const server = http.createServer(app)
 //Setting up a local enviroment
-app.listen(3000);
+const port = process.env.PORT || 3000
 
-app.get('/userdetails', (req, res) => {
-  res.render('userdetails');
- });
+server.setTimeout(0)
+
+server.listen(port, ()=>{
+  console.log(`Server is listening on port ${port}`);
+})

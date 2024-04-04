@@ -8,14 +8,14 @@ class RegistrationStrategy extends Strategy {
     this.verify = verify;
   }
 
-  authenticate(req) {
+  async authenticate(req) {
     const user = req.session.newUser;
     if (!user) {
         return this.fail({ message: 'User ID not found in cookie' });
     }
 
-    userInfo.findOne({ username: req.session.newUser.username })
-    .then(user2 => {
+    await userInfo.findOne({ email: user.email })
+    .then((user2) => {
       if (!user2) {
         return this.fail({ message: 'Invalid user' });
       }

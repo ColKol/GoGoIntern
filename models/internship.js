@@ -54,6 +54,10 @@ const internshipSchema = new mongoose.Schema({
         type: String
     },
 
+    internshipSchedule:{
+        type: String
+    },
+
     shiftStart: {
         type: String,
         required: true
@@ -66,12 +70,10 @@ const internshipSchema = new mongoose.Schema({
 
     startDate: {
         type: Date,
-        required: true,
     },
 
     endDate: {
         type: Date,
-        required: true,
     },
 
     screeningQuestions: {

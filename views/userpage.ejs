@@ -1,90 +1,216 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pneumonia Trainer</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
-        <link rel="stylesheet" href="/css/all-style.css" type = "text/css">
-        <link rel="stylesheet" href="/css/about-style.css" type = "text/css">
-        <link rel="stylesheet" href="/css/menu-style.css" type = "text/css">
-        <link rel="icon" href="/images/icons/rayreader-logo.png" type = "image/png">
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <body>
-        <div class="background">
-        </div>
-    
-        <div class="loading-box">
-        </div>
-    
-        <div class="top-box">
-            <h1>Welcome to the userpage, <%= name %>!</h1>
+    <title>Homepage | GoGoIntern</title>
 
-        </div>
-    
-        <div class="side-box">
-            <!-- <div style = "z-index: 12; display: flex; justify-content: space-evenly; max-width:inherit;" >
-                <a href="main-menu.html" class="logo-button">
-                    <img src="/images/icons/rayreader-logo.png" alt="RayReader">
-                </a>
-                <h2 class = "button-descriptions">
-                    Back to homepage
-                </h2>
-            </div> -->
-            <!-- <a href="main-menu.html" class="logo-button">
-                <img src="/images/icons/rayreader-logo.png" alt="RayReader">
-            </a> -->
-            <div>
-                <a href = "/userpage/userdetails" style = "color: white; justify-content: center;">User details</a>
-                <a href = "/account"> thing</a>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/userpage.css" />
+    <link rel="stylesheet" href="/css/deleteDialog.css">
+    <link rel="stylesheet" href="/css/notifPanel.css"/>
+    <link rel="stylesheet" href="/css/confirm-delete-action.css">
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
+  </head>
+  <body style="width: 100vw; height: 100vh;">
+    <div class="rectangle-parent8">
+      <div class="frame-child46"></div>
+      <section class="rectangle-parent9" id="section1">
+        <div class="frame-child47"></div>
+        <div class="welcome-archireef">Welcome, <%= name %></div>
+        <div class="company-name">
+          <div class="internships-list">
+            <a href="/userpage/userdetails" style="height: 3.781rem; width: 3.775rem; margin-bottom: 2%;">
+              <img class="internships-list-child" loading="lazy" alt="User icon" src='/images/userpage/userIcon.svg'/>
+            </a>
+            <div style="height:4.306rem; width: 3.681rem;" id="notifControl" onclick="notifOpen()">
+              <img class="union-icon6" loading="lazy" alt="Notifications" src='/images/userpage/notification.svg'/>
             </div>
+            <div class="frame-root" id="notifPanel">
+              <div class="frame-wrapper19">
+                <div class="mark-as-read-parent">
+                  <div class="mark-as-read">Mark as read</div>
+                  <div class="see-all">See All</div>
+                </div>
+              </div>
+              <section class="frame-parent27">
+                <% let signedUpOrNot = false %>
+                <% internships.forEach((internship)=>{%>
+                  <%if(internship.personWhoSignedUp){%>
+                    <% signedUpOrNot = true %>
+                    <header class="from-archireef-parent">
+                      <div class="from-archireef">
+                        <span class="from-archireef-txt-container">
+                          <span><%= internship.nameOfInternship%></span>
+                        </span>
+                      </div>
+                      <div class="lorem-ipsum-dolor2">
+                        User <%= internship.personWhoSignedUp%> has signed up for <%= internship.nameOfInternship%>. Please check your email for further details%>
+                      </div>
+                      <div class="elliptical-shape"></div>
+                      <div class="rectangular-shape"></div>
+                    </header>
+                  <%}%>
+                <%})%>
 
-            <% if(userType === "student"){%>
-                <div>
-                    <a href="/userpage/searchInternships?page=1" style="color: white;">Search</a>
-                </div>
-            <%} else {%>
-                <div>
-                    <a href="/userpage/createOpportunity" style="color: white;">Create</a>
-                </div>
-                
-                <div>
-                    <a href='/userpage/editInformation' style="color: white">Check internships</a>
-                </div>
-            <%}%>
-
-            <div>
-                <a href = "/users/logout" style = "color: white; text-align: center;">
-                    Log out
-                </a>
+                <% if(!signedUpOrNot){%>
+                  <header class="from-archireef-parent" style="border-top: 0.1rem inset #0154b8;">
+                    <div class="lorem-ipsum-dolor2" style="height: 1rem;">
+                      No notifications avaliable
+                    </div>
+                  </header>
+                <%}%>
+              </section>
+        
+              <img class="subtract-icon22" alt="" src="./public/subtract-14@2x.png" />
             </div>
+          </div>
         </div>
-    
-        <div class="top-left-box">
+      </section>
+      
+      <section class="subtractor" id="section2">
+        <div class="subtractor-child"></div>
+        <div class="your-profile">
+          <div class="your-internships">Your internships</div>
+          <div class="sort-dropdown">
+            <div class="sort-by-parent">
+              <div class="sort-by">Sort by:</div>
+              <div class="date-label">
+                <button class="group-button instance-child" value="Date" id="group-button">
+                  <div class="date" id="dateHolder">Date</div>
+                </button>
+                <div class="circle-shape">
+                    <button class="rectangle-parent10" id="rectangle-parent10" value="ascending">
+                      <img src="/images/userpage/ascendingOrder.svg" style="height: 4.8rem">
+                    </button>
+                  </div>
+              </div>
+              <div class="subtractor-inner">
+                <form class="rectangle-parent11" method="post" action="/userpage">
+                  <img class="line-icon" alt="" src="/images/userpage/search.svg"/>
+                  <input class="search1" placeholder="Search" type="text" name='search'/>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-    
-        <div class="top-right-box">
-        </div>
-    
-        <div id="lesson-box">
-            <a href="index.html" style = "font-size: 50px;">
-                Recommendations
-            </a>   
-            <a style="width: 600px;">Internship Name: Software Development</a>
-            <a style="width: 600px;">Internship offered by: Chinese University</a>
-            <a style="width: 600px;">Internship details: "Social", "Skills", "Please"</a>
-            <a>Apply</a>
-            
-        </div>
-    
-        <div class="news-box-1">
-        </div>
-    
-        <div class="news-box-2">
-        </div>
-        <a href = "/users/logout">Logout</a>
-    </body>
+      </section>
+
+      <section class="archireef-logo" id="archireef-logo">
+        <% internships.forEach((internship,index)=>{%>
+            <div class="archireef-parent" id="<%= internship.creationDate%>" name="<%= internship.nameOfInternship%>">
+                <div class="archireef">
+                  <div class="archireef-child"></div>
+                  <div class="d3271-2208-426c-99b0-0a2480b78-wrapper">
+                    <img
+                      class="d3271-2208-426c-99b0-0a2480b78-icon"
+                      loading="lazy"
+                      alt="image"
+                      src="data:image/jpeg;base64, <%= image.toString('base64') %>"
+                    />
+                    <div class="archireef-group">
+                        <div class="archireef1">
+                            <a href="/userpage/editInformation?internship=<%= internship._id%>">
+                                <%= name %>
+                            </a>
+                        </div>
+                        <div class="role-1-wrapper">
+                          <h2 class="role-1"><%= internship.nameOfInternship %></h2>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="frame-parent16">
+                    <div class="frame-parent17">
+                      <div class="archireef-logo-symbol-wrapper">
+                        <div class="computer-science-marker">
+                          <div class="archireef-logo-symbol-child"></div>
+                          <div class="computer-science1"><%= internship.addressForWork %></div>
+                        </div>
+                        <% internship.typeOfInternship.slice(0, 3).forEach((internshipField, index) => { %>
+                          <div class="computer-science-marker">
+                            <div class="computer-science-marker-child"></div>
+                            <div class="computer-science1"><%= internshipField %></div>
+                          </div>
+                        <% }) %>
+                      </div>
+                    </div>
+                    <% if(internship.typeOfInternship.length > 3){%>
+                      <div>
+                        <%= internship.typeOfInternship.length - 3%> other categories...
+                      </div>
+                    <%}%>
+                    <div class="lorem-ipsum-dolor">
+                        <%= internship.description %>
+                    </div>
+                  </div>
+                  <div class="subtracting-shapes">
+                    <div class="path-modifier-parent">
+                      <div class="path-modifier">
+                        <% if (internship.personWhoSignedUp != null){%>
+                            <div class="path-modifier-child"></div>
+                        <%}%>
+                        <div class="vector-parent">
+                          <img class="vector-icon" loading="lazy" alt="Internship notifications" src='/images/userpage/internshipNotif.svg'/>
+                            <% if(internship.personWhoSignedUp != null){%>
+                                <div class="div5">1</div>
+                            <%}%>
+                        </div>
+                      </div>
+                      <div class="subtract-wrapper7">
+                        <dialog class="confirm-delete-action" id="dialog<%=index%>">
+                          <div class="rectangle-parent25">
+                            <div class="frame-child83"></div>
+                            <div class="are-you-sure-container">
+                              <span>
+                                <p class="are-you-sure">Are you sure you want to delete <%=internship.nameOfInternship%>?</p>
+                                <p class="this-action-cannot">This action cannot be undone.</p>
+                              </span>
+                            </div>
+                            <div class="frame-wrapper20">
+                              <div class="frame-parent28">
+                                <button class="rectangle-parent26">
+                                  <div class="frame-child84"></div>
+                                  <a class="delete" href="/userpage/editInformation/deleteInfo?internship=<%=internship._id%>">Delete</a>
+                                </button>
+                                <button class="rectangle-parent27">
+                                  <div class="frame-child85"></div>
+                                  <div class="no">No</div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </dialog>
+                        <a data-dialog-id="<%= index %>" class="show-dialog-btn" style="cursor: pointer;">
+                            <img class="subtract-icon13" loading="lazy" alt="Delete internship" src='/images/userpage/delete.svg'/>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <%})%>
+        <% if(internships.length == 0){%>
+            No internships have been added. Click the button below to start adding internship opportunities!
+        <%}%>
+      </section>
+      <a href="/userpage/createOpportunity" class="subtract-icon12" id="AddInternship">
+        <img class="subtract-icon12" alt="Add internship" src='/images/userpage/AddInternship.svg'/>
+      </a>
+    </div>
+    <script src="/javascript/userpage.js"></script>
+  </body>
 </html>
