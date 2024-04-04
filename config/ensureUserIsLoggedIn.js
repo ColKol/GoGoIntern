@@ -4,8 +4,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            console.log("Please Log In To view these resources")
-            res.redirect('/users/login/transition')
+            res.redirect('/')
         }
     }
 }

@@ -1,0 +1,474 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+a{
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --font-lalezar: Lalezar;
+  --font-abeezee: ABeeZee;
+  --font-alata: Alata;
+
+  /* font sizes */
+  --font-size-3xl-9: 1.431rem;
+  --font-size-lg: 1.125rem;
+  --font-size-lg-4: 1.15rem;
+  --font-size-11xl: 1.875rem;
+  --font-size-5xl: 1.5rem;
+  --font-size-28xl-3: 2.956rem;
+  --font-size-9xl: 1.75rem;
+  --font-size-19xl: 2.375rem;
+  --font-size-30xl-6: 3.1rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-mid-6: 1.1rem;
+  --font-size-6xl: 1.563rem;
+  --font-size-lgi-6: 1.225rem;
+  --font-size-18xl-3: 2.331rem;
+  --font-size-3xl: 1.375rem;
+  --font-size-39xl-9: 3.681rem;
+  --font-size-16xl: 2.188rem;
+  --font-size-28xl: 2.938rem;
+  --font-size-8xl-5: 1.719rem;
+  --font-size-12xl-4: 1.963rem;
+  --font-size-lgi: 1.188rem;
+  --font-size-40xl-3: 3.706rem;
+  --font-size-17xl: 2.25rem;
+  --font-size-2xl: 1.313rem;
+  --font-size-base: 1rem;
+  --font-size-lg-6: 1.163rem;
+  --font-size-7xl: 1.625rem;
+  --font-size-25xl-6: 2.788rem;
+  --font-size-8xl: 1.688rem;
+
+  /* Colors */
+  --color-aliceblue: #f1f9ff;
+  --color-royalblue: #0154b8;
+  --color-royalblue-300: rgba(1, 84, 184, 0.64);
+  --color-royalblue-400: rgba(1, 84, 184, 0.5);
+  --color-royalblue-200: rgba(1, 84, 184, 0.62);
+  --color-royalblue-100: rgba(1, 84, 184, 0.3);
+  --color-white: #fff;
+  --color-dodgerblue: #267ade;
+  --color-lightsteelblue: #a9c5e7;
+  --color-cornflowerblue: #417fca;
+  --color-lavender: #d3eaff;
+  --color-darkgray: #b4b4b4;
+
+  /* Gaps */
+  --gap-smi: 0.813rem;
+  --gap-xl: 1.25rem;
+  --gap-61xl-6: 5.038rem;
+  --gap-sm-6: 0.85rem;
+  --gap-lg: 1.125rem;
+  --gap-52xl-6: 4.475rem;
+  --gap-12xs-1: 0.006rem;
+  --gap-37xl: 3.5rem;
+  --gap-6xl-4: 1.588rem;
+  --gap-6xs-1: 0.381rem;
+
+  /* Paddings */
+  --padding-10xl: 1.813rem;
+  --padding-2xl: 1.313rem;
+  --padding-xl: 1.25rem;
+  --padding-sm: 0.875rem;
+  --padding-mini: 0.938rem;
+  --padding-smi: 0.813rem;
+  --padding-6xs-1: 0.381rem;
+  --padding-6xs-8: 0.425rem;
+  --padding-12xl: 1.938rem;
+  --padding-23xl: 2.625rem;
+  --padding-11xs: 0.125rem;
+  --padding-7xl: 1.625rem;
+  --padding-4xl: 1.438rem;
+  --padding-12xs-1: 0.006rem;
+  --padding-4xl-4: 1.463rem;
+  --padding-12xs-2: 0.013rem;
+  --padding-22xl: 2.563rem;
+  --padding-25xl-9: 2.806rem;
+  --padding-24xl: 2.688rem;
+  --padding-3xl: 1.375rem;
+  --padding-3xs: 0.625rem;
+  --padding-17xl: 2.25rem;
+  --padding-20xl: 2.438rem;
+  --padding-73xl: 5.75rem;
+  --padding-27xl: 2.875rem;
+  --padding-75xl: 5.875rem;
+  --padding-42xl: 3.813rem;
+  --padding-8xl: 1.688rem;
+  --padding-4xl-5: 1.469rem;
+  --padding-10xl-4: 1.838rem;
+  --padding-8xs-5: 0.281rem;
+  --padding-7xs-6: 0.35rem;
+  --padding-lg: 1.125rem;
+  --padding-6xs-9: 0.431rem;
+  --padding-11xs-3: 0.081rem;
+
+  /* Border radiuses */
+  --br-11xl-3: 30.3px;
+  --br-6xl-5: 25.5px;
+  --br-59xl-6: 78.6px;
+  --br-51xl: 70px;
+  --br-base: 16px;
+  --br-4xl-4: 23.4px;
+  --br-13xl-4: 32.4px;
+  --br-xl: 20px;
+}
+
+:root {
+  /* fonts */
+  --font-lalezar: Lalezar;
+  --font-abeezee: ABeeZee;
+  --font-alata: Alata;
+
+  /* font sizes */
+  --font-size-3xl-9: 1.431rem;
+  --font-size-lg: 1.125rem;
+  --font-size-lg-4: 1.15rem;
+  --font-size-11xl: 1.875rem;
+  --font-size-5xl: 1.5rem;
+  --font-size-28xl-3: 2.956rem;
+  --font-size-9xl: 1.75rem;
+  --font-size-19xl: 2.375rem;
+  --font-size-30xl-6: 3.1rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-mid-6: 1.1rem;
+  --font-size-6xl: 1.563rem;
+  --font-size-lgi-6: 1.225rem;
+  --font-size-18xl-3: 2.331rem;
+  --font-size-3xl: 1.375rem;
+  --font-size-39xl-9: 3.681rem;
+  --font-size-16xl: 2.188rem;
+  --font-size-28xl: 2.938rem;
+  --font-size-8xl-5: 1.719rem;
+  --font-size-12xl-4: 1.963rem;
+  --font-size-lgi: 1.188rem;
+
+  /* Colors */
+  --color-royalblue: #0154b8;
+  --color-royalblue-200: rgba(1, 84, 184, 0.62);
+  --color-royalblue-100: rgba(1, 84, 184, 0.3);
+  --color-white: #fff;
+  --color-dodgerblue: #267ade;
+  --color-lightsteelblue: #a9c5e7;
+  --color-cornflowerblue: #417fca;
+
+  /* Gaps */
+  --gap-smi: 0.813rem;
+  --gap-xl: 1.25rem;
+  --gap-sm-6: 0.85rem;
+
+  /* Paddings */
+  --padding-10xl: 1.813rem;
+  --padding-2xl: 1.313rem;
+  --padding-xl: 1.25rem;
+  --padding-sm: 0.875rem;
+  --padding-mini: 0.938rem;
+  --padding-smi: 0.813rem;
+  --padding-6xs-1: 0.381rem;
+  --padding-6xs-8: 0.425rem;
+  --padding-12xl: 1.938rem;
+  --padding-23xl: 2.625rem;
+  --padding-4xl: 1.438rem;
+  --padding-4xl-4: 1.463rem;
+  --padding-22xl: 2.563rem;
+  --padding-25xl-9: 2.806rem;
+  --padding-24xl: 2.688rem;
+  --padding-3xl: 1.375rem;
+  --padding-27xl: 2.875rem;
+
+  /* Border radiuses */
+  --br-11xl-3: 30.3px;
+  --br-6xl-5: 25.5px;
+  --br-59xl-6: 78.6px;
+}
+
+:root {
+  /* fonts */
+  --font-lalezar: Lalezar;
+  --font-abeezee: ABeeZee;
+  --font-alata: Alata;
+
+  /* font sizes */
+  --font-size-3xl-9: 1.431rem;
+  --font-size-lg: 1.125rem;
+  --font-size-lg-4: 1.15rem;
+  --font-size-11xl: 1.875rem;
+  --font-size-5xl: 1.5rem;
+  --font-size-28xl-3: 2.956rem;
+  --font-size-9xl: 1.75rem;
+  --font-size-19xl: 2.375rem;
+  --font-size-30xl-6: 3.1rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-mid-6: 1.1rem;
+  --font-size-6xl: 1.563rem;
+  --font-size-lgi-6: 1.225rem;
+  --font-size-18xl-3: 2.331rem;
+  --font-size-3xl: 1.375rem;
+  --font-size-39xl-9: 3.681rem;
+  --font-size-16xl: 2.188rem;
+  --font-size-28xl: 2.938rem;
+  --font-size-10xl-5: 1.844rem;
+  --font-size-8xl-5: 1.719rem;
+  --font-size-12xl-4: 1.963rem;
+  --font-size-lgi: 1.188rem;
+  --font-size-40xl-3: 3.706rem;
+  --font-size-17xl: 2.25rem;
+  --font-size-2xl: 1.313rem;
+  --font-size-base: 1rem;
+  --font-size-lg-6: 1.163rem;
+  --font-size-7xl: 1.625rem;
+  --font-size-25xl-6: 2.788rem;
+  --font-size-8xl: 1.688rem;
+  --font-size-47xl-9: 4.181rem;
+  --font-size-35xl: 3.375rem;
+
+  /* Colors */
+  --color-aliceblue: #f1f9ff;
+  --color-royalblue: #0154b8;
+  --color-royalblue-500: rgba(1, 84, 184, 0.4);
+  --color-royalblue-600: rgba(1, 84, 184, 0.22);
+  --color-royalblue-300: rgba(1, 84, 184, 0.64);
+  --color-royalblue-400: rgba(1, 84, 184, 0.5);
+  --color-royalblue-200: rgba(1, 84, 184, 0.62);
+  --color-royalblue-100: rgba(1, 84, 184, 0.3);
+  --color-white: #fff;
+  --color-dodgerblue: #267ade;
+  --color-lightsteelblue: #a9c5e7;
+  --color-cornflowerblue: #417fca;
+  --color-lavender: #d3eaff;
+  --color-darkgray: #b4b4b4;
+  --color-gray: rgba(255, 255, 255, 0);
+
+  /* Gaps */
+  --gap-smi: 0.813rem;
+  --gap-xl: 1.25rem;
+  --gap-61xl-6: 5.038rem;
+  --gap-sm-6: 0.85rem;
+  --gap-lg: 1.125rem;
+  --gap-3xl: 1.375rem;
+  --gap-52xl-6: 4.475rem;
+  --gap-12xs-1: 0.006rem;
+  --gap-37xl: 3.5rem;
+  --gap-6xl-4: 1.588rem;
+  --gap-6xs-1: 0.381rem;
+
+  /* Paddings */
+  --padding-10xl: 1.813rem;
+  --padding-2xl: 1.313rem;
+  --padding-xl: 1.25rem;
+  --padding-sm: 0.875rem;
+  --padding-mini: 0.938rem;
+  --padding-smi: 0.813rem;
+  --padding-6xs-1: 0.381rem;
+  --padding-6xs-8: 0.425rem;
+  --padding-12xl: 1.938rem;
+  --padding-23xl: 2.625rem;
+  --padding-11xs: 0.125rem;
+  --padding-7xl: 1.625rem;
+  --padding-4xl: 1.438rem;
+  --padding-6xl: 1.563rem;
+  --padding-12xs-1: 0.006rem;
+  --padding-4xl-4: 1.463rem;
+  --padding-12xs-2: 0.013rem;
+  --padding-22xl: 2.563rem;
+  --padding-25xl-9: 2.806rem;
+  --padding-24xl: 2.688rem;
+  --padding-3xl: 1.375rem;
+  --padding-3xs: 0.625rem;
+  --padding-17xl: 2.25rem;
+  --padding-20xl: 2.438rem;
+  --padding-73xl: 5.75rem;
+  --padding-27xl: 2.875rem;
+  --padding-75xl: 5.875rem;
+  --padding-42xl: 3.813rem;
+  --padding-8xl: 1.688rem;
+  --padding-4xl-5: 1.469rem;
+  --padding-10xl-4: 1.838rem;
+  --padding-8xs-5: 0.281rem;
+  --padding-7xs-6: 0.35rem;
+  --padding-lg: 1.125rem;
+  --padding-6xs-9: 0.431rem;
+  --padding-11xs-3: 0.081rem;
+  --padding-40xl: 3.688rem;
+  --padding-39xl: 3.625rem;
+
+  /* Border radiuses */
+  --br-11xl-3: 30.3px;
+  --br-6xl-5: 25.5px;
+  --br-59xl-6: 78.6px;
+  --br-51xl: 70px;
+  --br-base: 16px;
+  --br-4xl-4: 23.4px;
+  --br-13xl-4: 32.4px;
+  --br-xl: 20px;
+  --br-23xl-5: 42.5px;
+}
+
+:root {
+  /* fonts */
+  --font-lalezar: Lalezar;
+  --font-abeezee: ABeeZee;
+  --font-alata: Alata;
+
+  /* font sizes */
+  --font-size-3xl-9: 1.431rem;
+  --font-size-lg: 1.125rem;
+  --font-size-lg-4: 1.15rem;
+  --font-size-11xl: 1.875rem;
+  --font-size-5xl: 1.5rem;
+  --font-size-28xl-3: 2.956rem;
+  --font-size-9xl: 1.75rem;
+  --font-size-19xl: 2.375rem;
+  --font-size-30xl-6: 3.1rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-mid-6: 1.1rem;
+  --font-size-6xl: 1.563rem;
+  --font-size-lgi-6: 1.225rem;
+  --font-size-18xl-3: 2.331rem;
+  --font-size-3xl: 1.375rem;
+  --font-size-39xl-9: 3.681rem;
+  --font-size-16xl: 2.188rem;
+  --font-size-28xl: 2.938rem;
+  --font-size-10xl-5: 1.844rem;
+  --font-size-8xl-5: 1.719rem;
+  --font-size-12xl-4: 1.963rem;
+  --font-size-lgi: 1.188rem;
+  --font-size-40xl-3: 3.706rem;
+  --font-size-17xl: 2.25rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.313rem;
+  --font-size-base: 1rem;
+  --font-size-lg-6: 1.163rem;
+  --font-size-7xl: 1.625rem;
+  --font-size-25xl-6: 2.788rem;
+  --font-size-8xl: 1.688rem;
+  --font-size-47xl-9: 4.181rem;
+  --font-size-35xl: 3.375rem;
+  --font-size-mini-9: 0.931rem;
+
+  /* Colors */
+  --color-aliceblue: #f1f9ff;
+  --color-royalblue: #0154b8;
+  --color-royalblue-700: #0253b5;
+  --color-royalblue-500: rgba(1, 84, 184, 0.4);
+  --color-royalblue-600: rgba(1, 84, 184, 0.22);
+  --color-royalblue-300: rgba(1, 84, 184, 0.64);
+  --color-royalblue-400: rgba(1, 84, 184, 0.5);
+  --color-royalblue-200: rgba(1, 84, 184, 0.62);
+  --color-royalblue-100: rgba(1, 84, 184, 0.3);
+  --color-white: #fff;
+  --color-dodgerblue: #267ade;
+  --color-lightsteelblue: #a9c5e7;
+  --color-cornflowerblue: #417fca;
+  --color-lavender: #d3eaff;
+  --color-darkgray: #b4b4b4;
+  --color-crimson-100: #e64a4a;
+  --color-gray: rgba(255, 255, 255, 0);
+  --color-gainsboro: #e6e6e6;
+  --color-red: #ce0000;
+  --color-tomato: #ff6363;
+
+  /* Gaps */
+  --gap-smi: 0.813rem;
+  --gap-9xs: 0.25rem;
+  --gap-xl: 1.25rem;
+  --gap-61xl-6: 5.038rem;
+  --gap-sm-6: 0.85rem;
+  --gap-mid-1: 1.069rem;
+  --gap-lg: 1.125rem;
+  --gap-3xl: 1.375rem;
+  --gap-52xl-6: 4.475rem;
+  --gap-12xs-1: 0.006rem;
+  --gap-37xl: 3.5rem;
+  --gap-6xl-4: 1.588rem;
+  --gap-6xs-1: 0.381rem;
+  --gap-6xs: 0.438rem;
+  --gap-lg-3: 1.144rem;
+  --gap-base: 1rem;
+
+  /* Paddings */
+  --padding-10xl: 1.813rem;
+  --padding-2xl: 1.313rem;
+  --padding-xl: 1.25rem;
+  --padding-sm: 0.875rem;
+  --padding-mini: 0.938rem;
+  --padding-smi: 0.813rem;
+  --padding-6xs-1: 0.381rem;
+  --padding-6xs-8: 0.425rem;
+  --padding-12xl: 1.938rem;
+  --padding-23xl: 2.625rem;
+  --padding-11xs: 0.125rem;
+  --padding-7xl: 1.625rem;
+  --padding-4xl: 1.438rem;
+  --padding-6xl: 1.563rem;
+  --padding-12xs-1: 0.006rem;
+  --padding-4xl-4: 1.463rem;
+  --padding-5xl-9: 1.556rem;
+  --padding-12xs-2: 0.013rem;
+  --padding-22xl: 2.563rem;
+  --padding-25xl-9: 2.806rem;
+  --padding-24xl: 2.688rem;
+  --padding-3xl: 1.375rem;
+  --padding-3xs: 0.625rem;
+  --padding-4xl-2: 1.45rem;
+  --padding-4xl-3: 1.456rem;
+  --padding-sm-1: 0.819rem;
+  --padding-mini-4: 0.9rem;
+  --padding-base: 1rem;
+  --padding-17xl: 2.25rem;
+  --padding-20xl: 2.438rem;
+  --padding-73xl: 5.75rem;
+  --padding-27xl: 2.875rem;
+  --padding-75xl: 5.875rem;
+  --padding-42xl: 3.813rem;
+  --padding-mini-5: 0.906rem;
+  --padding-8xl: 1.688rem;
+  --padding-9xl: 1.75rem;
+  --padding-4xl-5: 1.469rem;
+  --padding-10xl-4: 1.838rem;
+  --padding-8xs-5: 0.281rem;
+  --padding-7xs-6: 0.35rem;
+  --padding-lg: 1.125rem;
+  --padding-6xs-9: 0.431rem;
+  --padding-6xs: 0.438rem;
+  --padding-11xs-3: 0.081rem;
+  --padding-2xl-5: 1.344rem;
+  --padding-40xl: 3.688rem;
+  --padding-39xl: 3.625rem;
+  --padding-9xs: 0.25rem;
+  --padding-base-7: 1.044rem;
+  --padding-48xl: 4.188rem;
+  --padding-5xs-2: 0.45rem;
+  --padding-6xs-4: 0.4rem;
+
+  /* Border radiuses */
+  --br-11xl-3: 30.3px;
+  --br-6xl-5: 25.5px;
+  --br-59xl-6: 78.6px;
+  --br-51xl: 70px;
+  --br-base: 16px;
+  --br-4xl-4: 23.4px;
+  --br-13xl-4: 32.4px;
+  --br-xl: 20px;
+  --br-23xl-5: 42.5px;
+  --br-9xl-5: 28.5px;
+  --br-16xl-5: 35.5px;
+  --br-49xl-6: 68.6px;
+  --br-8xl: 27px;
+  --br-11xl-5: 30.5px;
+  --br-base-5: 16.5px;
+}

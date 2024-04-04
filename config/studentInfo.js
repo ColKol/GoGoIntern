@@ -9,7 +9,6 @@ module.exports = {
         } else if(req.session.newUser){
             return next();
         } else {
-            console.log("Please Log In To view these resources")
             res.redirect('/users/register')
         }
     }

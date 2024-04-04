@@ -1,153 +1,191 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Create opportunity</title>
-    </head>
+  <head>
+    <title>Create an internship opportunity</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <body>
-        <!-- Note to self, make a option for flexible work periods!!! -->
-        <form action = "/userpage/createOpportunity" method="POST">
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/createInternship.css" />
+    <link rel="stylesheet" href="/css/changeFields.css">
 
-            <label>Job title</label><br>
-            <input type = "text" id = "address" name = "title" required="true" placeholder="Insert title here"><br><br>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
+  </head>
+  <body>
+    <form class="rectangle-parent14" method="post" action="/userpage/createOpportunity" enctype="multipart/form-data">
 
-            <label>Internship category</label><br>
-            <section>
-                <label for="Finance">Finance</label>
-                <input type="checkbox" name="Finance">
+      <main class="frame-main">
+        <div class="subtract-parent">
+            <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                <a href="/userpage">
+                    <img class="subtract-icon16" loading="lazy" alt="" src='/images/internshipCreator/goBack.svg'/>
+                </a>
     
-                <label for="Tech">Technology</label>
-                <input type="checkbox" name="Tech">
+              <div class="edit-page">Create Internship</div>
+            </div>
+        </div>
+        <section class="internship-description-parent">
+          <div class="frame-wrapper11">
+            <div class="archireef-role-1-parent">
+              <label for="nameOfInternship" class="internship-description">Role of internship:</label>
+              <input class = "frame-child54" type="text" placeholder="e.g. Quality Assurace Tester" name="nameOfInternship" id="nameOfInternship" style="height: 2rem; padding-left: 0%; border-left: 0; border-top: 0; border-right: 0; border-radius: 0; box-shadow: none;" required>
+              <div class="frame-wrapper12">
+                <div for="input-file" class="cover-photo-parent" style="width:auto" id="drop-area">
+                    <label for="input-file" id="drop-area">
+                        <div style="display: flex; position: relative" class="internship-description">Cover Photo</div>
+                        <div style="display: flex; position: relative; font-size: 60%;">Drag and drop or click on the icon to choose an image</div>
+                        <input type="file" id="input-file" accept="image/png, image/jpeg" size="100000" name="coverPic" hidden required>
+                        <div style="position: relative;">
+                            <img src="/images/registration/uploadPicture.svg"
+                            id="img-view" class="rectangle-parent15" style="padding: 0; border: none;">
+                            <img src="/images/internshipCreator/changePic.svg" class="changePic">
+                        </div>
+                    </label>
+                </div>
+                <!-- <div class="cover-photo-parent">
+                  <div class="cover-photo">Cover Photo</div>
+                  <div class="rectangle-parent15">
+                    <div class="frame-child53"></div>
+                    <div class="drag-drop">Drag & Drop</div>
+                    <div class="wrapper">
+                      <div class="div6">+</div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+              <div class="frame-wrapper13">
+                <div class="internship-description">Internship Description</div>
+                <textarea name='about' class="frame-child54" required="{true}" placeholder="e.g. As a software engineer, you must..."></textarea>
+              </div>
+
+              <div style="width: 100%; margin-top: 5%; margin-bottom: 5%;">
+                <div class="internship-requirements" style="margin-bottom: 1%;">Corresponding District</div>
+                    <select name="district" class="frame-child54 districtSelector" required>
+                        <!-- <option value="none" selected disabled hidden>Select the district you are located in</option> -->
+                        <option  value="Islands(離島區)">Islands(離島區)</option>
+                        <option  value="Kwai Tsing(葵青區)">Kwai Tsing(葵青區)</option>
+                        <option  value="North(北區)">North(北區)</option>
+                        <option  value="Sai Kung(西貢區)">Sai Kung(西貢區)</option>
+                        <option  value="Sha Tin(沙田區)">Sha Tin(沙田區)</option>
+                        <option  value="Tai Po(大埔區)">Tai Po(大埔區)</option>
+                        <option  value="Tsuen Wan(荃灣區)">Tsuen Wan(荃灣區)</option>
+                        <option  value="Tuen Mun(屯門區)">Tuen Mun(屯門區)</option>
+                        <option  value="Kowloon City(九龍城區)">Kowloon City(九龍城區)</option>
+                        <option  value="Kwun Tong(觀塘區)">Kwun Tong(觀塘區)</option>
+                        <option  value="Sham Shui Po(深水埗區)">Sham Shui Po(深水埗區)</option>
+                        <option  value="Wong Tai Sin(黃大仙區)">Wong Tai Sin(黃大仙區)</option>
+                        <option  value="Central and Western District(中西區)">Central and Western District(中西區)</option>
+                        <option  value="Eastern District(東區)">Eastern District(油尖旺區)</option>
+                        <option  value="Southern District(南區)">Southern District(南區)</option>
+                        <option  value="Wan Chai(灣仔區)">Wan Chai(灣仔區)</option>
+                    </select>
+              </div>
+
+              <div style="display: flex; flex-direction: column; width: 100%" id="skillHolder">
     
-                <label for="Healthcare">Healthcare</label>
-                <input type="checkbox" name="Healthcare">
+                <div class="internship-requirements">Internship requirements</div>
+                <input
+                  class="eg-proficient-in"
+                  placeholder="e.g. Proficient in English"
+                  type="text"
+                  style="margin-bottom: 5%;"
+                  name="skill"
+                  required
+                />
+              </div>
+              <button onclick="addOneExtra(event)" id="skillQuestions" class="subtract-icon15" style="width: fit-content; height: fit-content; border: 0; background: none; cursor: pointer;" type="button">
+                <img class="subtract-icon15" alt="" src='/images/internshipCreator/Subtract.svg' id="skillQuestions"/>
+            </button>
+
+            <section class="frame-parent25">
+              <div style="color: #0154b8;" class="internship-requirements">Choose corresponding internship categories:</div>
+              <div class="architecture-comp-parent">
+                <div class="frame-parent26">
+                  <div class="rectangle-parent22">
+                    <% const choosablefields = [
+                        "Architecture",
+                        "Art",
+                        "Computer Science",
+                        "Biology",
+                        "Music",
+                        "Finance",
+                        "Software Engineering",
+                        "Design",
+                        "Hospitality",
+                        "Medicine",
+                        "Journalism",
+                        "Electrical Engineering",
+                        "Law",
+                        "Film",
+                        "Research",
+                        "Hardware Engineering",
+                        "Retail",
+                        "Information Technology",
+                        "Media",
+                        "Construction",
+                        "Cybersecurity",
+                        "Counselling",
+                        "Education",
+                        "Consultation"
+                    ]; %>
+                    <% choosablefields.forEach((choosablefield)=>{%>
+                          <button class="frame-child67" style = "background-color: #a9c5e7; color: #477dc0;"onclick="toggleCheckbox(event)" name="<%= choosablefield%>" type="button"><%= choosablefield %></button>
+                    <%})%>
+                    <input type='hidden' name="checked" id="checkedContainer" required>
+                  </div>
+                </div>
+            </section>
+
+              <div style="width: 100%; margin-top: 5%; margin-bottom: 5%;">
+                <div style="width: 100%; margin-bottom: 2%;" class="internship-requirements">Internship period:</div>
+                <label style="font-size: 50%;">Start date: </label><input type="date" name="dateStart" id="dateStart" required="true" min="<%= new Date().toISOString().split('T')[0] %>" onkeydown="return false"><br>
+                <label style="font-size: 50%;">End date: </label><input type="date" name="dateEnd" id="dateEnd" required="true" min="<%= minDate %>" onkeydown="return false"><br><br>
+
+                <label style="font-size: 50%;">Shift starting time: </label><input type="time" name="shiftStart" required="true" id="shiftStart"><br>
+                <label style="font-size: 50%;">Shift ending time: </label><input type="time" name="shiftEnd" required="true" id="shiftEnd"><br>
+
+                <label class="checkboxContainer"><input type="checkbox" name="flexibleCheck" id="flexibleCheck" class="flexibleCheck"><span class="checkmark"></span>  Internship period details are negotiable</label>
+              </div>
+
+              <div style="display: flex; flex-direction: column; width: 100%" id="employerQuestionsHolder">
     
-                <label for="Media">Media</label>
-                <input type="checkbox" name="Media">
-            </section><br>
-
-            <label>Type of internship</label><br>
-            <input type="radio" name="internshipType" value="Full-Time"><label>Full Time</label><br>
-            <input type="radio" name="internshipType" value="Part-Time"><label>Part Time</label><br><br>
-
-            <label>Wage for internship</label><br>
-            <input type="radio" name="wageType" value="Paid" onclick="showAddress(event)" id="paid"><label>Paid</label><br>
-            <section style = "display: none;" id="wageSection">
-                <label>Wage (per hour)</label><input type="text" name="wage">
-            </section>
-            <input type="radio" name="wageType" value="Unpaid" onclick="showAddress(event)" id="unpaid"><label>Unpaid</label><br><br>
+                <div class="internship-requirements">Employer questions</div>
+                <input
+                  class="eg-proficient-in"
+                  placeholder="e.g. What interests you about this role?"
+                  type="text"
+                  name="question"
+                  style="margin-bottom: 5%;"
+                />
+              </div>
+              <button type="button" onclick="addOneExtra(event)" id="employerQuestions" class="subtract-icon15" style="width: fit-content; height: fit-content; border: 0; background: none; cursor: pointer;">
+                <img class="subtract-icon15" alt="" src='/images/internshipCreator/Subtract.svg' id='employerQuestions'/>
+            </button>
 
 
-            <label>Job description</label><br>
-            <textarea style="height: 200px; width: 50vw" name = "about" id="about" placeholder="Description of your internship" required="true"></textarea><br><br>
-
-            <section id = "skillHolder">
-                <label>Skills required from internee</label><br>
-                <label>Skill 1: </label><input type="text" name="skill"><br><br>
-            </section>
-            <button id="addAnotherSkill" type="button" onclick="addOneExtra(event)">Add another skill</button><br><br>
-
-            <label>Workplace type</label><br>
-            <input type="radio" name = "internshipPlace" value="online" onclick="showAddress(event)" id="online"><label for = "online">Online</label>
-            <input type="radio" name = "internshipPlace" value="onsite" onclick="showAddress(event)" id="on-site"><label for = "onsite">On-site</label><br><br>
-
-            <section id="addressSection" style="display: none;">
-                <label>Address of workplace</label><br>
-                <input type="text" name="addressOfWorkplace" placeholder="Insert Address here"><br><br>
-            </section>
-
-            <label>Shift schedule</label><br>
-            <label>From: </label><input type="time" name="timeStart" id="timeStart" required = 'true'><br>
-            <label>To: </label><input type="time" name="timeEnd" id="timeEnd" required = 'true'><br><br>
-
-            <label>Internship schedule</label><br>
-            <label>Start date: </label><input type="date" name="dateStart" id="dateStart" required="true"><br>
-            <label>End date: </label><input type="date" name="dateEnd" id="dateEnd" required="true"><br><br>
-
-            <section id = "questionHolder">
-                <label>Screening questions (leave blank if none)</label><br>
-                <label>Question 1: </label><input type="text" name="question"><br><br>
-            </section>
-            <button id="addAnother" type="button" onclick="addOneExtra(event)">Add another question (max 10 questions)</button><br><br>
-
-            <button type="submit">Confirm internship details?</button>
-        </form>
-    </body>
-    <script>
-        function addOneExtra(event){
-            let element;
-            let filler;
-            let max;
-            let name;
-            if(event.target.id === "addAnother"){
-                element = document.getElementById("questionHolder")
-                filler = "Question "
-                max = true
-                name = "question"
-            } else {
-                element = document.getElementById("skillHolder")
-                filler = "Skill "
-                max = false
-                name = "skill"
-            }
-
-            const numberOfQuestions = element.querySelectorAll("label").length;
-
-            if(numberOfQuestions > 10 && max == true){
-                alert("Maximum Questions Reached!")
-                return;
-            }
-
-            const label = document.createElement("label")
-            const deleteButton = document.createElement("button")
-            const question = document.createElement("input")
-            const linebreak1 = document.createElement("br")
-            const linebreak2 = document.createElement("br")
-            
-            const node = document.createTextNode(filler + numberOfQuestions + ": ")
-            const node2 = document.createTextNode("X")
-            label.appendChild(node)
-            label.className = "genLabel"
-            deleteButton.appendChild(node2)
-            question.type = "text";
-            question.name = name
-            deleteButton.type = "button";
-            deleteButton.id = "deleteButton"
-            deleteButton.addEventListener("click", function (){
-                element.removeChild(label)
-                element.removeChild(question)
-                element.removeChild(deleteButton)
-                element.removeChild(linebreak1)
-                element.removeChild(linebreak2)
-
-                const remainingQuestions = Array.from(element.getElementsByClassName("genLabel"))
-                remainingQuestions.forEach((remainingLabel, index) => {
-                    remainingLabel.textContent = filler + (index + 2) + ": ";
-                });
-            })
-
-            element.appendChild(label)
-            element.appendChild(question)
-            element.appendChild(deleteButton);
-            element.appendChild(linebreak1)
-            element.appendChild(linebreak2)
-        }
-
-        function showAddress(event){
-            let showContent;
-            if(event.target.name === "wageType"){
-                showContent = "wageSection"
-            } else {
-                showContent = "addressSection"
-            }
-
-            const addressPart = document.getElementById(showContent)
-
-            if(addressPart.style.display === "none" && (event.target.id === "on-site" || event.target.id === "paid") ){
-                addressPart.style.display = 'block'
-            } else if(event.target.id === "online" || event.target.id === "unpaid"){
-                addressPart.style.display = 'none'
-            }
-        }
-    </script>
+              <div class="frame-wrapper14">
+                <button class="rectangle-parent16" type="submit">
+                  <div class="frame-child57"></div>
+                  <div class="save">Save</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </form>
+    <script src = "/javascript/internshipCreator.js" type = "text/javascript"></script>
+  </body>
 </html>

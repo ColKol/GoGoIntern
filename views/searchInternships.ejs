@@ -29,10 +29,15 @@
                 <input type="radio" name="placementType" value="online"><label>Online</label><br>
                 <input type="radio" name="placementType" value="onsite"><label>On-site</label><br><br>
 
-                <label>Wage type:</label><br>
+                <!-- <label>Wage type:</label><br>
                 <input type="radio" name="wageType" value="Paid"><label>Paid</label><br>
-                <input type="radio" name="wageType" value="Unpaid"><label>Unpaid</label><br><br>
+                <input type="radio" name="wageType" value="Unpaid"><label>Unpaid</label><br><br> -->
 
+                <label>Internship schedule type</label>
+                <ul>
+                    <li><label>Flexible</label><input type="radio" name="internshipSchedule" value="flexible"></li><br>
+                    <li><label>Fixed</label><input type="radio" name="internshipSchedule" value="fixed"></li>
+                </ul><br><br>
 
                 <label>Internship Shift/Schedule:</label>
                 <ul>
@@ -62,11 +67,11 @@
                                 <p>Online</p>
                             <%}%>
     
-                            <% if(result.wageType === "Paid"){%>
+                            <!-- <% if(result.wageType === "Paid"){%>
                                 <p>Paid internship</p>
                             <%} else {%>
                                 <p>Unpaid internship</p>
-                            <%}%>
+                            <%}%> -->
                         </div>
                         <div style="width: 55vw; display: none;" id="extraInfo<%= index %>">
                             <h2><%= result.nameOfInternship %></h2>
@@ -87,8 +92,12 @@
                             </ul>
     
                             <h3>Schedule for the internship:</h3>
-                            <p>Starting date: <%= result.startDate.toLocaleDateString()%></p>
-                            <p>Starting date: <%= result.endDate.toLocaleDateString()%></p>
+                            <% if(result.internshipSchedule === "fixed"){%>
+                                <p>Starting date: <%= result.startDate.toLocaleDateString()%></p>
+                                <p>Starting date: <%= result.endDate.toLocaleDateString()%></p>
+                            <%} else if(result.internshipSchedule === "flexible"){%>
+                                <p>Negotiable start and end dates</p>
+                            <%}%>
     
                             <h3 style="margin: 0px;">Shift:</h3>
                             <p style="margin: 0px;">From: <%= result.shiftStart %></p>

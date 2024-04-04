@@ -5,9 +5,9 @@ module.exports = {
             return next();
         } else {
             if(req.user.userType === "student"){
-                res.redirect('/users/registration/studentQuestionnare')
+                res.redirect('/users/register/newUser?user=student')
             } else {
-                res.redirect('/users/registration/businessQuestionnare')
+                res.redirect('/users/register/newUser?user=business')
             }
         }
     }

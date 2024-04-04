@@ -3,76 +3,306 @@
     <head> 
         <title>Register | GoGoIntern</title>
 
-        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
-        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
+        <link rel="stylesheet" href="/css/global.css" />
+        <link rel="stylesheet" href="/css/register.css" />
+        <link rel="stylesheet" href="/css/register2.css" />
+        <link rel="stylesheet" href="/css/register3.css" />
+        <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+        />
+        <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+        />
+        <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+        />
+        <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
     </head>
 
-    <body>
-        <div class = "banner">
-            <img src = "/images/icons/New-Logo-TB.png" width="100px">
-            <h1>GoGoIntern</h1>
+    <body style="height: 100%;">
+        <form class="rectangle-parent" id = "registrationForm" action="/users/register/newUser"  method="post" autocomplete="off" enctype="multipart/form-data">
+            <div class="frame-child11"></div>
+            <section class="rectangle-group">
+              <div class="frame-child12"></div>
+              <div class="subtract-frame">
+                <a href="/">
+                    <img
+                    class="subtract-icon5"
+                    loading="lazy"
+                    alt=""
+                    src="/images/registration/subtract1.svg"
+                  />
+                </a>
+              </div>
+              <div class="a-few-things-before-we-begin-parent">
+                <div class="a-few-things">A few things before we begin...</div>
+                <div class="frame-wrapper4">
+                  <div class="frame-parent6">
+                    <div class="intersecting-circles-wrapper">
+                      <div class="intersecting-circles"></div>
+                    </div>
+                    <nav class="frame-nav">
+                      <div class="ellipse-parent">
+                        <button class="ellipse-div" onclick="shiftSections(event)" id="button1" type="button">
+                            <div class="semicolon-separator" value="1" id="number1">1</div>
+                        </button>
+                      </div>
+                      <div class="ellipse-container">
+                        <button class="div" onclick="shiftSections(event)" id="button2" type="button">
+                            <div class="unset-text" value="2" id="number2">2</div>
+                        </button>
+                      </div>
+                      <div class="ellipse-container">
+                        <button class="div" onclick="shiftSections(event)" id="button3" type="button">
+                            <div class="unset-text" value="3" id="number3">3</div>
+                        </button>
+                      </div>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="input-container-wrapper" id="section1">
+              <div class="input-container">
+                <div class="frame-parent7">
+                    <div class="email1" style="text-align: center; justify-content: center; width: 100%; color: rgb(215, 0, 0);">
+                        <% if(errors != null){%>
+                            <% if(errors.includes('email')){%>
+                                Email is already taken<br>
+                            <%}%>
+
+                            <%if(errors.includes('length')){%>
+                                Password must be at least 6 letters long<br>
+                            <%}%>
+                        <%}%>
+                    </div>
+                  <div class="rectangle-container">
+                    <div class="frame-child15"></div>
+                    <input class="email1" placeholder="Email" type="email" name = "email" id='email' 
+                    value="<% if (emailValue != undefined){%> <%= emailValue%><%}%>"/>
+                  </div>
+                  <div class="group-div">
+                    <div class="frame-child16"></div>
+                    <input class="password1" placeholder="Password " type="text" name = "password" id='password' />
+                  </div>
+                  <div class="rectangle-parent1">
+                    <div class="frame-child17"></div>
+                    <input class="firm-name" placeholder="<%= username %>" type="text" name = "name" id='name'  
+                    value="<% if (usernameValue != undefined){%><%= usernameValue%><%}%>"/>
+                  </div>
+                </div>
+                <div class="subtract-wrapper1">
+                <button class="nextButton" onclick="shiftSections(event)" type="button">
+                    <img
+                    class="subtract-icon6"
+                    loading="lazy"
+                    alt=""
+                    src="/images/registration/subtract-11.svg"
+                    value = "2"
+                  />
+                </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="company-description-wrapper" id="section2">
+                <div class="company-description">
+                  <div class="firm-description-parent">
+                    <div class="firm-description">Firm Description</div>
+                    <textarea class="group-textarea" placeholder="e.g. Google is a company that..." rows="19" cols="36" name = "about" id="about" ></textarea>
+                  </div>
+                  <div class="firm-description-parent">
+                    <div for="input-file" class="firm-description" style="width:auto" id="drop-area">
+                        <label for="input-file" id="drop-area">
+                            <div style="display: flex; position: relative">Upload your profile picture</div>
+                            <div style="display: flex; position: relative; font-size: 60%;">Drag and drop or click on the icon to choose an image</div>
+                            <input type="file" id="input-file" accept="image/png, image/jpeg" size="100000" name="profilePic" hidden>
+                            <div style=" margin-bottom: 4rem; width: 60vw; height: 60vh;">
+                                <img src="/images/registration/uploadPicture.svg"
+                                id="img-view">
+                            </div>
+                        </label>
+                    </div>
+                  </div>
+                  <div class="subtract-wrapper3">
+                    <!-- <div>Drag and drop or click on the image to change your profile picture</div> -->
+                    <button class="nextButton" onclick="shiftSections(event)" type="button">
+                        <img
+                        class="subtract-icon8"
+                        loading="lazy"
+                        alt=""
+                        src="/images/registration/subtract-11.svg"
+                        value = "3"
+                        />
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <section class="custom-fields" id="section3">
+                <div class="select-fields">
+                  <div class="select-fields-of">Select field(s) of your firm</div>
+                  <!-- <div class="line-parent1"> -->
+                    <!-- <div class="frame-child30"></div> -->
+                    <!-- <div class="components-container"> -->
+                      <!-- <div class="components-container-inner">
+                        <img class="frame-child31" loading="lazy" alt="" />
+                      </div>
+                      <input class="search" placeholder="Search" type="text" /> -->
+                    <!-- </div> -->
+                  <!-- </div> -->
+                  <div class="c-s-component">
+                    <div class="biology-component">
+                      <button class="component-3" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Architecture">
+                        <div class="music-label"></div>
+                        <div class="architecture">Architecture</div>
+                      </button>
+                      <button class="component-4" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Art">
+                        <div class="component-4-child"></div>
+                        <div class="art">Art</div>
+                      </button>
+                    </div>
+                    <div class="biology-label">
+                      <button class="component-2" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Computer Science">
+                        <div class="component-2-child"></div>
+                        <div class="music">Computer Science</div>
+                      </button>
+                      <button class="component-5" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Biology">
+                        <div class="computer-science-instance-a"></div>
+                        <div class="biology">Biology</div>
+                      </button>
+                    </div>
+                    <div class="music-component-parent">
+                      <div class="music-component">
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Music">
+                          <div class="component-6-child"></div>
+                          <div class="music">Music</div>
+                        </button>
+                      </div>
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Finance">
+                              <div class="component-6-child"></div>
+                              <div class="music">Finance</div>
+                        </button>
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Software Engineering">
+                            <div class="component-6-child"></div>
+                            <div class="music">Software Engineering</div>
+                      </button>
+                    </div>
+                    <div class="biology-label" style="border:none;">
+                        <button class="component-5" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Design">
+                            <div class="computer-science-instance-a"></div>
+                            <div class="biology">Design</div>
+                        </button>
+                        <button class="component-2" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" style="border:none; cursor: pointer;" name="Hospitality">
+                            <div class="component-2-child"></div>
+                            <div class="music">Hospitality</div>
+                        </button>
+                    </div>
+                    <div class = "biology-label">
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Medicine">
+                            <div class="component-6-child"></div>
+                            <div class="music">Medicine</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Journalism">
+                            <div class="component-6-child"></div>
+                            <div class="music">Journalism</div>
+                          </button>
+                    </div>
+
+                    <div class = "biology-label">
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Electrical Engineering">
+                            <div class="component-6-child"></div>
+                            <div class="music">Electrical Engineering</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Law">
+                            <div class="component-6-child"></div>
+                            <div class="music">Law</div>
+                          </button>
+                    </div>
+
+                    <div class="music-component-parent">
+                        <div class="music-component">
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Film">
+                            <div class="component-6-child"></div>
+                            <div class="music">Film</div>
+                          </button>
+                        </div>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Research">
+                                <div class="component-6-child"></div>
+                                <div class="music">Research</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Hardware Engineering">
+                              <div class="component-6-child"></div>
+                              <div class="music">Hardware Engineering</div>
+                        </button>
+                      </div>
+
+                      <div class = "biology-label">
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Retail">
+                            <div class="component-6-child"></div>
+                            <div class="music">Retail</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Information Technology">
+                            <div class="component-6-child"></div>
+                            <div class="music">Information Technology</div>
+                          </button>
+                     </div>
+
+                    <div class="music-component-parent">
+                        <div class="music-component">
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Media">
+                            <div class="component-6-child"></div>
+                            <div class="music">Media</div>
+                          </button>
+                        </div>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Construction">
+                                <div class="component-6-child"></div>
+                                <div class="music">Construction</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Cybersecurity">
+                              <div class="component-6-child"></div>
+                              <div class="music">Cybersecurity</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Counselling">
+                            <div class="component-6-child"></div>
+                            <div class="music">Counselling</div>
+                          </button>
+                      </div>
+
+                      <div class = "biology-label">
+                        <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Education">
+                            <div class="component-6-child"></div>
+                            <div class="music">Education</div>
+                          </button>
+                          <button class="component-6" type="button" id="checkboxButton" onclick="toggleCheckbox(event)" name="Consultation">
+                            <div class="component-6-child"></div>
+                            <div class="music">Consultation</div>
+                          </button>
+                     </div>
+
+                     <input type='hidden' value="" required name="checked" id="checkedContainer">
+
+                    <button class="nextButton" type="submit">
+                        <img
+                        class="subtract-icon6"
+                        loading="lazy"
+                        alt=""
+                        src="/images/registration/subtract-11.svg"
+                        value = "2"
+                        />
+                    </button>
+                </div>
+              </section>
+          </div>
         </div>
+      </section>
+    </form>
 
-        <a href = "/users/backtoHome">Back to front page</a>
-
-        <div class = "firmbutton">
-            Sign-up for firms instead
-        </div>
-        <h1 class = "signin">Student Sign-up</h1>
-        <% if (errors.length > 0){%>
-            <% errors.forEach(function(error){ %>
-                <h3 style="border: 0.5rem solid rgb(234, 155, 168); background-color: rgb(244, 127, 127); color: whitesmoke; width: 40vw"><%= error %></h3>
-            <%}); %>
-        <%} %>
-
-        <form action = "/users/register/newUser" method="POST">
-            <section style="align-items: center;">
-                <div class = "metrics">
-                    <label for = "name"><%= username %></label>
-                    <input type = "text" id = "name" class = "inputs" name = "name" placeholder = "Enter <%= username %>" required>
-            </section>
-            <section>
-                <div class = "metrics">
-                    <label for = "email">Email:</label>
-                    <input type = "email" id = "email" name = "email" placeholder = "Enter email" required class = "inputs">
-                </div>
-            </section>
-            <section>
-                <div class = "metrics">
-                    <label for="current-password">Password:</label>
-                    <input type = "password" id = "password" name = "password" placeholder = "Enter password" required class = "inputs">
-                </div>
-            </section>
-            <section style="padding: 5px;">
-                <label for = "cookie" style="font-size: 30px; margin-right: 4px;">Remember me</label>
-                <input type = "checkbox" id = "remember" name = "remember">
-            </section>
-            
-            <section style="align-items: center;">
-                <div
-                class="g-recaptcha"
-                data-sitekey="6Ldw7mgpAAAAACRvx8hHLT3-8DelgF0BnoulkNyk"
-                data-callback="canSubmit">
-                </div>
-            </section>
-
-            <button type="submit" style="font-size: 22px;" disabled id="signin-button">Sign up</button>
-
-            <h1 class = "signin">Other Methods</h1>
-
-            <div class = "metrics" style="width: 90vmax; padding-bottom: 10px; padding-top: 10px; margin-left: 40px;">
-                <a href = "/auth/google" class = "bottombuttons">Sign up with google</a>
-                <a href = "/users/login" class="bottombuttons">Already have an account?</a>
-            </div>
-        </form>
-
-        <script type="text/javascript">
-            function canSubmit(token) {
-                const submitButton = document.getElementById("signin-button");
-                submitButton.removeAttribute("disabled");
-            }
-        </script>
+      <script src = "/javascript/registerFunctions.js" type = "text/javascript"></script>
     </body>
 </html>

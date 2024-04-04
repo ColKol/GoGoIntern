@@ -1,315 +1,192 @@
 <!DOCTYPE html>
 <html>
-    <head> 
-        <title>User details</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <link rel = "stylesheet" href = "/css/login.css" type = "text/css">
-        <link rel="stylesheet" href="/css/all-style.css" type = "text/css">
-        <link rel="stylesheet" href="/css/about-style.css" type = "text/css">
-        <link rel="stylesheet" href="/css/menu-style.css" type = "text/css">
-        <link rel="icon" href="/images/icons/rayreader-logo.png" type = "image/png">
-        <link rel = "stylesheet" href="/css/login.css" type = "text/css">
-        <link rel = "stylesheet" href = "/css/userdetails.css" type = "text/css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    </head>
+    <title>User Details</title>
 
-    <body>
-        <div class = "banner">
-            <img src = "/images/icons/New-Logo-TB.png" width="100px">
-            <h1>nternalyse</h1>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/userdetails.css" />
+    <link rel="stylesheet" href="/css/changeFields.css">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
+  </head>
+  <body>
+    <form class="userprofile-firm" method="post" action="/userpage/userdetails" enctype="multipart/form-data">
+      <section class="frame-parent20">
+        <a href="/userpage" style="display: flex; align-self:flex-start">
+            <img class="subtract-icon18" loading="lazy" alt="" src='/images/userdetails/backtobase.svg'/>
+        </a>
+        <div class="firm-label-wrapper">
+          <div class="firm-label">
+
+            <div class="firm-label-inner">
+              <div class="frame-parent21">
+                <label class="wrapper-subtract-wrapper" for="input-file" id="drop-area">
+                  <input type="file" id="input-file" accept="image/png, image/jpeg" size="100000" name="profilePic" hidden>
+                  <div class="wrapper-subtract2">
+                    <img class="subtract-icon19" alt="" src="data:image/jpeg;base64, <%= image.toString('base64') %>" id="img-view"/>
+                  </div>
+                  <div class="wrapper-subtract1">
+                        
+                        <img class="subtract-icon17" loading="lazy" alt="" src='/images/userdetails/editIcon.svg'/>
+                  </div>
+                </label>
+                <h1 class="firm-1"><%= firmName %></h1>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <% if (passwordCheck){%>
-            <h2>Email has been sent to change your password</h2>
-        <%}%>
-
-        <form action = "/userpage/userdetails" method = "post">
-            <div class = "metrics" style=" width: 70vmax; flex-direction: column;">
-                <div style="display: flex; flex-direction: row;">
-                    <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">User details</h2>            
-                </div>
-                <div style="display: flex; flex-direction: row;">
-                    <a class = "words">Username:</a><input class = "words inputs" style="font-size: 0.6em; width: 30vmax;" type = "text" id = "new_name" name = "new_name" value= "<%= name %>" required>
-                </div>
-                <div style="display: flex; flex-direction: row;">
-                    <a class = "words">Email:</a><input type="email" class = "words inputs" style="font-size: 0.6em; width: 30vmax;" name = "new_email" id = "new_email" type = "text" value= "<%= email %>" required>
-                </div>
-                <div style="display: flex; flex-direction: row;">
-                    <a class = "words">Password: ********</a>
-                    <a class = "passwordbutton" href="/userpage/userdetails?changepassword=true">Change password</a>
+        <div class="frame-parent22">
+          <div class="frame-wrapper15">
+            <div class="frame-parent23">
+              <% fields.forEach((field)=>{%>
+                <button class="rectangle-parent18" type="button">
+                    <div class="field-1"><%= field %></div>
+                </button>
+              <%})%>
+              <!-- <button class="rectangle-parent18">
+                <div class="field-1">Field 1</div>
+              </button>
+              <button class="rectangle-parent18">
+                <div class="field-1">Field 1</div>
+              </button>
+              <button class="rectangle-parent18">
+                <div class="field-1">Field 1</div>
+              </button> -->
+              <div class="union-frame">
+                <button type="button" class="openFields" id="openFields">
+                    <img
+                    class="union-icon7"
+                    loading="lazy"
+                    alt=""
+                    src="/images/userdetails/edit.svg"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="changeFields" id="changeFields">
+            <div class="rectangle-parent20">
+                <div class="frame-child63"></div>
+                <div class="frame-child64"></div>
+                <!-- <div class="frame-wrapper18">
+                  <div class="rectangle-parent21">
+                    <div class="frame-child65"></div>
+                    <img
+                      class="frame-child66"
+                      loading="lazy"
+                      alt=""
+                      src="./public/group-9.svg"
+                    />
+          
+                    <div class="search-bar">
+                      <div class="search2">Search</div>
+                    </div>
+                  </div>
+                </div> -->
+                <section class="frame-parent25">
+                  <div style="color: #0154b8;">Choose your interested fields:</div>
+                  <div class="architecture-comp-parent">
+                    <div class="frame-parent26">
+                      <div class="rectangle-parent22">
+                        <% const choosablefields = [
+                            "Architecture",
+                            "Art",
+                            "Computer Science",
+                            "Biology",
+                            "Music",
+                            "Finance",
+                            "Software Engineering",
+                            "Design",
+                            "Hospitality",
+                            "Medicine",
+                            "Journalism",
+                            "Electrical Engineering",
+                            "Law",
+                            "Film",
+                            "Research",
+                            "Hardware Engineering",
+                            "Retail",
+                            "Information Technology",
+                            "Media",
+                            "Construction",
+                            "Cybersecurity",
+                            "Counselling",
+                            "Education",
+                            "Consultation"
+                        ]; %>
+                        <% choosablefields.forEach((choosablefield)=>{%>
+                            <% if(fields.includes(choosablefield)){%>
+                                <button class="frame-child67 checked" onclick="toggleCheckbox(event)" name="<%= choosablefield%> checked" type="button" value="<%= choosablefield%>*"><%= choosablefield %></button>
+                            <%} else {%>
+                                <button class="frame-child67" onclick="toggleCheckbox(event)" name="<%= choosablefield%>" type="button"><%= choosablefield %></button>
+                            <%}%>
+                        <%})%>
+                        <input type='hidden' value="<%= fields %>" name="checked" id="checkedContainer">
+                      </div>
+                      <button id="openFields" type="button" class="closeInterestedFields">Confirm</button>
+                    </div>
+                </section>
+              </div>
+          </div>
+          <div class="frame-parent24">
+            <div class="frame-wrapper17">
+                <div class="email-parent">
+                  <div class="email2">Firm name</div>
+                  <input type="text" class="frame-child61" name="name" value="<%= firmName %>">
                 </div>
             </div>
-
-            <div class = "metrics" style="flex-direction: column; width: 70vmax;">
-
-                <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">
-                    <% if(userType == "student"){%>
-                        Interested fields
-                    <%} else {%>
-                        Business fields
-                    <%}%>
-                </h2>
-
-                <div class = "dropdown">
-                    <div style="display: flex; flex-direction: row;">
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <!-- <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Languages spoken</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Chinese
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        English
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Spanish
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        French
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Japanese
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Korean
-                                        <input type="checkbox">
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Other
-                                        <input type="checkbox">
-                                        <input style="width: 5vmax;">
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
-    
-    
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(0)">Research</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Biology
-                                        <% if (fields.includes("Biology")) { %>
-                                            <input name = "InterestedFields" value = "Biology"type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Biology" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Physics
-                                        <% if (fields.includes("Physics")) { %>
-                                            <input name = "InterestedFields" value = "Physics" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Physics" type = "checkbox">
-                                        <%}%> 
-                                    </div>                                 
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Chemistry
-                                        <% if (fields.includes("Chemistry")) { %>
-                                            <input name = "InterestedFields" value = "Chemistry" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Chemistry" name = "InterestedFields" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(1)">Service</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Healthcare
-                                        <% if (fields.includes("Healthcare")) { %>
-                                            <input name = "InterestedFields" value = "Healthcare"type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Healthcare" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Hospitality
-                                        <% if (fields.includes("Hospitality")) { %>
-                                            <input name = "InterestedFields" value = "Hospitality" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Hospitality" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(2)">Mathematics</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                         Data Analysis
-                                         <% if (fields.includes("Data")) { %>
-                                            <input name = "InterestedFields" value = "Data" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Data" type = "checkbox">
-                                        <%}%>                                   
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Cryptography
-                                        <% if (fields.includes("Cryptography")) { %>
-                                            <input name = "InterestedFields" value = "Cryptography" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Cryptography" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; flex-direction: row; margin-top: 10px;">
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(3)">Design technologies</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Design
-                                        <% if (fields.includes("Design")) { %>
-                                            <input name = "InterestedFields" value = "Design" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Design" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Technology
-                                        <% if (fields.includes("Tech")) { %>
-                                            <input name = "InterestedFields" value = "Tech" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Tech" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(4)">Computer Science</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Artifical Intellegence
-                                        <% if (fields.includes("AI")) { %>
-                                            <input name = "InterestedFields" value = "AI" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "AI" type = "checkbox">
-                                        <%}%>
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Engineering
-                                        <% if (fields.includes("Engineering")) { %>
-                                            <input name = "InterestedFields" value = "Engineering" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Engineering" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </div>
-    
-                        <div style="display:flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-                            <a class = "dropdown-content" style="margin-right: 10px;" onclick= "toggleDropdown(5)">Finances</a>
-                            <div style="display: none; flex-direction: column;" class = "dropdown-content-content">
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Finance
-                                        <% if (fields.includes("Finance")) { %>
-                                            <input name = "InterestedFields" value = "Finance" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Finance" type = "checkbox">
-                                        <%}%>
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        Marketing
-                                        <% if (fields.includes("Marketing")) { %>
-                                            <input name = "InterestedFields" value = "Marketing" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Marketing" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                                <div style="display:flex; flex-direction: row;">
-                                    <div class = "dropdown-content-content-content">
-                                        FinTech
-                                        <% if (fields.includes("Fintech")) { %>
-                                            <input name = "InterestedFields" value = "Fintech" type="checkbox" checked>
-                                        <%} else { %>
-                                            <input name = "InterestedFields" value = "Fintech" type = "checkbox">
-                                        <%}%>                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button id = "Updateinformation" type="submit">Update</button>
+            <div class="frame-wrapper17">
+              <div class="email-parent">
+                <div class="email2">Email</div>
+                <input type="email" class="frame-child61" name="email" value="<%= email %>">
+              </div>
             </div>
-        </form>
-
-
-        <div class = "metrics" style="flex-direction: column; width: 70vmax;" >
-            <h2 style="font-size: 4vmax; transition: 1s; margin-top: -10px; margin-bottom: -5px;">Other</h2>
-            <a class = "words">Change colour scheme</a>
-            <a class = "words">Change theme</a>
-            <% if (userType == 'business') {%>
-                <a>Change description</a>
-            <%}%>
+            <!-- <div class="password-group">
+              <div class="password2">
+                <span class="password-txt">
+                  <span>Password</span>
+                  <span class="span"> </span>
+                </span>
+              </div>
+              <div class="line-wrapper1">
+                <input type="text" class="frame-child62">
+              </div>
+            </div> -->
+          </div>
+          <div class="edit-firm-description-wrapper">
+            <div class="edit-firm-description">Edit firm description</div>
+            <textarea class="userprofile-firm-item" name="about"><%= about %></textarea>
+          </div>
         </div>
-
-        <script src="/javascript/dropdown.js"></script>
-        <script src="/javascript/userupdates.js" type = "/module"></script>
-
-
-    </body>
+        <div class="userprofile-firm-inner">
+            <button class="rectangle-parent17" style="background-color: white; border-color: blue;" type="submit">
+              <div class="frame-child58"></div>
+              <div class="log-out" style="color: blue;">Save details</div>
+            </button>
+        </div>
+        <a class="userprofile-firm-inner" href="/users/logout">
+            <button class="rectangle-parent17" style="border: 0;" type="button">
+              <div class="frame-child58"></div>
+              <div class="log-out">Log out</div>
+            </button>
+        </a>
+      </section>
+    </form>
+    <script type="text/javascript" src="/javascript/userdetails.js"></script>
+  </body>
 </html>

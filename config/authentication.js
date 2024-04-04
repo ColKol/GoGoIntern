@@ -11,10 +11,9 @@ const userInfo = require('../models/userCreation')
 module.exports = async function(passport) {
   passport.use("local", new LocalStrategy({ usernameField: 'name' }, async (name, password, done) => {
       try {
-        const user = await userInfo.findOne({ email: name, verified: true });
+        const user = await userInfo.findOne({ email: name });
 
         if (!user) {
-          console.log("User does not exist");
           return done(null, false);
         }
 
@@ -24,12 +23,10 @@ module.exports = async function(passport) {
           if (isMatch) {
             return done(null, user);
           } else {
-            console.log("Incorrect password");
             return done(null, false);
           }
         });
       } catch (err) {
-        console.log(err);
         return done(err);
       }
     })

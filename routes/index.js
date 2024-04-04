@@ -5,6 +5,8 @@ const { checkIfStudentInfoThere } = require('../config/checkIfStudentInfoThere')
 const cookieParser = require('cookie-parser')
 const nodemailer = require('nodemailer');
 const internshipCreator = require('..//models/internship')
+const natural = require('natural')
+const stemmer= natural.PorterStemmer;
 
 router.use(cookieParser())
 const { getDB } = require('../databased/database')
@@ -13,56 +15,137 @@ const mongodb = require('mongodb')
 const fs = require('fs');
 const assert = require('assert')
 
-router.get('/', (req, res,next)=>{
-    res.render('index')
-})
+require('dotenv').config({ path: '../target.env' });
+const userInfo = require('..//models/userCreation')
+const verificationCodes = require('..//models/verificationCodes')
+const bcrypt = require('bcrypt')
+const multer = require('multer')
+const stream = require('stream')
 
-router.get('/about', (req,res)=>{
-    res.render('about')
-})
+const { studentInfo } = require('../config/studentInfo');
 
-router.get('/citations', (req,res)=>{
-    res.render('citations')
-})
+const passport = require('passport')
 
-router.get('/page/practice', (req,res)=>{
-    res.render('page-practice')
-})
+router.use(cookieParser())
 
-router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, (req,res)=>{
-    res.render('userpage', {
-        name: req.user.username,
-        email: req.user.email,
-        userType: req.user.userType
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
+
+const autosignout = async (req, res, next) => {
+  if (req.user) {
+    req.logout((err) => {
+      if (err) {
+        console.error('Error during user logout:', err);
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+}
+
+router.get('/', autosignout, (req, res,next)=>{
+    delete req.session.errorsInRegistration
+    res.render('index',{
+        errors: req.query.errors
     })
 })
 
-// router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async (req,res)=>{
-//     let recommendedCourses = []
-//     console.log(req.user.interests)
+router.post('/', (req, res, next)=>{
 
-//     const recommended = await internshipCreator.find({typeOfInternship: {
-//         $in: req.user.interests
-//       }}).limit(6)
+    passport.authenticate('local', (err, user) => {
+        if(err){
+            return next (err)
+        }
 
-//     recommended.forEach(async (reccomend)=>{
-//         recommendedCourses.push(reccomend)
-//     })
+        if(!user){
+            req.flash('error', 'Invalid username or password');
+            return res.redirect('/?errors=true');
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            
+            if(req.body.remember){
+                req.session.userCookie = req.body.name
+                return res.redirect('/users/login/redirect');
+            } else {
+                return res.redirect('/userpage')
+            }
+            
 
-//     recommendedCourses.forEach((course)=>{
-//         console.log(course.creatorName)
-//     })
+        });
 
-//     res.render('userpage', {
-//         name: req.user.username,
-//         email: req.user.email,
-//         userType: req.user.userType,
-//         internships: recommendedCourses
-//     })
+    })(req,res,next);
+})
 
-//     req.session.completedForm = false;
-// })
 
+router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async (req, res) => {
+    // const numberOfItemsPerPage = 3;
+    // const page = req.query.page;
+    // const skipItems = (page - 1) * numberOfItemsPerPage;
+    const filter = {};
+    filter.creator = req.user._id
+
+
+    if(req.session.search){
+        filter.nameOfInternship = { $regex: new RegExp(req.session.search, 'i') };
+    } else {
+        filter.nameOfInternship = { $regex: /.*/ };
+    }
+  
+    const foundInternships = await internshipCreator
+      .find(filter)
+    //   .skip(skipItems)
+    //   .limit(numberOfItemsPerPage);
+  
+    const db = getDB();
+    const bucket = new mongodb.GridFSBucket(db, { bucketName: 'profilePicStorage' });
+  
+    const downloadStream = bucket.openDownloadStream(new mongodb.ObjectId(req.user.profilePicture));
+  
+    const chunks = [];
+    let theImage;
+  
+    // Creating a promise to collect all image chunks
+    const collectImageChunks = new Promise((resolve, reject) => {
+      downloadStream.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+  
+      downloadStream.on('end', () => {
+        theImage = Buffer.concat(chunks);
+        resolve();
+      });
+  
+      downloadStream.on('error', (error) => {
+        console.error('Error retrieving file from database:', error);
+        reject(error);
+      });
+    });
+  
+    try {
+      await collectImageChunks; // Wait for the image data to be collected
+  
+      res.render('userpage', {
+        name: req.user.username,
+        id: req.user._id,
+        email: req.user.email,
+        userType: req.user.userType,
+        internships: foundInternships,
+        image: theImage.toString('base64'), // Convert the image data to Base64
+      });
+    } catch (error) {
+      console.error('Error rendering userpage:', error);
+      res.sendStatus(500);
+    }
+});
+
+router.post('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async(req,res)=>{
+    req.session.search = req.body.search
+    res.redirect('/userpage')
+})
 
 //UBER IMPORTANT CODE FOR LATER, DON'T TOUCH
 // router.get('/testing', ensureAuthenticated, (req,res)=>{

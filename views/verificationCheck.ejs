@@ -1,52 +1,85 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Checking for verification code...</title>
-        <link rel = "stylesheet" href = "/css/verificationCheck.css" type = "text/css">
-    </head>
-    <body>
-        <h2>Verify your account</h2>
-        <% if (failure === "true") { %>
-            <h2>Invalid verification code. A new one is being sent now</h2>
-        <% } else {%>
-            <h2>An email containing your verification code has been sent</h2>
-        <%} %>
-        <form action = "/users/verification" method="POST" onsubmit="handleformSubmit(event)">
-            <input type = "number" id = "VCode" name = "num" placeholder="Verification Code" class = "noscroll" required>
-            <button type="submit" value="submit">Submit verification code</button>
-        </form>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <title>A verification code has been sent to your email!</title>
 
-        <a href = "/users/verification">Resend Verification Code</a>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/verificationCheck.css"/>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
+  </head>
+  <body>
+    <div class="rectangle-frame">
+    <section class="rectangle-parent6">
+        <!-- <div class="frame-child41"></div> -->
+        <div class="subtract-wrapper5">
+          <a href="/users/register">
+              <img
+              class="subtract-icon10"
+              loading="lazy"
+              alt=""
+              src="/images/verificationCheck/subtract3.svg"
+            />
+          </a>
+        </div>
+        <div class="frame-parent13">
+          <div class="a-few-things-before-we-begin-container">
+            <div class="a-few-things3">A few things before we begin...</div>
+          </div>
+        </div>
+      </section>
+      <form class="frame-wrapper7" method="post" action="/users/verification" autocomplete="off">
+        <div class="frame-parent14">
+          <div class="frame-parent15">
+            <div class="verification-input">
+              <div class="enter-verification-code">Enter Verification Code</div>
+            </div>
+            <div class="rectangle-parent7">
+              <input class="rectangle-input" type="text" name='num' maxlength="1" required oninput="handleInput(1, event)" onkeydown="handleBackSpace(1, event)" pattern="[0-9]+"/>
 
-        <script src = "/javascript/verificationCheckJS.js" type = "text/javascript"></script>
-    </body>
-    <script>
-        function handleFormSubmission(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
+              <input class="frame-child43" type="text" name='num' maxlength="1" required oninput="handleInput(2, event)" onkeydown="handleBackSpace(2, event)" pattern="[0-9]+" disabled/>
 
-        // Collect form data and perform necessary actions
-        const form = event.target;
-        const formData = new FormData(form);
+              <input class="frame-child44" type="text" name='num' maxlength="1" required oninput="handleInput(3, event)" onkeydown="handleBackSpace(3, event)" pattern="[0-9]+" disabled/>
 
-        // Make an AJAX request or perform any necessary actions with the form data
-        // Example: Send the form data to the server using fetch or XMLHttpRequest
-        fetch(form.action, {
-            method: form.method,
-            body: formData,
-        })
-            .then((response) => {
-            // Handle the response as needed
-            if (response.ok) {
-                // Redirect to a success page or perform other actions
-                window.location.href = '/users/verification/success';
-            } else {
-                // Handle the error case and display appropriate messages
-                console.error('Form submission failed');
-            }
-            })
-            .catch((error) => {
-            console.error('An error occurred during form submission', error);
-            });
-        }
-    </script>
+              <input class="frame-child45" type="text" name='num' maxlength="1" required oninput="handleInput(4, event)" onkeydown="handleBackSpace(4, event)" pattern="[0-9]+" disabled/>
+            </div>
+            <div class="code-sent-through-email-wrapper">
+              <div class="code-sent-through">
+                <% if (failed === 'false'){%>
+                    Code sent through email!
+                <%} else if (failed === 'true'){%>
+                    <p style="color:rgb(215, 0, 0)">Incorrect code, a new one has been sent</p>
+                <%}%>
+            </div>
+            </div>
+          </div>
+          <div class="subtract-wrapper6">
+            <a href="/users/verification?failed=false" style="color: rgb(1, 84, 184);">Resend code?</a>
+            <button class="submitButton" type="submit" disabled>
+                <img
+                class="subtract-icon11"
+                loading="lazy"
+                alt=""
+                src="/images/verificationCheck/subtract-13.svg"
+              />
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script src="/javascript/verificationCheckJS.js" type="text/javascript"></script>
+  </body>
 </html>

@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Registration | GoGoIntern</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <head>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/chooseUserType.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lalezar:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=ABeeZee:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata:wght@400&display=swap"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/icons/icon.png">
+  </head>
+  <body>
+    <div class="macbook-pro-14-1">
 
-    </head>
-
-    <body>
-        <h1>Choose which one you are:</h1>
-        <a href="/users/register/newUser?user=student">I am a student</a>
-        <a href="/users/register/newUser?user=firm">I am a business/firm</a>
-    </body>
+      <div class="frame-parent11">
+        <div class="select-user-type-wrapper">
+          <div class="select-user-type">Select User type</div>
+        </div>
+        <div class="frame-child37"></div>
+      </div>
+      <div class="macbook-pro-14-1-inner">
+        <div class="frame-parent12">
+          <a class="rectangle-parent4">
+            <div class="frame-child38"></div>
+            <div class="student" style="color:rgb(1, 84, 184)">Student</div>
+            <div class="union-wrapper">
+              <img class="union-icon4" loading="lazy" alt="" src="/images/chooseRegistrationType/Student.svg"/>
+            </div>
+        </a>
+          <a class="rectangle-parent5" href="/users/register/newUser?user=business">
+            <div class="frame-child39"></div>
+            <div class="firm" style="color:rgb(1, 84, 184)">Firm</div>
+            <div class="union-container">
+              <img class="union-icon5" loading="lazy" alt="" src="/images/chooseRegistrationType/Firm.svg"/>
+            </div>
+        </a>
+        </div>
+      </div>
+    </div>
+    <script src="/javascript/internshipCreator.js" type="text/javascript"></script>
+  </body>
 </html>

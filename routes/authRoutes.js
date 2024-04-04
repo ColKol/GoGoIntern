@@ -8,17 +8,19 @@ router.get('/google', Googlepassport.authenticate("google", {scope: ['profile', 
 router.get('/google/redirect', Googlepassport.authenticate("google"), (req,res)=>{
     if(req.user){
         if(req.user.userType === "student" && req.user.firstTime == true){
-            res.redirect('/users/registration/studentQuestionnare')
+            res.redirect('/users/register/newUser?user=student')
         } else if(req.user.userType === "business" && req.user.firstTime == true){
-            res.redirect('/users/registration/businessQuestionnare')
+            res.redirect('/users/register/newUser?user=business')
+        } else if(req.user.userType === 'null' && req.user.firstTime == true){
+            res.redirect('/users/register')
         } else {
-            const expirydate = new Date().getMonth() +1
-            const oneMonth = 30 * 24 * 60 * 60 * 1000;
-            res.cookie("userInfo", req.user.id, {maxAge: oneMonth, expires: new Date().setMonth(expirydate)})
+            // const expirydate = new Date().getMonth() +1
+            // const oneMonth = 30 * 24 * 60 * 60 * 1000;
+            // res.cookie("userInfo", req.user.id, {maxAge: oneMonth, expires: new Date().setMonth(expirydate)})
             res.redirect('/userpage')
         }
-    } else{
-        res.redirect('/users/login')
+    } else if(!req.user){
+        res.redirect('/users/register')
     }
 })
 
