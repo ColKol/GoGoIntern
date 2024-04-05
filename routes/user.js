@@ -170,9 +170,9 @@ router.post('/register/newUser', upload.single('profilePic'),async (req, res, ne
       }
 
       if (req.cookies.userType === "student") {
-        usernameReq = "Username";
+        usernameReq = "student";
       } else {
-        usernameReq = "Business/Firm name";
+        usernameReq = "business";
       }
 
       if (about != (null || '')) {

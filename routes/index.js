@@ -143,7 +143,11 @@ router.get('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async (req
 });
 
 router.post('/userpage', ensureAuthenticated, checkIfStudentInfoThere, async(req,res)=>{
-    req.session.search = req.body.search
+    if(req.body.reset === undefined){
+      req.session.search = req.body.search
+    } else{
+      req.session.search = ''
+    }
     res.redirect('/userpage')
 })
 
