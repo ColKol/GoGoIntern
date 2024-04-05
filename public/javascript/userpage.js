@@ -18,6 +18,12 @@ const section3 = document.getElementById('archireef-logo')
 
 const childImg = ascendingOrdescending.querySelector('img')
 
+const reset = document.getElementById('reset')
+
+const resetContainer = document.getElementById('resetContainer')
+
+const resetForm = document.getElementById('resetForm')
+
 
 document.addEventListener('DOMContentLoaded', function() {
     sortByDate();
@@ -120,4 +126,17 @@ showDialogButtons.forEach((button) => {
         // dialog.style.display = 'none';
     })
   });
+});
+
+reset.addEventListener('click',()=>{
+    if(resetContainer.value === ""){
+        resetContainer.value += 'reset'
+    } else {
+        resetContainer.value = resetContainer.value.replace('reset',"")
+    }
+})
+
+resetForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    this.submit();
 });

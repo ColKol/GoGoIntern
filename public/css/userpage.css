@@ -918,6 +918,10 @@
 }
 @media screen and (max-width: 825px) {
 
+  .resetForm{
+    width: 100%;
+  }
+
   .archireef{
       gap: var(--gap-6xl-4);
   }
