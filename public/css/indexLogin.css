@@ -1,3 +1,7 @@
+body{
+  background-color: #F1F9FF;
+}
+
 .backg-icon {
   width: 100%;
   height: 100%;
@@ -890,11 +894,12 @@ hr{
 }
 .backg-parent {
   background-image:url(..//images/login/backg.svg);
+  
   width: 100%;
-  height: 100%;
+  height: 150vh;
   position: relative;
   background-color: #f1f9ff;
-  overflow-y: auto;
+  /*overflow-y:auto;*/
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -907,6 +912,7 @@ hr{
   font-size: var(--font-size-11xl);
   color: var(--color-royalblue);
   font-family: var(--font-lalezar);
+  background-size: cover;
 }
 
 .FooterContainer{
@@ -1102,11 +1108,14 @@ hr{
   }
 
   .backg-parent{
-    width: 100vw;
+    width: 100%;
+    height: 200vh;
+    background-size: cover;
   }
 
   body{
     width: 97vw;
+    background-color: #F1F9FF;
   }
   .gogointern {
     font-size: 1.563rem;

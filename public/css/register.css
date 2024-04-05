@@ -101,6 +101,9 @@
   background-color: var(--color-royalblue);
   height: 4.613rem;
   z-index: 2;
+
+  border: solid;
+  border-color: #0154B8;
 }
 .semicolon-separator {
   position: absolute;
@@ -148,6 +151,9 @@
   height: 4.613rem;
   z-index: 2;
   transition: all 0.2s ease-out;
+
+  border: solid;
+  border-color: #0154B8;
 }
 
 .div:hover{
